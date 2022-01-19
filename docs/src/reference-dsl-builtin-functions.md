@@ -69,12 +69,12 @@ is 2. Unary operators such as `!` and `~` show argument-count of 1; the ternary
 
 * [**Arithmetic functions**](#arithmetic-functions):  [bitcount](#bitcount),  [madd](#madd),  [mexp](#mexp),  [mmul](#mmul),  [msub](#msub),  [pow](#pow),  [%](#percent),  [&](#bitwise-and),  [\*](#times),  [\**](#exponentiation),  [\+](#plus),  [\-](#minus),  [\.\*](#dot-times),  [\.\+](#dot-plus),  [\.\-](#dot-minus),  [\./](#dot-slash),  [/](#slash),  [//](#slash-slash),  [<<](#lsh),  [>>](#srsh),  [>>>](#ursh),  [^](#bitwise-xor),  [\|](#bitwise-or),  [~](#bitwise-not).
 * [**Boolean functions**](#boolean-functions):  [\!](#exclamation-point),  [\!=](#exclamation-point-equals),  [!=~](#regnotmatch),  [&&](#logical-and),  [<](#less-than),  [<=](#less-than-or-equals),  [<=>](#<=>),  [==](#double-equals),  [=~](#regmatch),  [>](#greater-than),  [>=](#greater-than-or-equals),  [?:](#question-mark-colon),  [??](#absent-coalesce),  [???](#absent-empty-coalesce),  [^^](#logical-xor),  [\|\|](#logical-or).
-* [**Collections functions**](#collections-functions):  [append](#append),  [arrayify](#arrayify),  [depth](#depth),  [flatten](#flatten),  [get_keys](#get_keys),  [get_values](#get_values),  [haskey](#haskey),  [json_parse](#json_parse),  [json_stringify](#json_stringify),  [leafcount](#leafcount),  [length](#length),  [mapdiff](#mapdiff),  [mapexcept](#mapexcept),  [mapselect](#mapselect),  [mapsum](#mapsum),  [unflatten](#unflatten).
+* [**Collections functions**](#collections-functions):  [append](#append),  [arrayify](#arrayify),  [concat](#concat),  [depth](#depth),  [flatten](#flatten),  [get_keys](#get_keys),  [get_values](#get_values),  [haskey](#haskey),  [json_parse](#json_parse),  [json_stringify](#json_stringify),  [leafcount](#leafcount),  [length](#length),  [mapdiff](#mapdiff),  [mapexcept](#mapexcept),  [mapselect](#mapselect),  [mapsum](#mapsum),  [unflatten](#unflatten).
 * [**Conversion functions**](#conversion-functions):  [boolean](#boolean),  [float](#float),  [fmtnum](#fmtnum),  [hexfmt](#hexfmt),  [int](#int),  [joink](#joink),  [joinkv](#joinkv),  [joinv](#joinv),  [splita](#splita),  [splitax](#splitax),  [splitkv](#splitkv),  [splitkvx](#splitkvx),  [splitnv](#splitnv),  [splitnvx](#splitnvx),  [string](#string).
 * [**Hashing functions**](#hashing-functions):  [md5](#md5),  [sha1](#sha1),  [sha256](#sha256),  [sha512](#sha512).
 * [**Higher-order-functions functions**](#higher-order-functions-functions):  [any](#any),  [apply](#apply),  [every](#every),  [fold](#fold),  [reduce](#reduce),  [select](#select),  [sort](#sort).
 * [**Math functions**](#math-functions):  [abs](#abs),  [acos](#acos),  [acosh](#acosh),  [asin](#asin),  [asinh](#asinh),  [atan](#atan),  [atan2](#atan2),  [atanh](#atanh),  [cbrt](#cbrt),  [ceil](#ceil),  [cos](#cos),  [cosh](#cosh),  [erf](#erf),  [erfc](#erfc),  [exp](#exp),  [expm1](#expm1),  [floor](#floor),  [invqnorm](#invqnorm),  [log](#log),  [log10](#log10),  [log1p](#log1p),  [logifit](#logifit),  [max](#max),  [min](#min),  [qnorm](#qnorm),  [round](#round),  [roundm](#roundm),  [sgn](#sgn),  [sin](#sin),  [sinh](#sinh),  [sqrt](#sqrt),  [tan](#tan),  [tanh](#tanh),  [urand](#urand),  [urand32](#urand32),  [urandelement](#urandelement),  [urandint](#urandint),  [urandrange](#urandrange).
-* [**String functions**](#string-functions):  [capitalize](#capitalize),  [clean_whitespace](#clean_whitespace),  [collapse_whitespace](#collapse_whitespace),  [gsub](#gsub),  [lstrip](#lstrip),  [regextract](#regextract),  [regextract_or_else](#regextract_or_else),  [rstrip](#rstrip),  [ssub](#ssub),  [strip](#strip),  [strlen](#strlen),  [sub](#sub),  [substr](#substr),  [substr0](#substr0),  [substr1](#substr1),  [tolower](#tolower),  [toupper](#toupper),  [truncate](#truncate),  [\.](#dot).
+* [**String functions**](#string-functions):  [capitalize](#capitalize),  [clean_whitespace](#clean_whitespace),  [collapse_whitespace](#collapse_whitespace),  [format](#format),  [gsub](#gsub),  [lstrip](#lstrip),  [regextract](#regextract),  [regextract_or_else](#regextract_or_else),  [rstrip](#rstrip),  [ssub](#ssub),  [strip](#strip),  [strlen](#strlen),  [sub](#sub),  [substr](#substr),  [substr0](#substr0),  [substr1](#substr1),  [tolower](#tolower),  [toupper](#toupper),  [truncate](#truncate),  [unformat](#unformat),  [unformatx](#unformatx),  [\.](#dot).
 * [**System functions**](#system-functions):  [hostname](#hostname),  [os](#os),  [system](#system),  [version](#version).
 * [**Time functions**](#time-functions):  [dhms2fsec](#dhms2fsec),  [dhms2sec](#dhms2sec),  [fsec2dhms](#fsec2dhms),  [fsec2hms](#fsec2hms),  [gmt2localtime](#gmt2localtime),  [gmt2sec](#gmt2sec),  [hms2fsec](#hms2fsec),  [hms2sec](#hms2sec),  [localtime2gmt](#localtime2gmt),  [localtime2sec](#localtime2sec),  [sec2dhms](#sec2dhms),  [sec2gmt](#sec2gmt),  [sec2gmtdate](#sec2gmtdate),  [sec2hms](#sec2hms),  [sec2localdate](#sec2localdate),  [sec2localtime](#sec2localtime),  [strftime](#strftime),  [strftime_local](#strftime_local),  [strptime](#strptime),  [strptime_local](#strptime_local),  [systime](#systime),  [systimeint](#systimeint),  [uptime](#uptime).
 * [**Typing functions**](#typing-functions):  [asserting_absent](#asserting_absent),  [asserting_array](#asserting_array),  [asserting_bool](#asserting_bool),  [asserting_boolean](#asserting_boolean),  [asserting_empty](#asserting_empty),  [asserting_empty_map](#asserting_empty_map),  [asserting_error](#asserting_error),  [asserting_float](#asserting_float),  [asserting_int](#asserting_int),  [asserting_map](#asserting_map),  [asserting_nonempty_map](#asserting_nonempty_map),  [asserting_not_array](#asserting_not_array),  [asserting_not_empty](#asserting_not_empty),  [asserting_not_map](#asserting_not_map),  [asserting_not_null](#asserting_not_null),  [asserting_null](#asserting_null),  [asserting_numeric](#asserting_numeric),  [asserting_present](#asserting_present),  [asserting_string](#asserting_string),  [is_absent](#is_absent),  [is_array](#is_array),  [is_bool](#is_bool),  [is_boolean](#is_boolean),  [is_empty](#is_empty),  [is_empty_map](#is_empty_map),  [is_error](#is_error),  [is_float](#is_float),  [is_int](#is_int),  [is_map](#is_map),  [is_nonempty_map](#is_nonempty_map),  [is_not_array](#is_not_array),  [is_not_empty](#is_not_empty),  [is_not_map](#is_not_map),  [is_not_null](#is_not_null),  [is_null](#is_null),  [is_numeric](#is_numeric),  [is_present](#is_present),  [is_string](#is_string),  [typeof](#typeof).
@@ -368,6 +368,16 @@ append  (class=collections #args=2) Appends second argument to end of first argu
 ### arrayify
 <pre class="pre-non-highlight-non-pair">
 arrayify  (class=collections #args=1) Walks through a nested map/array, converting any map with consecutive keys "1", "2", ... into an array. Useful to wrap the output of unflatten.
+</pre>
+
+
+### concat
+<pre class="pre-non-highlight-non-pair">
+concat  (class=collections #args=variadic) Returns the array concatenation of the arguments. Non-array arguments are treated as single-element arrays.
+Examples:
+concat(1,2,3) is [1,2,3]
+concat([1,2],3) is [1,2,3]
+concat([1,2],[3]) is [1,2,3]
 </pre>
 
 
@@ -917,6 +927,16 @@ collapse_whitespace  (class=string #args=1) Strip repeated whitespace from strin
 </pre>
 
 
+### format
+<pre class="pre-non-highlight-non-pair">
+format  (class=string #args=variadic) Using first argument as format string, interpolate remaining arguments in place of each "{}" in the format string. Too-few arguments are treated as the empty string; too-many arguments are discarded.
+Examples:
+format("{}:{}:{}", 1,2)     gives "1:2:".
+format("{}:{}:{}", 1,2,3)   gives "1:2:3".
+format("{}:{}:{}", 1,2,3,4) gives "1:2:3".
+</pre>
+
+
 ### gsub
 <pre class="pre-non-highlight-non-pair">
 gsub  (class=string #args=3) '$name=gsub($name, "old", "new")' (replace all).
@@ -1004,6 +1024,26 @@ toupper  (class=string #args=1) Convert string to uppercase.
 ### truncate
 <pre class="pre-non-highlight-non-pair">
 truncate  (class=string #args=2) Truncates string first argument to max length of int second argument.
+</pre>
+
+
+### unformat
+<pre class="pre-non-highlight-non-pair">
+unformat  (class=string #args=2) Using first argument as format string, unpacks second argument into an array of matches, with type-inference. On non-match, returns error -- use is_error() to check.
+Examples:
+unformat("{}:{}:{}",  "1:2:3") gives [1, 2, 3]".
+unformat("{}h{}m{}s", "3h47m22s") gives [3, 47, 22]".
+is_error(unformat("{}h{}m{}s", "3:47:22")) gives true.
+</pre>
+
+
+### unformatx
+<pre class="pre-non-highlight-non-pair">
+unformatx  (class=string #args=2) Same as unformat, but without type-inference.
+Examples:
+unformatx("{}:{}:{}",  "1:2:3") gives ["1", "2", "3"]".
+unformatx("{}h{}m{}s", "3h47m22s") gives ["3", "47", "22"]".
+is_error(unformatx("{}h{}m{}s", "3:47:22")) gives true.
 </pre>
 
 

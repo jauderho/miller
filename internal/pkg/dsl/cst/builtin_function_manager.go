@@ -28,16 +28,16 @@ type TFunctionClass string
 
 const (
 	FUNC_CLASS_ARITHMETIC  TFunctionClass = "arithmetic"
-	FUNC_CLASS_MATH                       = "math"
-	FUNC_CLASS_BOOLEAN                    = "boolean"
-	FUNC_CLASS_STRING                     = "string"
-	FUNC_CLASS_HASHING                    = "hashing"
-	FUNC_CLASS_CONVERSION                 = "conversion"
-	FUNC_CLASS_TYPING                     = "typing"
-	FUNC_CLASS_COLLECTIONS                = "collections"
-	FUNC_CLASS_HOFS                       = "higher-order-functions"
-	FUNC_CLASS_SYSTEM                     = "system"
-	FUNC_CLASS_TIME                       = "time"
+	FUNC_CLASS_MATH        TFunctionClass = "math"
+	FUNC_CLASS_BOOLEAN     TFunctionClass = "boolean"
+	FUNC_CLASS_STRING      TFunctionClass = "string"
+	FUNC_CLASS_HASHING     TFunctionClass = "hashing"
+	FUNC_CLASS_CONVERSION  TFunctionClass = "conversion"
+	FUNC_CLASS_TYPING      TFunctionClass = "typing"
+	FUNC_CLASS_COLLECTIONS TFunctionClass = "collections"
+	FUNC_CLASS_HOFS        TFunctionClass = "higher-order-functions"
+	FUNC_CLASS_SYSTEM      TFunctionClass = "system"
+	FUNC_CLASS_TIME        TFunctionClass = "time"
 )
 
 // ================================================================
@@ -508,6 +508,44 @@ Arrays are new in Miller 6; the substr function is older.`,
 			class:      FUNC_CLASS_STRING,
 			help:       `Truncates string first argument to max length of int second argument.`,
 			binaryFunc: bifs.BIF_truncate,
+		},
+
+		{
+			name:  "format",
+			class: FUNC_CLASS_STRING,
+			help: `Using first argument as format string, interpolate remaining arguments in place of
+each "{}" in the format string. Too-few arguments are treated as the empty string; too-many arguments are discarded.`,
+			examples: []string{
+				`format("{}:{}:{}", 1,2)     gives "1:2:".`,
+				`format("{}:{}:{}", 1,2,3)   gives "1:2:3".`,
+				`format("{}:{}:{}", 1,2,3,4) gives "1:2:3".`,
+			},
+			variadicFunc: bifs.BIF_format,
+		},
+
+		{
+			name:  "unformat",
+			class: FUNC_CLASS_STRING,
+			help: `Using first argument as format string, unpacks second argument into an array of matches,
+with type-inference. On non-match, returns error -- use is_error() to check.`,
+			examples: []string{
+				`unformat("{}:{}:{}",  "1:2:3") gives [1, 2, 3]".`,
+				`unformat("{}h{}m{}s", "3h47m22s") gives [3, 47, 22]".`,
+				`is_error(unformat("{}h{}m{}s", "3:47:22")) gives true.`,
+			},
+			binaryFunc: bifs.BIF_unformat,
+		},
+
+		{
+			name:  "unformatx",
+			class: FUNC_CLASS_STRING,
+			help:  `Same as unformat, but without type-inference.`,
+			examples: []string{
+				`unformatx("{}:{}:{}",  "1:2:3") gives ["1", "2", "3"]".`,
+				`unformatx("{}h{}m{}s", "3h47m22s") gives ["3", "47", "22"]".`,
+				`is_error(unformatx("{}h{}m{}s", "3:47:22")) gives true.`,
+			},
+			binaryFunc: bifs.BIF_unformatx,
 		},
 
 		// ----------------------------------------------------------------
@@ -1165,14 +1203,14 @@ strftime_local.`,
 		{
 			name:      "is_not_null",
 			class:     FUNC_CLASS_TYPING,
-			help:      "False if argument is null (empty or absent), true otherwise.",
+			help:      "False if argument is null (empty, absent, or JSON null), true otherwise.",
 			unaryFunc: bifs.BIF_is_notnull,
 		},
 
 		{
 			name:      "is_null",
 			class:     FUNC_CLASS_TYPING,
-			help:      "True if argument is null (empty or absent), false otherwise.",
+			help:      "True if argument is null (empty, absent, or JSON null), false otherwise.",
 			unaryFunc: bifs.BIF_is_null,
 		},
 
@@ -1492,6 +1530,19 @@ strftime_local.`,
 			help: `Walks through a nested map/array, converting any map with consecutive keys
 "1", "2", ... into an array. Useful to wrap the output of unflatten.`,
 			unaryFunc: bifs.BIF_arrayify,
+		},
+
+		{
+			name:  "concat",
+			class: FUNC_CLASS_COLLECTIONS,
+			help: `Returns the array concatenation of the arguments. Non-array arguments are treated as
+single-element arrays.`,
+			examples: []string{
+				`concat(1,2,3) is [1,2,3]`,
+				`concat([1,2],3) is [1,2,3]`,
+				`concat([1,2],[3]) is [1,2,3]`,
+			},
+			variadicFunc: bifs.BIF_concat,
 		},
 
 		{

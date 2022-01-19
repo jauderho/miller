@@ -184,11 +184,11 @@ FUNCTION LIST
        asserting_map asserting_nonempty_map asserting_not_array asserting_not_empty
        asserting_not_map asserting_not_null asserting_null asserting_numeric
        asserting_present asserting_string atan atan2 atanh bitcount boolean
-       capitalize cbrt ceil clean_whitespace collapse_whitespace cos cosh depth
-       dhms2fsec dhms2sec erf erfc every exp expm1 flatten float floor fmtnum fold
-       fsec2dhms fsec2hms get_keys get_values gmt2localtime gmt2sec gsub haskey
-       hexfmt hms2fsec hms2sec hostname int invqnorm is_absent is_array is_bool
-       is_boolean is_empty is_empty_map is_error is_float is_int is_map
+       capitalize cbrt ceil clean_whitespace collapse_whitespace concat cos cosh
+       depth dhms2fsec dhms2sec erf erfc every exp expm1 flatten float floor fmtnum
+       fold format fsec2dhms fsec2hms get_keys get_values gmt2localtime gmt2sec gsub
+       haskey hexfmt hms2fsec hms2sec hostname int invqnorm is_absent is_array
+       is_bool is_boolean is_empty is_empty_map is_error is_float is_int is_map
        is_nonempty_map is_not_array is_not_empty is_not_map is_not_null is_null
        is_numeric is_present is_string joink joinkv joinv json_parse json_stringify
        leafcount length localtime2gmt localtime2sec log log10 log1p logifit lstrip
@@ -198,9 +198,9 @@ FUNCTION LIST
        sha512 sin sinh sort splita splitax splitkv splitkvx splitnv splitnvx sqrt
        ssub strftime strftime_local string strip strlen strptime strptime_local sub
        substr substr0 substr1 system systime systimeint tan tanh tolower toupper
-       truncate typeof unflatten uptime urand urand32 urandelement urandint
-       urandrange version ! != !=~ % & && * ** + - . .* .+ .- ./ / // < << <= <=> ==
-       =~ > >= >> >>> ?: ?? ??? ^ ^^ | || ~
+       truncate typeof unflatten unformat unformatx uptime urand urand32 urandelement
+       urandint urandrange version ! != !=~ % & && * ** + - . .* .+ .- ./ / // < <<
+       <= <=> == =~ > >= >> >>> ?: ?? ??? ^ ^^ | || ~
 
 COMMENTS-IN-DATA FLAGS
        Miller lets you put comments in your data, such as
@@ -1893,8 +1893,12 @@ VERBS
        --min         Print top smallest values; default is top largest values.
        -F            Keep top values as floats even if they look like integers.
        -o {name}     Field name for output indices. Default "top_idx".
+                     This is ignored if -a is used.
        Prints the n records with smallest/largest values at specified fields,
-       optionally by category.
+       optionally by category. If -a is given, then the top records are emitted
+       with the same fields as they appeared in the input. Without -a, only fields
+       from -f, fields from -g, and the top-index field are emitted. For more information
+       please see https://miller.readthedocs.io/en/latest/reference-verbs#top
 
    unflatten
        Usage: mlr unflatten [options]
@@ -2056,6 +2060,13 @@ FUNCTIONS FOR FILTER/PUT
    collapse_whitespace
         (class=string #args=1) Strip repeated whitespace from string.
 
+   concat
+        (class=collections #args=variadic) Returns the array concatenation of the arguments. Non-array arguments are treated as single-element arrays.
+       Examples:
+       concat(1,2,3) is [1,2,3]
+       concat([1,2],3) is [1,2,3]
+       concat([1,2],[3]) is [1,2,3]
+
    cos
         (class=math #args=1) Trigonometric cosine.
 
@@ -2110,6 +2121,13 @@ FUNCTIONS FOR FILTER/PUT
        Examples:
        Array example: fold([1,2,3,4,5], func(acc,e) {return acc + e**3}, 10000) returns 10225.
        Map example: fold({"a":1, "b":3, "c": 5}, func(acck,accv,ek,ev) {return {"sum": accv+ev**2}}, {"sum":10000}) returns 10035.
+
+   format
+        (class=string #args=variadic) Using first argument as format string, interpolate remaining arguments in place of each "{}" in the format string. Too-few arguments are treated as the empty string; too-many arguments are discarded.
+       Examples:
+       format("{}:{}:{}", 1,2)     gives "1:2:".
+       format("{}:{}:{}", 1,2,3)   gives "1:2:3".
+       format("{}:{}:{}", 1,2,3,4) gives "1:2:3".
 
    fsec2dhms
         (class=time #args=1) Formats floating-point seconds as in fsec2dhms(500000.25) = "5d18h53m20.250000s"
@@ -2514,6 +2532,20 @@ FUNCTIONS FOR FILTER/PUT
         (class=collections #args=2) Reverses flatten. Useful for nested JSON-like structures for non-JSON file formats like CSV. See also arrayify.
        Example:
        unflatten({"a.b.c" : 4}, ".") is {"a": "b": { "c": 4 }}.
+
+   unformat
+        (class=string #args=2) Using first argument as format string, unpacks second argument into an array of matches, with type-inference. On non-match, returns error -- use is_error() to check.
+       Examples:
+       unformat("{}:{}:{}",  "1:2:3") gives [1, 2, 3]".
+       unformat("{}h{}m{}s", "3h47m22s") gives [3, 47, 22]".
+       is_error(unformat("{}h{}m{}s", "3:47:22")) gives true.
+
+   unformatx
+        (class=string #args=2) Same as unformat, but without type-inference.
+       Examples:
+       unformatx("{}:{}:{}",  "1:2:3") gives ["1", "2", "3"]".
+       unformatx("{}h{}m{}s", "3h47m22s") gives ["3", "47", "22"]".
+       is_error(unformatx("{}h{}m{}s", "3:47:22")) gives true.
 
    uptime
         (class=time #args=0) help string will go here
@@ -3033,4 +3065,4 @@ SEE ALSO
 
 
 
-                                  2022-01-11                         MILLER(1)
+                                  2022-01-16                         MILLER(1)
