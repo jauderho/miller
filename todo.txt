@@ -1,10 +1,32 @@
-================================================================
+===============================================================
 RELEASES
 
 * follow ...
+* plan 6.1.0
+  ? w/ natural sort order
+  ? strptime
+  ? split
+  ? fmt/unfmt/regex doc
+  ? datediff et al.
 
 ================================================================
 FEATURES
+
+----------------------------------------------------------------
+example pages as feature catch-up:
+* example page for format/scan options
+  o format/unformat
+  o strmatch
+  o =~
+* separate examples section from (new) FAQs section
+* mlr split -- needs an example page along with the tee DSL function
+  o narrative about in-memory, shard-out to workers, holdouts, sample/bootstrap, etc etc.
+  o ulimit note
+* new slwin/ewma example entry, with ccump and pgr
+  o slwin --prune (or somesuch) to only emit averages over full windows -- ?
+
+----------------------------------------------------------------
+mlr join --left-fields a,b,c
 
 ----------------------------------------------------------------
 ! Better functions for values manipulation, e.g. easier conversion of strings like "$1,234.56" into numeric values
@@ -18,6 +40,7 @@ FEATURES
 ----------------------------------------------------------------
 k better print-interpolate with {} etc
   doc: mlr --csv --from example.csv  put -q 'print format("Index {} at quantity {} and rate {}", $index, $quantity, $rate)'
+
 ----------------------------------------------------------------
 ! sysdate, sysdate_local; datediff ...
 
@@ -25,12 +48,7 @@ k better print-interpolate with {} etc
 ! strmatch https://github.com/johnkerl/miller/issues/77#issuecomment-538790927
 
 ----------------------------------------------------------------
-! sliding window / moving average
-  o port u/window*.mlr from mlrc to mlr (actually, fix mlr of course)
-  o sliding-window averages into mapper step (C + Go)
-
-----------------------------------------------------------------
-! shift_lead and shift_lag steps
+* make a lag-by-n and lead-by-n
 
 ----------------------------------------------------------------
 ! rank
@@ -95,10 +113,10 @@ k better print-interpolate with {} etc
 ================================================================
 UX
 
+* ?xyz and ??xyz in repl, for :help and :help find respectively
+
 ! bnf fix for '[[' ']]' etc -- make it a nesting of singles. since otherwise no '[[3,4]]' literals :(
 ! broadly rethink os.Exit, especially as affecting mlr repl
-
-* ?xyz and ??xyz in repl, for :help and :help find respectively
 
 * consider expanding '(error)' to have more useful error-text
 * sync-print option; or (yuck) another xprint variant; or ...; emph dump/eprint
@@ -110,13 +128,13 @@ UX
 * tilde-expand for REPL load/open: if '~' is at the start of the string, run it though 'sh -c echo'
   o or, simpler, just slice[1:] and prepend with os.Getenv("HOME")
 
-? $0 as raw-record string -- ? would make mlr grep simpler and more natural ...
 ? fmtnum(98, "%3d%%") -- ? workaround: fmtnum(98, "%3d") . "%"
 ? main-level (verb-level?) flag for "," -> X in verbs -- in case commas in field names
 ? trace-mode ?
 ? re silent zero-pass for-loops on non-collections:
   o intended as a heterogenity feature ...
   o consider a --errors or --strict mode; something
+? $0 as raw-record string -- ? would make mlr grep simpler and more natural ...
 
 ================================================================
 DOC
@@ -180,6 +198,8 @@ w contact re https://jsonlines.org/on_the_web/
 
  ===============================================================
 TESTING
+
+! ./mlr vs mlr ...
 
 ! pos/neg 0x/0b/0o UTs
 
