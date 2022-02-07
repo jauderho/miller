@@ -304,7 +304,10 @@ pow  (class=arithmetic #args=2) Exponentiation. Same as **, but as a function.
 <a id=regmatch />
 ### =~
 <pre class="pre-non-highlight-non-pair">
-=~  (class=boolean #args=2) String (left-hand side) matches regex (right-hand side), e.g. '$name =~ "^a.*b$"'.
+=~  (class=boolean #args=2) String (left-hand side) matches regex (right-hand side), e.g. '$name =~ "^a.*b$"'. Capture groups \1 through \9 are matched from (...) in the right-hand side, and can be used within subsequent DSL statements. See also "Regular expressions" at https://miller.readthedocs.io.
+Examples:
+With if-statement: if ($url =~ "http.*com") { ... }
+Without if-statement: given $line = "index ab09 file", and $line =~ "([a-z][a-z])([0-9][0-9])", then $label = "[\1:\2]", $label is "[ab:09]"
 </pre>
 
 
@@ -389,11 +392,11 @@ depth  (class=collections #args=1) Prints maximum depth of map/array. Scalars ha
 
 ### flatten
 <pre class="pre-non-highlight-non-pair">
-flatten  (class=collections #args=2,3) Flattens multi-level maps to single-level ones. Useful for nested JSON-like structures for non-JSON file formats like CSV.
+flatten  (class=collections #args=2,3) Flattens multi-level maps to single-level ones. Useful for nested JSON-like structures for non-JSON file formats like CSV. With two arguments, the first argument is a map (maybe $*) and the second argument is the flatten separator. With three arguments, the first argument is prefix, the second is the flatten separator, and the third argument is a map; flatten($*, ".") is the same as flatten("", ".", $*). See "Flatten/unflatten: converting between JSON and tabular formats" at https://miller.readthedocs.io for more information.
 Examples:
+flatten({"a":[1,2],"b":3}, ".") is {"a.1": 1, "a.2": 2, "b": 3}.
 flatten("a", ".", {"b": { "c": 4 }}) is {"a.b.c" : 4}.
 flatten("", ".", {"a": { "b": 3 }}) is {"a.b" : 3}.
-Two-argument version: flatten($*, ".") is the same as flatten("", ".", $*).
 </pre>
 
 
@@ -465,7 +468,7 @@ mapsum  (class=collections #args=variadic) With 0 args, returns empty map. With 
 
 ### unflatten
 <pre class="pre-non-highlight-non-pair">
-unflatten  (class=collections #args=2) Reverses flatten. Useful for nested JSON-like structures for non-JSON file formats like CSV. See also arrayify.
+unflatten  (class=collections #args=2) Reverses flatten. Useful for nested JSON-like structures for non-JSON file formats like CSV. The first argument is a map, and the second argument is the flatten separator. See also arrayify. See "Flatten/unflatten: converting between JSON and tabular formats" at https://miller.readthedocs.io for more information.
 Example:
 unflatten({"a.b.c" : 4}, ".") is {"a": "b": { "c": 4 }}.
 </pre>
@@ -505,7 +508,7 @@ int  (class=conversion #args=1) Convert int/float/bool/string to int.
 
 ### joink
 <pre class="pre-non-highlight-non-pair">
-joink  (class=conversion #args=2) Makes string from map/array keys.
+joink  (class=conversion #args=2) Makes string from map/array keys. First argument is map/array; second is separator string.
 Examples:
 joink({"a":3,"b":4,"c":5}, ",") = "a,b,c".
 joink([1,2,3], ",") = "1,2,3".
@@ -514,16 +517,16 @@ joink([1,2,3], ",") = "1,2,3".
 
 ### joinkv
 <pre class="pre-non-highlight-non-pair">
-joinkv  (class=conversion #args=3) Makes string from map/array key-value pairs.
+joinkv  (class=conversion #args=3) Makes string from map/array key-value pairs. First argument is map/array; second is pair-separator string; third is field-separator string. Mnemonic: the "=" comes before the "," in the output and in the arguments to joinkv.
 Examples:
 joinkv([3,4,5], "=", ",") = "1=3,2=4,3=5"
-joinkv({"a":3,"b":4,"c":5}, "=", ",") = "a=3,b=4,c=5"
+joinkv({"a":3,"b":4,"c":5}, ":", ";") = "a:3;b:4;c:5"
 </pre>
 
 
 ### joinv
 <pre class="pre-non-highlight-non-pair">
-joinv  (class=conversion #args=2) Makes string from map/array values.
+joinv  (class=conversion #args=2) Makes string from map/array values. First argument is map/array; second is separator string.
 Examples:
 joinv([3,4,5], ",") = "3,4,5"
 joinv({"a":3,"b":4,"c":5}, ",") = "3,4,5"
@@ -532,7 +535,7 @@ joinv({"a":3,"b":4,"c":5}, ",") = "3,4,5"
 
 ### splita
 <pre class="pre-non-highlight-non-pair">
-splita  (class=conversion #args=2) Splits string into array with type inference.
+splita  (class=conversion #args=2) Splits string into array with type inference. First argument is string to split; second is the separator to split on.
 Example:
 splita("3,4,5", ",") = [3,4,5]
 </pre>
@@ -540,7 +543,7 @@ splita("3,4,5", ",") = [3,4,5]
 
 ### splitax
 <pre class="pre-non-highlight-non-pair">
-splitax  (class=conversion #args=2) Splits string into array without type inference.
+splitax  (class=conversion #args=2) Splits string into array without type inference. First argument is string to split; second is the separator to split on.
 Example:
 splita("3,4,5", ",") = ["3","4","5"]
 </pre>
@@ -548,7 +551,7 @@ splita("3,4,5", ",") = ["3","4","5"]
 
 ### splitkv
 <pre class="pre-non-highlight-non-pair">
-splitkv  (class=conversion #args=3) Splits string by separators into map with type inference.
+splitkv  (class=conversion #args=3) Splits string by separators into map with type inference. First argument is string to split; second argument is pair separator; third argument is field separator.
 Example:
 splitkv("a=3,b=4,c=5", "=", ",") = {"a":3,"b":4,"c":5}
 </pre>
@@ -556,7 +559,7 @@ splitkv("a=3,b=4,c=5", "=", ",") = {"a":3,"b":4,"c":5}
 
 ### splitkvx
 <pre class="pre-non-highlight-non-pair">
-splitkvx  (class=conversion #args=3) Splits string by separators into map without type inference (keys and values are strings).
+splitkvx  (class=conversion #args=3) Splits string by separators into map without type inference (keys and values are strings). First argument is string to split; second argument is pair separator; third argument is field separator.
 Example:
 splitkvx("a=3,b=4,c=5", "=", ",") = {"a":"3","b":"4","c":"5"}
 </pre>
@@ -564,7 +567,7 @@ splitkvx("a=3,b=4,c=5", "=", ",") = {"a":"3","b":"4","c":"5"}
 
 ### splitnv
 <pre class="pre-non-highlight-non-pair">
-splitnv  (class=conversion #args=2) Splits string by separator into integer-indexed map with type inference.
+splitnv  (class=conversion #args=2) Splits string by separator into integer-indexed map with type inference. First argument is string to split; second argument is separator to split on.
 Example:
 splitnv("a,b,c", ",") = {"1":"a","2":"b","3":"c"}
 </pre>
@@ -572,7 +575,7 @@ splitnv("a,b,c", ",") = {"1":"a","2":"b","3":"c"}
 
 ### splitnvx
 <pre class="pre-non-highlight-non-pair">
-splitnvx  (class=conversion #args=2) Splits string by separator into integer-indexed map without type inference (values are strings).
+splitnvx  (class=conversion #args=2) Splits string by separator into integer-indexed map without type inference (values are strings). First argument is string to split; second argument is separator to split on.
 Example:
 splitnvx("3,4,5", ",") = {"1":"3","2":"4","3":"5"}
 </pre>
@@ -939,7 +942,13 @@ format("{}:{}:{}", 1,2,3,4) gives "1:2:3".
 
 ### gsub
 <pre class="pre-non-highlight-non-pair">
-gsub  (class=string #args=3) '$name=gsub($name, "old", "new")' (replace all).
+gsub  (class=string #args=3) '$name = gsub($name, "old", "new")': replace all, with support for regular expressions. Capture groups \1 through \9 in the new part are matched from (...) in the old part, and must be used within the same call to gsub -- they don't persist for subsequent DSL statements. See also =~ and regextract. See also "Regular expressions" at https://miller.readthedocs.io.
+Examples:
+gsub("ababab", "ab", "XY") gives "XYXYXY"
+gsub("abc.def", ".", "X") gives "XXXXXXX"
+gsub("abc.def", "\.", "X") gives "abcXdef"
+gsub("abcdefg", "[ce]", "X") gives "abXdXfg"
+gsub("prefix4529:suffix8567", "(....ix)([0-9]+)", "[\1 : \2]") gives "[prefix : 4529]:[suffix : 8567]"
 </pre>
 
 
@@ -951,13 +960,19 @@ lstrip  (class=string #args=1) Strip leading whitespace from string.
 
 ### regextract
 <pre class="pre-non-highlight-non-pair">
-regextract  (class=string #args=2) '$name=regextract($name, "[A-Z]{3}[0-9]{2}")'
+regextract  (class=string #args=2) Extracts a substring (the first, if there are multiple matches), matching a regular expression, from the input. Does not use capture groups; see also the =~ operator which does.
+Examples:
+regextract("index ab09 file", "[a-z][a-z][0-9][0-9]") gives "ab09"
+regextract("index a999 file", "[a-z][a-z][0-9][0-9]") gives (absent), which will result in an assignment not happening.
 </pre>
 
 
 ### regextract_or_else
 <pre class="pre-non-highlight-non-pair">
-regextract_or_else  (class=string #args=3) '$name=regextract_or_else($name, "[A-Z]{3}[0-9]{2}", "default")'
+regextract_or_else  (class=string #args=3) Like regextract but the third argument is the return value in case the input string (first argument) doesn't match the pattern (second argument).
+Examples:
+regextract_or_else("index ab09 file", "[a-z][a-z][0-9][0-9]", "nonesuch") gives "ab09"
+regextract_or_else("index a999 file", "[a-z][a-z][0-9][0-9]", "nonesuch") gives "nonesuch"
 </pre>
 
 
@@ -970,6 +985,8 @@ rstrip  (class=string #args=1) Strip trailing whitespace from string.
 ### ssub
 <pre class="pre-non-highlight-non-pair">
 ssub  (class=string #args=3) Like sub but does no regexing. No characters are special.
+Example:
+ssub("abc.def", ".", "X") gives "abcXdef"
 </pre>
 
 
@@ -987,7 +1004,13 @@ strlen  (class=string #args=1) String length.
 
 ### sub
 <pre class="pre-non-highlight-non-pair">
-sub  (class=string #args=3) '$name=sub($name, "old", "new")' (replace once).
+sub  (class=string #args=3) '$name = sub($name, "old", "new")': replace once (first match, if there are multiple matches), with support for regular expressions. Capture groups \1 through \9 in the new part are matched from (...) in the old part, and must be used within the same call to sub -- they don't persist for subsequent DSL statements. See also =~ and regextract. See also "Regular expressions" at https://miller.readthedocs.io.
+Examples:
+sub("ababab", "ab", "XY") gives "XYabab"
+sub("abc.def", ".", "X") gives "Xbc.def"
+sub("abc.def", "\.", "X") gives "abcXdef"
+sub("abcdefg", "[ce]", "X") gives "abXdefg"
+sub("prefix4529:suffix8567", "suffix([0-9]+)", "name\1") gives "prefix4529:name8567"
 </pre>
 
 
@@ -1205,7 +1228,7 @@ sec2localtime(1234567890.123456, 6, "Asia/Istanbul") = "2009-02-14 01:31:30.1234
 
 ### strftime
 <pre class="pre-non-highlight-non-pair">
-strftime  (class=time #args=2) Formats seconds since the epoch as timestamp. Format strings are as in the C library (please see "man strftime" on your system), with the Miller-specific addition of "%1S" through "%9S" which format the seconds with 1 through 9 decimal places, respectively. ("%S" uses no decimal places.) See also strftime_local.
+strftime  (class=time #args=2) Formats seconds since the epoch as timestamp. Format strings are mostly as in the C library (see "man strftime" on your system), with the Miller-specific addition of "%1S" through "%9S" which format the seconds with 1 through 9 decimal places, respectively. ("%S" uses no decimal places.) See also strftime_local. See also "DSL datetime/timezone functions" at https://miller.readthedocs.io for more information on the differences from the C library.
 Examples:
 strftime(1440768801.7,"%Y-%m-%dT%H:%M:%SZ")  = "2015-08-28T13:33:21Z"
 strftime(1440768801.7,"%Y-%m-%dT%H:%M:%3SZ") = "2015-08-28T13:33:21.700Z"
@@ -1246,19 +1269,19 @@ strptime_local("2015-08-28 13:33:21",     "%Y-%m-%d %H:%M:%S", "Asia/Istanbul") 
 
 ### systime
 <pre class="pre-non-highlight-non-pair">
-systime  (class=time #args=0) help string will go here
+systime  (class=time #args=0) Returns the system time in floating-point seconds since the epoch.
 </pre>
 
 
 ### systimeint
 <pre class="pre-non-highlight-non-pair">
-systimeint  (class=time #args=0) help string will go here
+systimeint  (class=time #args=0) Returns the system time in integer seconds since the epoch.
 </pre>
 
 
 ### uptime
 <pre class="pre-non-highlight-non-pair">
-uptime  (class=time #args=0) help string will go here
+uptime  (class=time #args=0) Returns the time in floating-point seconds since the current Miller program was started.
 </pre>
 
 ## Typing functions

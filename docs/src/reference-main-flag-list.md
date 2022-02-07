@@ -119,6 +119,7 @@ These are flags which are applicable to CSV format.
 * `--allow-ragged-csv-input or --ragged`: If a data line has fewer fields than the header line, fill remaining keys with empty string. If a data line has more fields than the header line, use integer field labels as in the implicit-header case.
 * `--headerless-csv-output or --ho`: Print only CSV data lines; do not print CSV header lines.
 * `--implicit-csv-header or --headerless-csv-input or --hi`: Use 1,2,3,... as field labels, rather than from line 1 of input files. Tip: combine with `label` to recreate missing headers.
+* `--lazy-quotes`: Accepts quotes appearing in unquoted fields, and non-doubled quotes appearing in quoted fields.
 * `--no-implicit-csv-header`: Opposite of `--implicit-csv-header`. This is the default anyway -- the main use is for the flags to `mlr join` if you have main file(s) which are headerless but you want to join in on a file which does have a CSV header. Then you could use `mlr --csv --implicit-csv-header join --no-implicit-csv-header -l your-join-in-with-header.csv ... your-headerless.csv`.
 * `-N`: Keystroke-saver for `--implicit-csv-header --headerless-csv-output`.
 
@@ -177,7 +178,7 @@ are overridden in all cases by setting output format to `format2`.
 * `--oxtab`: Use XTAB format for output data.
 * `--pprint`: Use PPRINT format for input and output data.
 * `--tsv`: Use TSV format for input and output data.
-* `--tsvlite or -t`: Use TSV-lite format for input and output data.
+* `--tsv`: Use TSV format for input and output data.
 * `--usv or --usvlite`: Use USV format for input and output data.
 * `--xtab`: Use XTAB format for input and output data.
 * `-i {format name}`: Use format name for input data. For example: `-i csv` is the same as `--icsv`.
@@ -272,6 +273,7 @@ These are flags which don't fit into any other category.
 * `--tz {timezone}`: Specify timezone, overriding `$TZ` environment variable (if any).
 * `-I`: Process files in-place. For each file name on the command line, output is written to a temp file in the same directory, which is then renamed over the original. Each file is processed in isolation: if the output format is CSV, CSV headers will be present in each output file, statistics are only over each file's own records; and so on.
 * `-n`: Process no input files, nor standard input either. Useful for `mlr put` with `begin`/`end` statements only. (Same as `--from /dev/null`.) Also useful in `mlr -n put -v '...'` for analyzing abstract syntax trees (if that's your thing).
+* `-s {file name}`: Take command-line flags from file name. For more information please see https://miller.readthedocs.io/en/latest/scripting/.
 
 ## Output-colorization flags
 
@@ -405,7 +407,6 @@ Notes about all other separators:
   alignment impossible.
 * OPS may be multi-character for XTAB format, in which case alignment is
   disabled.
-* TSV is simply CSV using tab as field separator (`--fs tab`).
 * FS/PS are ignored for markdown format; RS is used.
 * All FS and PS options are ignored for JSON format, since they are not relevant
   to the JSON format.
@@ -460,6 +461,7 @@ Notes about all other separators:
         markdown " "    N/A    "\n"
         nidx     " "    N/A    "\n"
         pprint   " "    N/A    "\n"
+        tsv      "	"    N/A    "\n"
         xtab     "\n"   " "    "\n\n"
 
 
