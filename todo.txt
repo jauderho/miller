@@ -1,14 +1,17 @@
-===============================================================
-RELEASES
+=============================================================== RELEASES
 
 * plan 6.1.0
-  ? w/ natural sort order
-  ? strptime
-  ? datediff et al.
+  ? strptime/882
+    m strptime/strftime tabulate options
+    ? https://github.com/bykof/gostradamus
+    ? https://golangrepo.com/repo/leekchan-timeutil-go-date-time
+    ? port mlr5 c -> go?
+  ? unsparsify -f CSV by default -- ? into CSV record-writer -- ? caveat that record 1 controls all ...
   ? mlr join --left-fields a,b,c
-  ? rank
   o fmt/unfmt/regex doc
   o FAQ/examples reorg
+  k unicode string literals
+  k natural sort order
   k IANA-TSV w/ \{X}
   k still need csv --lazy-quotes
   k default colors; bold/underline/reverse
@@ -16,14 +19,16 @@ RELEASES
   k format/unformat
   k split verb
   k slwin & shift-lead
-  m unicode string literals
   k 0o.. octal literals in the DSL
   k codeql/codespell/goreleaseer binaries/zips
   k :rb
   k ?foo and ??foo @ repl help
   k doc-improves
 * plan 6.2.0
+  ? datediff et al.
+  ? rank
   ? YAML
+  ? #908 inferencing options
 
 ================================================================
 FEATURES
@@ -38,10 +43,6 @@ TSV etc
   o --words && --lines & --paragraphs -- ?
 
 ----------------------------------------------------------------
-* natural sort order
-   https://github.com/facette/natsort
-
-----------------------------------------------------------------
 example pages as feature catch-up:
 * example page for format/scan options
   o format/unformat
@@ -54,6 +55,13 @@ example pages as feature catch-up:
   o ulimit note
 * new slwin/ewma example entry, with ccump and pgr
   o slwin --prune (or somesuch) to only emit averages over full windows -- ?
+
+----------------------------------------------------------------
+inference:
+
+* inf/nan (unquoted) -> DSL
+  o webdocs as in #933 description
+* for data files: --symbol-true yes --symbol-false off --symbol-infinity inf --symbol-not-available N/A
 
 ----------------------------------------------------------------
 mlr join --left-fields a,b,c

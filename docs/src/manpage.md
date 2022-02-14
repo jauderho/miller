@@ -210,18 +210,18 @@ FUNCTION LIST
        fold format fsec2dhms fsec2hms get_keys get_values gmt2localtime gmt2sec gsub
        haskey hexfmt hms2fsec hms2sec hostname int invqnorm is_absent is_array
        is_bool is_boolean is_empty is_empty_map is_error is_float is_int is_map
-       is_nonempty_map is_not_array is_not_empty is_not_map is_not_null is_null
-       is_numeric is_present is_string joink joinkv joinv json_parse json_stringify
-       leafcount length localtime2gmt localtime2sec log log10 log1p logifit lstrip
-       madd mapdiff mapexcept mapselect mapsum max md5 mexp min mmul msub os pow
-       qnorm reduce regextract regextract_or_else round roundm rstrip sec2dhms
-       sec2gmt sec2gmtdate sec2hms sec2localdate sec2localtime select sgn sha1 sha256
-       sha512 sin sinh sort splita splitax splitkv splitkvx splitnv splitnvx sqrt
-       ssub strftime strftime_local string strip strlen strptime strptime_local sub
-       substr substr0 substr1 system systime systimeint tan tanh tolower toupper
-       truncate typeof unflatten unformat unformatx uptime urand urand32 urandelement
-       urandint urandrange version ! != !=~ % & && * ** + - . .* .+ .- ./ / // &lt; &lt;&lt;
-       &lt;= &lt;=&gt; == =~ &gt; &gt;= &gt;&gt; &gt;&gt;&gt; ?: ?? ??? ^ ^^ | || ~
+       is_nan is_nonempty_map is_not_array is_not_empty is_not_map is_not_null
+       is_null is_numeric is_present is_string joink joinkv joinv json_parse
+       json_stringify leafcount length localtime2gmt localtime2sec log log10 log1p
+       logifit lstrip madd mapdiff mapexcept mapselect mapsum max md5 mexp min mmul
+       msub os pow qnorm reduce regextract regextract_or_else round roundm rstrip
+       sec2dhms sec2gmt sec2gmtdate sec2hms sec2localdate sec2localtime select sgn
+       sha1 sha256 sha512 sin sinh sort splita splitax splitkv splitkvx splitnv
+       splitnvx sqrt ssub strftime strftime_local string strip strlen strptime
+       strptime_local sub substr substr0 substr1 system systime systimeint tan tanh
+       tolower toupper truncate typeof unflatten unformat unformatx uptime urand
+       urand32 urandelement urandint urandrange version ! != !=~ % & && * ** + - . .*
+       .+ .- ./ / // &lt; &lt;&lt; &lt;= &lt;=&gt; == =~ &gt; &gt;= &gt;&gt; &gt;&gt;&gt; ?: ?? ??? ^ ^^ | || ~
 
 COMMENTS-IN-DATA FLAGS
        Miller lets you put comments in your data, such as
@@ -1731,6 +1731,8 @@ VERBS
        -n  {comma-separated field names}  Numerical ascending; nulls sort last
        -nf {comma-separated field names}  Same as -n
        -nr {comma-separated field names}  Numerical descending; nulls sort first
+       -t  {comma-separated field names}  Natural ascending
+       -tr {comma-separated field names}  Natural descending
        -h|--help Show this message.
 
        Example:
@@ -2286,6 +2288,9 @@ FUNCTIONS FOR FILTER/PUT
    is_map
         (class=typing #args=1) True if argument is a map.
 
+   is_nan
+        (class=typing #args=1) True if the argument is the NaN (not-a-number) floating-point value. Note that NaN has the property that NaN != NaN, so you need 'is_nan(x)' rather than 'x == NaN'.
+
    is_nonempty_map
         (class=typing #args=1) True if argument is a map which is non-empty.
 
@@ -2293,7 +2298,7 @@ FUNCTIONS FOR FILTER/PUT
         (class=typing #args=1) True if argument is not an array.
 
    is_not_empty
-        (class=typing #args=1) False if field is present in input with empty value, true otherwise
+        (class=typing #args=1) True if field is present in input with non-empty value, false otherwise
 
    is_not_map
         (class=typing #args=1) True if argument is not a map.
@@ -2496,10 +2501,17 @@ FUNCTIONS FOR FILTER/PUT
         (class=math #args=1) Hyperbolic sine.
 
    sort
-        (class=higher-order-functions #args=1-2) Given a map or array as first argument and string flags or function as optional second argument, returns a sorted copy of the input. With one argument, sorts array elements naturally, and maps naturally by map keys. If the second argument is a string, it can contain any of "f" for lexical (default "n" for natural/numeric), "), "c" for case-folded lexical, and "r" for reversed/descending sort. If the second argument is a function, then for arrays it should take two arguments a and b, returning &lt; 0, 0, or &gt; 0 as a &lt; b, a == b, or a &gt; b respectively; for maps the function should take four arguments ak, av, bk, and bv, again returning &lt; 0, 0, or &gt; 0, using a and b's keys and values.
+        (class=higher-order-functions #args=1-2) Given a map or array as first argument and string flags or function as optional second argument, returns a sorted copy of the input. With one argument, sorts array elements with numbers first numerically and then strings lexically, and map elements likewise by map keys. If the second argument is a string, it can contain any of "f" for lexical ("n" is for the above default), "c" for case-folded lexical, or "t" for natural sort order. An additional "r" in that string is for reverse. If the second argument is a function, then for arrays it should take two arguments a and b, returning &lt; 0, 0, or &gt; 0 as a &lt; b, a == b, or a &gt; b respectively; for maps the function should take four arguments ak, av, bk, and bv, again returning &lt; 0, 0, or &gt; 0, using a and b's keys and values.
        Examples:
-       Array example: sort([5,2,3,1,4], func(a,b) {return b &lt;=&gt; a}) returns [5,4,3,2,1].
-       Map example: sort({"c":2,"a":3,"b":1}, func(ak,av,bk,bv) {return bv &lt;=&gt; av}) returns {"a":3,"c":2,"b":1}.
+       Default sorting: sort([3,"A",1,"B",22]) returns [1, 3, 20, "A", "B"].
+         Note that this is numbers before strings.
+       Default sorting: sort(["E","a","c","B","d"]) returns ["B", "E", "a", "c", "d"].
+         Note that this is uppercase before lowercase.
+       Case-folded ascending: sort(["E","a","c","B","d"], "c") returns ["a", "B", "c", "d", "E"].
+       Case-folded descending: sort(["E","a","c","B","d"], "cr") returns ["E", "d", "c", "B", "a"].
+       Natural sorting: sort(["a1","a10","a100","a2","a20","a200"], "t") returns ["a1", "a2", "a10", "a20", "a100", "a200"].
+       Array with function: sort([5,2,3,1,4], func(a,b) {return b &lt;=&gt; a}) returns [5,4,3,2,1].
+       Map with function: sort({"c":2,"a":3,"b":1}, func(ak,av,bk,bv) {return bv &lt;=&gt; av}) returns {"a":3,"c":2,"b":1}.
 
    splita
         (class=conversion #args=2) Splits string into array with type inference. First argument is string to split; second is the separator to split on.
@@ -2540,7 +2552,7 @@ FUNCTIONS FOR FILTER/PUT
        ssub("abc.def", ".", "X") gives "abcXdef"
 
    strftime
-        (class=time #args=2) Formats seconds since the epoch as timestamp. Format strings are mostly as in the C library (see "man strftime" on your system), with the Miller-specific addition of "%1S" through "%9S" which format the seconds with 1 through 9 decimal places, respectively. ("%S" uses no decimal places.) See also strftime_local. See also "DSL datetime/timezone functions" at https://miller.readthedocs.io for more information on the differences from the C library.
+        (class=time #args=2) Formats seconds since the epoch as timestamp. Format strings are as at https://pkg.go.dev/github.com/lestrrat-go/strftime, with the Miller-specific addition of "%1S" through "%9S" which format the seconds with 1 through 9 decimal places, respectively. ("%S" uses no decimal places.) See also "DSL datetime/timezone functions" at https://miller.readthedocs.io for more information on the differences from the C library ("man strftime" on your system). See also strftime_local.
        Examples:
        strftime(1440768801.7,"%Y-%m-%dT%H:%M:%SZ")  = "2015-08-28T13:33:21Z"
        strftime(1440768801.7,"%Y-%m-%dT%H:%M:%3SZ") = "2015-08-28T13:33:21.700Z"
@@ -3162,5 +3174,5 @@ SEE ALSO
 
 
 
-                                  2022-02-06                         MILLER(1)
+                                  2022-02-08                         MILLER(1)
 </pre>
