@@ -1009,8 +1009,7 @@ is supplied.`,
 			help: `Formats seconds since the epoch as timestamp. Format strings are as at
 https://pkg.go.dev/github.com/lestrrat-go/strftime, with the Miller-specific addition of "%1S"
 through "%9S" which format the seconds with 1 through 9 decimal places, respectively. ("%S" uses no
-decimal places.) See also "DSL datetime/timezone functions" at ` +
-				lib.DOC_URL + ` for more information on the differences from the C library ("man strftime" on your system).
+decimal places.) See also ` + lib.DOC_URL + `/en/latest/reference-dsl-time/ for more information on the differences from the C library ("man strftime" on your system).
 See also strftime_local.`,
 			examples: []string{
 				`strftime(1440768801.7,"%Y-%m-%dT%H:%M:%SZ")  = "2015-08-28T13:33:21Z"`,
@@ -1050,7 +1049,7 @@ See also strftime_local.`,
 		{
 			name:  "strptime_local",
 			class: FUNC_CLASS_TIME,
-			help:  `Like stpftime but consults the $TZ environment variable to get local time zone.`,
+			help:  `Like strftime but consults the $TZ environment variable to get local time zone.`,
 			examples: []string{
 				`strptime_local("2015-08-28T13:33:21Z",    "%Y-%m-%dT%H:%M:%SZ") = 1440758001     with TZ="Asia/Istanbul"`,
 				`strptime_local("2015-08-28T13:33:21.345Z","%Y-%m-%dT%H:%M:%SZ") = 1440758001.345 with TZ="Asia/Istanbul"`,
@@ -1446,8 +1445,23 @@ Note that NaN has the property that NaN != NaN, so you need 'is_nan(x)' rather t
 			name:  "fmtnum",
 			class: FUNC_CLASS_CONVERSION,
 			help: `Convert int/float/bool to string using printf-style format string (https://pkg.go.dev/fmt), e.g.
-'$s = fmtnum($n, "%08d")' or '$t = fmtnum($n, "%.6e")'.`,
+'$s = fmtnum($n, "%08d")' or '$t = fmtnum($n, "%.6e")'. This function recurses on array and map values.`,
 			binaryFunc: bifs.BIF_fmtnum,
+			examples: []string{
+				`$x = fmtnum($x, "%.6f")`,
+			},
+		},
+
+		{
+			name:       "fmtifnum",
+			class:      FUNC_CLASS_CONVERSION,
+			help:       `Identical to fmtnum, except returns the first argument as-is if the output would be an error.`,
+			binaryFunc: bifs.BIF_fmtifnum,
+			examples: []string{
+				`fmtifnum(3.4, "%.6f") gives 3.400000"`,
+				`fmtifnum("abc", "%.6f") gives abc"`,
+				`$* = fmtifnum($*, "%.6f") formats numeric fields in the current record, leaving non-numeric ones alone`,
+			},
 		},
 
 		{
@@ -1653,7 +1667,7 @@ information.`,
 		{
 			name:      "get_values",
 			class:     FUNC_CLASS_COLLECTIONS,
-			help:      "Returns array of keys of map or array -- in the latter case, returns a copy of the array",
+			help:      "Returns array of values of map or array -- in the latter case, returns a copy of the array",
 			unaryFunc: bifs.BIF_get_values,
 		},
 

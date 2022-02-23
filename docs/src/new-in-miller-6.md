@@ -309,11 +309,12 @@ IFS and IPS can be regular expressions now. Please see the section on [multi-cha
 * With `--ojson`, output records are written multiline (pretty-printed), with outermost `[...]`.
 * With `--ojsonl`, output records are written single-line, without outermost `[...]`.
 * This makes `--jvstack` and `--jlistwrap` unnecessary. However, if you want outermost `[...]` with single-line records, you can use `--ojson --no-jvstack`.
+* Miller 5 tolerated trailing commas, which are not compliant with the JSON specification: for example, `{"x":1,"y":2,}`. Miller 6 uses a JSON parser which is compliant with the JSON specification and does not accept trailing commas.
 
 ### Type-inference
 
 * The `-S` and `-F` flags to `mlr put` and `mlr filter` are ignored, since type-inference is no longer done in `mlr put` and `mlr filter`, but rather, when records are first read. You can use `mlr -S` and `mlr -A`, respectively, instead to control type-inference within the record-readers.
-* Octal numbers like `0123` and `07` are type-inferred as string. Use `mlr -O` to infer them as octal integers. Note that `08` and `09` will then infer as deicmal integers.
+* Octal numbers like `0123` and `07` are type-inferred as string. Use `mlr -O` to infer them as octal integers. Note that `08` and `09` will then infer as decimal integers.
 * Any numbers prefix with `0o`, e.g. `0o377`, are already treated as octal regardless of `mlr -O` -- `mlr -O` only affects how leading-zero integers are handled.
 * See also the [miscellaneous-flags reference](reference-main-flag-list.md#miscellaneous-flags).
 

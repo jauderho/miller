@@ -124,7 +124,7 @@ HELP OPTIONS
          mlr help list-separator-regex-aliases
          mlr help comments-in-data-flags
          mlr help compressed-data-flags
-         mlr help csv-only-flags
+         mlr help csv/tsv-only-flags
          mlr help file-format-flags
          mlr help flatten-unflatten-flags
          mlr help format-conversion-keystroke-saver-flags
@@ -185,11 +185,11 @@ FUNCTION LIST
        asserting_not_map asserting_not_null asserting_null asserting_numeric
        asserting_present asserting_string atan atan2 atanh bitcount boolean
        capitalize cbrt ceil clean_whitespace collapse_whitespace concat cos cosh
-       depth dhms2fsec dhms2sec erf erfc every exp expm1 flatten float floor fmtnum
-       fold format fsec2dhms fsec2hms get_keys get_values gmt2localtime gmt2sec gsub
-       haskey hexfmt hms2fsec hms2sec hostname int invqnorm is_absent is_array
-       is_bool is_boolean is_empty is_empty_map is_error is_float is_int is_map
-       is_nan is_nonempty_map is_not_array is_not_empty is_not_map is_not_null
+       depth dhms2fsec dhms2sec erf erfc every exp expm1 flatten float floor fmtifnum
+       fmtnum fold format fsec2dhms fsec2hms get_keys get_values gmt2localtime
+       gmt2sec gsub haskey hexfmt hms2fsec hms2sec hostname int invqnorm is_absent
+       is_array is_bool is_boolean is_empty is_empty_map is_error is_float is_int
+       is_map is_nan is_nonempty_map is_not_array is_not_empty is_not_map is_not_null
        is_null is_numeric is_present is_string joink joinkv joinv json_parse
        json_stringify leafcount length localtime2gmt localtime2sec log log10 log1p
        logifit lstrip madd mapdiff mapexcept mapselect mapsum max md5 mexp min mmul
@@ -284,30 +284,32 @@ COMPRESSED-DATA FLAGS
        --zin                    Uncompress zlib within the Miller process. Done by
                                 default if file ends in `.z`.
 
-CSV-ONLY FLAGS
+CSV/TSV-ONLY FLAGS
        These are flags which are applicable to CSV format.
 
-       --allow-ragged-csv-input or --ragged
+       --allow-ragged-csv-input or --ragged or --allow-ragged-tsv-input
                                 If a data line has fewer fields than the header line,
                                 fill remaining keys with empty string. If a data line
                                 has more fields than the header line, use integer
                                 field labels as in the implicit-header case.
-       --headerless-csv-output or --ho
-                                Print only CSV data lines; do not print CSV header
-                                lines.
-       --implicit-csv-header or --headerless-csv-input or --hi
+       --headerless-csv-output or --ho or --headerless-tsv-output
+                                Print only CSV/TSV data lines; do not print CSV/TSV
+                                header lines.
+       --implicit-csv-header or --headerless-csv-input or --hi or --implicit-tsv-header
                                 Use 1,2,3,... as field labels, rather than from line
                                 1 of input files. Tip: combine with `label` to
                                 recreate missing headers.
        --lazy-quotes            Accepts quotes appearing in unquoted fields, and
                                 non-doubled quotes appearing in quoted fields.
-       --no-implicit-csv-header Opposite of `--implicit-csv-header`. This is the
+       --no-implicit-csv-header or --no-implicit-tsv-header
+                                Opposite of `--implicit-csv-header`. This is the
                                 default anyway -- the main use is for the flags to
                                 `mlr join` if you have main file(s) which are
                                 headerless but you want to join in on a file which
-                                does have a CSV header. Then you could use `mlr --csv
-                                --implicit-csv-header join --no-implicit-csv-header
-                                -l your-join-in-with-header.csv ...
+                                does have a CSV/TSV header. Then you could use `mlr
+                                --csv --implicit-csv-header join
+                                --no-implicit-csv-header -l
+                                your-join-in-with-header.csv ...
                                 your-headerless.csv`.
        -N                       Keystroke-saver for `--implicit-csv-header
                                 --headerless-csv-output`.
@@ -1272,7 +1274,9 @@ VERBS
          --ips {pair-separator character}
          --repifs
          --implicit-csv-header
+         --implicit-tsv-header
          --no-implicit-csv-header
+         --no-implicit-tsv-header
        For example, if you have 'mlr --csv ... join -l foo ... ' then the left-file format will
        be specified CSV as well unless you override with 'mlr --csv ... join --ijson -l foo' etc.
        Likewise, if you have 'mlr --csv --implicit-csv-header ...' then the join-in file will be
@@ -2168,8 +2172,17 @@ FUNCTIONS FOR FILTER/PUT
    floor
         (class=math #args=1) Floor: nearest integer at or below.
 
+   fmtifnum
+        (class=conversion #args=2) Identical to fmtnum, except returns the first argument as-is if the output would be an error.
+       Examples:
+       fmtifnum(3.4, "%.6f") gives 3.400000"
+       fmtifnum("abc", "%.6f") gives abc"
+       $* = fmtifnum($*, "%.6f") formats numeric fields in the current record, leaving non-numeric ones alone
+
    fmtnum
-        (class=conversion #args=2) Convert int/float/bool to string using printf-style format string (https://pkg.go.dev/fmt), e.g. '$s = fmtnum($n, "%08d")' or '$t = fmtnum($n, "%.6e")'.
+        (class=conversion #args=2) Convert int/float/bool to string using printf-style format string (https://pkg.go.dev/fmt), e.g. '$s = fmtnum($n, "%08d")' or '$t = fmtnum($n, "%.6e")'. This function recurses on array and map values.
+       Example:
+       $x = fmtnum($x, "%.6f")
 
    fold
         (class=higher-order-functions #args=3) Given a map or array as first argument and a function as second argument, accumulates entries into a final output -- for example, sum or product. For arrays, the function should take two arguments, for accumulated value and array element. For maps, it should take four arguments, for accumulated key and value, and map-element key and value; it should return the updated accumulator as a new key-value pair (i.e. a single-entry map). The start value for the accumulator is taken from the third argument.
@@ -2194,7 +2207,7 @@ FUNCTIONS FOR FILTER/PUT
         (class=collections #args=1) Returns array of keys of map or array
 
    get_values
-        (class=collections #args=1) Returns array of keys of map or array -- in the latter case, returns a copy of the array
+        (class=collections #args=1) Returns array of values of map or array -- in the latter case, returns a copy of the array
 
    gmt2localtime
         (class=time #args=1,2) Convert from a GMT-time string to a local-time string. Consulting $TZ unless second argument is supplied.
@@ -2531,7 +2544,7 @@ FUNCTIONS FOR FILTER/PUT
        ssub("abc.def", ".", "X") gives "abcXdef"
 
    strftime
-        (class=time #args=2) Formats seconds since the epoch as timestamp. Format strings are as at https://pkg.go.dev/github.com/lestrrat-go/strftime, with the Miller-specific addition of "%1S" through "%9S" which format the seconds with 1 through 9 decimal places, respectively. ("%S" uses no decimal places.) See also "DSL datetime/timezone functions" at https://miller.readthedocs.io for more information on the differences from the C library ("man strftime" on your system). See also strftime_local.
+        (class=time #args=2) Formats seconds since the epoch as timestamp. Format strings are as at https://pkg.go.dev/github.com/lestrrat-go/strftime, with the Miller-specific addition of "%1S" through "%9S" which format the seconds with 1 through 9 decimal places, respectively. ("%S" uses no decimal places.) See also https://miller.readthedocs.io/en/latest/reference-dsl-time/ for more information on the differences from the C library ("man strftime" on your system). See also strftime_local.
        Examples:
        strftime(1440768801.7,"%Y-%m-%dT%H:%M:%SZ")  = "2015-08-28T13:33:21Z"
        strftime(1440768801.7,"%Y-%m-%dT%H:%M:%3SZ") = "2015-08-28T13:33:21.700Z"
@@ -2561,7 +2574,7 @@ FUNCTIONS FOR FILTER/PUT
        strptime("1970-01-01 00:00:00 EET",   "%Y-%m-%d %H:%M:%S %Z") = -7200
 
    strptime_local
-        (class=time #args=2,3) Like stpftime but consults the $TZ environment variable to get local time zone.
+        (class=time #args=2,3) Like strftime but consults the $TZ environment variable to get local time zone.
        Examples:
        strptime_local("2015-08-28T13:33:21Z",    "%Y-%m-%dT%H:%M:%SZ") = 1440758001     with TZ="Asia/Istanbul"
        strptime_local("2015-08-28T13:33:21.345Z","%Y-%m-%dT%H:%M:%SZ") = 1440758001.345 with TZ="Asia/Istanbul"
@@ -2797,8 +2810,8 @@ KEYWORDS FOR PUT AND FILTER
        dump: prints all currently defined out-of-stream variables immediately
        to stdout as JSON.
 
-       With >, >>, or |, the data do not become part of the output record stream but
-       are instead redirected.
+       With >, >>, or |, the data do not go directly to stdout but are instead
+       redirected.
 
        The > and >> are for write and append, as in the shell, but (as with awk) the
        file-overwrite for > is on first write, not per record. The | is for piping to
@@ -3153,4 +3166,4 @@ SEE ALSO
 
 
 
-                                  2022-02-08                         MILLER(1)
+                                  2022-02-21                         MILLER(1)

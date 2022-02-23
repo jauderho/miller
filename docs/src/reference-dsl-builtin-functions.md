@@ -70,7 +70,7 @@ is 2. Unary operators such as `!` and `~` show argument-count of 1; the ternary
 * [**Arithmetic functions**](#arithmetic-functions):  [bitcount](#bitcount),  [madd](#madd),  [mexp](#mexp),  [mmul](#mmul),  [msub](#msub),  [pow](#pow),  [%](#percent),  [&](#bitwise-and),  [\*](#times),  [\**](#exponentiation),  [\+](#plus),  [\-](#minus),  [\.\*](#dot-times),  [\.\+](#dot-plus),  [\.\-](#dot-minus),  [\./](#dot-slash),  [/](#slash),  [//](#slash-slash),  [<<](#lsh),  [>>](#srsh),  [>>>](#ursh),  [^](#bitwise-xor),  [\|](#bitwise-or),  [~](#bitwise-not).
 * [**Boolean functions**](#boolean-functions):  [\!](#exclamation-point),  [\!=](#exclamation-point-equals),  [!=~](#regnotmatch),  [&&](#logical-and),  [<](#less-than),  [<=](#less-than-or-equals),  [<=>](#<=>),  [==](#double-equals),  [=~](#regmatch),  [>](#greater-than),  [>=](#greater-than-or-equals),  [?:](#question-mark-colon),  [??](#absent-coalesce),  [???](#absent-empty-coalesce),  [^^](#logical-xor),  [\|\|](#logical-or).
 * [**Collections functions**](#collections-functions):  [append](#append),  [arrayify](#arrayify),  [concat](#concat),  [depth](#depth),  [flatten](#flatten),  [get_keys](#get_keys),  [get_values](#get_values),  [haskey](#haskey),  [json_parse](#json_parse),  [json_stringify](#json_stringify),  [leafcount](#leafcount),  [length](#length),  [mapdiff](#mapdiff),  [mapexcept](#mapexcept),  [mapselect](#mapselect),  [mapsum](#mapsum),  [unflatten](#unflatten).
-* [**Conversion functions**](#conversion-functions):  [boolean](#boolean),  [float](#float),  [fmtnum](#fmtnum),  [hexfmt](#hexfmt),  [int](#int),  [joink](#joink),  [joinkv](#joinkv),  [joinv](#joinv),  [splita](#splita),  [splitax](#splitax),  [splitkv](#splitkv),  [splitkvx](#splitkvx),  [splitnv](#splitnv),  [splitnvx](#splitnvx),  [string](#string).
+* [**Conversion functions**](#conversion-functions):  [boolean](#boolean),  [float](#float),  [fmtifnum](#fmtifnum),  [fmtnum](#fmtnum),  [hexfmt](#hexfmt),  [int](#int),  [joink](#joink),  [joinkv](#joinkv),  [joinv](#joinv),  [splita](#splita),  [splitax](#splitax),  [splitkv](#splitkv),  [splitkvx](#splitkvx),  [splitnv](#splitnv),  [splitnvx](#splitnvx),  [string](#string).
 * [**Hashing functions**](#hashing-functions):  [md5](#md5),  [sha1](#sha1),  [sha256](#sha256),  [sha512](#sha512).
 * [**Higher-order-functions functions**](#higher-order-functions-functions):  [any](#any),  [apply](#apply),  [every](#every),  [fold](#fold),  [reduce](#reduce),  [select](#select),  [sort](#sort).
 * [**Math functions**](#math-functions):  [abs](#abs),  [acos](#acos),  [acosh](#acosh),  [asin](#asin),  [asinh](#asinh),  [atan](#atan),  [atan2](#atan2),  [atanh](#atanh),  [cbrt](#cbrt),  [ceil](#ceil),  [cos](#cos),  [cosh](#cosh),  [erf](#erf),  [erfc](#erfc),  [exp](#exp),  [expm1](#expm1),  [floor](#floor),  [invqnorm](#invqnorm),  [log](#log),  [log10](#log10),  [log1p](#log1p),  [logifit](#logifit),  [max](#max),  [min](#min),  [qnorm](#qnorm),  [round](#round),  [roundm](#roundm),  [sgn](#sgn),  [sin](#sin),  [sinh](#sinh),  [sqrt](#sqrt),  [tan](#tan),  [tanh](#tanh),  [urand](#urand),  [urand32](#urand32),  [urandelement](#urandelement),  [urandint](#urandint),  [urandrange](#urandrange).
@@ -408,7 +408,7 @@ get_keys  (class=collections #args=1) Returns array of keys of map or array
 
 ### get_values
 <pre class="pre-non-highlight-non-pair">
-get_values  (class=collections #args=1) Returns array of keys of map or array -- in the latter case, returns a copy of the array
+get_values  (class=collections #args=1) Returns array of values of map or array -- in the latter case, returns a copy of the array
 </pre>
 
 
@@ -488,9 +488,21 @@ float  (class=conversion #args=1) Convert int/float/bool/string to float.
 </pre>
 
 
+### fmtifnum
+<pre class="pre-non-highlight-non-pair">
+fmtifnum  (class=conversion #args=2) Identical to fmtnum, except returns the first argument as-is if the output would be an error.
+Examples:
+fmtifnum(3.4, "%.6f") gives 3.400000"
+fmtifnum("abc", "%.6f") gives abc"
+$* = fmtifnum($*, "%.6f") formats numeric fields in the current record, leaving non-numeric ones alone
+</pre>
+
+
 ### fmtnum
 <pre class="pre-non-highlight-non-pair">
-fmtnum  (class=conversion #args=2) Convert int/float/bool to string using printf-style format string (https://pkg.go.dev/fmt), e.g. '$s = fmtnum($n, "%08d")' or '$t = fmtnum($n, "%.6e")'.
+fmtnum  (class=conversion #args=2) Convert int/float/bool to string using printf-style format string (https://pkg.go.dev/fmt), e.g. '$s = fmtnum($n, "%08d")' or '$t = fmtnum($n, "%.6e")'. This function recurses on array and map values.
+Example:
+$x = fmtnum($x, "%.6f")
 </pre>
 
 
@@ -1235,7 +1247,7 @@ sec2localtime(1234567890.123456, 6, "Asia/Istanbul") = "2009-02-14 01:31:30.1234
 
 ### strftime
 <pre class="pre-non-highlight-non-pair">
-strftime  (class=time #args=2) Formats seconds since the epoch as timestamp. Format strings are as at https://pkg.go.dev/github.com/lestrrat-go/strftime, with the Miller-specific addition of "%1S" through "%9S" which format the seconds with 1 through 9 decimal places, respectively. ("%S" uses no decimal places.) See also "DSL datetime/timezone functions" at https://miller.readthedocs.io for more information on the differences from the C library ("man strftime" on your system). See also strftime_local.
+strftime  (class=time #args=2) Formats seconds since the epoch as timestamp. Format strings are as at https://pkg.go.dev/github.com/lestrrat-go/strftime, with the Miller-specific addition of "%1S" through "%9S" which format the seconds with 1 through 9 decimal places, respectively. ("%S" uses no decimal places.) See also https://miller.readthedocs.io/en/latest/reference-dsl-time/ for more information on the differences from the C library ("man strftime" on your system). See also strftime_local.
 Examples:
 strftime(1440768801.7,"%Y-%m-%dT%H:%M:%SZ")  = "2015-08-28T13:33:21Z"
 strftime(1440768801.7,"%Y-%m-%dT%H:%M:%3SZ") = "2015-08-28T13:33:21.700Z"
@@ -1265,7 +1277,7 @@ strptime("1970-01-01 00:00:00 EET",   "%Y-%m-%d %H:%M:%S %Z") = -7200
 
 ### strptime_local
 <pre class="pre-non-highlight-non-pair">
-strptime_local  (class=time #args=2,3) Like stpftime but consults the $TZ environment variable to get local time zone.
+strptime_local  (class=time #args=2,3) Like strftime but consults the $TZ environment variable to get local time zone.
 Examples:
 strptime_local("2015-08-28T13:33:21Z",    "%Y-%m-%dT%H:%M:%SZ") = 1440758001     with TZ="Asia/Istanbul"
 strptime_local("2015-08-28T13:33:21.345Z","%Y-%m-%dT%H:%M:%SZ") = 1440758001.345 with TZ="Asia/Istanbul"

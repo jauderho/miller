@@ -865,3 +865,101 @@ func unaliasArrayLengthIndex(n int, mindex int) (int, bool) {
 		return -1, false
 	}
 }
+
+// MillerSliceAccess is code shared by the string-slicer and the array-slicer.
+// * Miller indices are 1-up, 1..n where n is the length of the array/string.
+//   They are also aliased -n..-1. These are called "mindex" (if int) or "index mlrval"
+//   (if mlrval).
+// * Go indices are 0-up, with no aliasing. These are called "zindex".
+// * The job of this routine is to map a pair of index-mlrval to a pair of zindex,
+//   with possible outcomes that the slice access should result in an empty array/string,
+//   or Mlrval of type absent, or Mlrval of type error.
+// * Callsites include the DSL array-slicer (e.g. [1,2,3,4,5][2:3]), the DSL string-slicer
+//   (e.g. "abcde"[2:3]), the substr1 function (e.g. substr1("abcde", 2, 3), and the substr0
+//   function (e.g. substr0("abcde", 1, 2)).
+// * The isZeroUp argument is in support of substr0.
+func MillerSliceAccess(
+	lowerIndexMlrval *mlrval.Mlrval,
+	upperIndexMlrval *mlrval.Mlrval,
+	n int, // length of array/string to be sliced
+	isZeroUp bool, // false for array/string slices, and substr1; true for substr0
+) (
+	sliceIsEmpty bool, // true if the output of the slice should empty string/array
+	absentOrError *mlrval.Mlrval, // non-nil if the output of the slice should be absent/error
+	lowerZindex int, // lower zindex if first two return values are false & nil
+	upperZindex int, // upper zindex if first two return values are false & nil
+) {
+
+	if lowerIndexMlrval.IsAbsent() {
+		return false, mlrval.ABSENT, 0, 0
+	}
+	if upperIndexMlrval.IsAbsent() {
+		return false, mlrval.ABSENT, 0, 0
+	}
+
+	lowerIndex, ok := lowerIndexMlrval.GetIntValue()
+	if !ok {
+		if lowerIndexMlrval.IsVoid() {
+			lowerIndex = 1
+		} else {
+			return false, mlrval.ERROR, 0, 0
+		}
+	}
+	upperIndex, ok := upperIndexMlrval.GetIntValue()
+	if !ok {
+		if upperIndexMlrval.IsVoid() {
+			upperIndex = int64(n)
+		} else {
+			return false, mlrval.ERROR, 0, 0
+		}
+	}
+
+	// For substr0:
+	if isZeroUp && lowerIndex >= 0 {
+		lowerIndex += 1 // make it 1-up
+	}
+	if isZeroUp && upperIndex >= 0 {
+		upperIndex += 1 // make it 1-up
+	}
+
+	// UnaliasArrayIndex returns a boolean second return value to indicate
+	// whether the index is in range. But here, for the slicing operation, we
+	// inspect the in-range-ness ourselves so we discard that 2nd return value.
+	// This is because out-of-bounds accesses for single elements have different
+	// semantics than out-of-bounds accesses for slices. See also
+	// https://miller.readthedocs.io/en/latest/reference-main-strings/#slicing
+	// https://miller.readthedocs.io/en/latest/reference-main-arrays/#slicing
+
+	lowerZindex, _ = mlrval.UnaliasArrayLengthIndex(n, int(lowerIndex))
+	upperZindex, _ = mlrval.UnaliasArrayLengthIndex(n, int(upperIndex))
+
+	if lowerZindex > upperZindex {
+		return true, nil, 0, 0
+	}
+
+	// Semantics: say x=[1,2,3,4,5]. Then x[3:10] is [3,4,5].
+	//
+	// Cases:
+	//      [* * * * *]              actual data
+	//  [o o]                        1. attempted indexing: lo, hi both out of bounds
+	//  [o o o o o o ]               2. attempted indexing: hi in bounds, lo out
+	//  [o o o o o o o o o o o o]    3. attempted indexing: lo, hi both out of bounds
+	//        [o o o]                4. attempted indexing: lo, hi in bounds
+	//        [o o o o o o ]         5. attempted indexing: lo in bounds, hi out
+	//                  [o o o o]    6. attempted indexing: lo, hi both out of bounds
+
+	if lowerZindex < 0 {
+		lowerZindex = 0
+		if lowerZindex > upperZindex {
+			return true, nil, 0, 0
+		}
+	}
+	if upperZindex > n-1 {
+		upperZindex = n - 1
+		if lowerZindex > upperZindex {
+			return true, nil, 0, 0
+		}
+	}
+
+	return false, nil, lowerZindex, upperZindex
+}

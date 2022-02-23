@@ -235,7 +235,7 @@ green  0.5129018241860459  1075
 
 ## cat
 
-Most useful for format conversions (see [File Formats](file-formats.md), and concatenating multiple same-schema CSV files to have the same header:
+Most useful for format conversions (see [File Formats](file-formats.md)) and concatenating multiple same-schema CSV files to have the same header:
 
 <pre class="pre-highlight-in-pair">
 <b>mlr cat -h</b>
@@ -1514,7 +1514,7 @@ Usage: mlr histogram [options]
 -h|--help Show this message.
 </pre>
 
-This is just a histogram; there's not too much to say here. A note about binning, by example: Suppose you use `--lo 0.0 --hi 1.0 --nbins 10 -f x`.  The input numbers less than 0 or greater than 1 aren't counted in any bin.  Input numbers equal to 1 are counted in the last bin. That is, bin 0 has `0.0 &le; x < 0.1`, bin 1 has `0.1 &le; x < 0.2`, etc., but bin 9 has `0.9 &le; x &le; 1.0`.
+This is just a histogram; there's not too much to say here. A note about binning, by example: Suppose you use `--lo 0.0 --hi 1.0 --nbins 10 -f x`.  The input numbers less than 0 or greater than 1 aren't counted in any bin.  Input numbers equal to 1 are counted in the last bin. That is, bin 0 has `0.0 < x < 0.1`, bin 1 has `0.1 < x < 0.2`, etc., but bin 9 has `0.9 < x < 1.0`.
 
 <pre class="pre-highlight-in-pair">
 <b>mlr --opprint put '$x2=$x**2;$x3=$x2*$x' \</b>
@@ -1598,7 +1598,9 @@ the main "mlr --help" for more information on syntax for these arguments:
   --ips {pair-separator character}
   --repifs
   --implicit-csv-header
+  --implicit-tsv-header
   --no-implicit-csv-header
+  --no-implicit-tsv-header
 For example, if you have 'mlr --csv ... join -l foo ... ' then the left-file format will
 be specified CSV as well unless you override with 'mlr --csv ... join --ijson -l foo' etc.
 Likewise, if you have 'mlr --csv --implicit-csv-header ...' then the join-in file will be

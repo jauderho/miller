@@ -145,6 +145,8 @@ var TransTab = TransitionTable{
 			return 54
 		case r == 126: // ['~','~']
 			return 55
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 25
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 25
 		}
@@ -239,6 +241,8 @@ var TransTab = TransitionTable{
 			return 57
 		case r == 126: // ['~','~']
 			return 57
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 57
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 57
 		}
@@ -270,6 +274,8 @@ var TransTab = TransitionTable{
 			return 63
 		case r == 123: // ['{','{']
 			return 66
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 63
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 63
 		}
@@ -466,6 +472,8 @@ var TransTab = TransitionTable{
 			return 96
 		case r == 123: // ['{','{']
 			return 99
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 96
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 96
 		}
@@ -481,6 +489,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -501,6 +511,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -529,6 +541,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -562,6 +576,8 @@ var TransTab = TransitionTable{
 			return 110
 		case 111 <= r && r <= 122: // ['o','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -577,6 +593,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 111
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -603,6 +621,8 @@ var TransTab = TransitionTable{
 		case r == 97: // ['a','a']
 			return 114
 		case 98 <= r && r <= 122: // ['b','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -631,6 +651,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -672,6 +694,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -695,6 +719,8 @@ var TransTab = TransitionTable{
 		case r == 114: // ['r','r']
 			return 122
 		case 115 <= r && r <= 122: // ['s','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -724,6 +750,8 @@ var TransTab = TransitionTable{
 			return 125
 		case 115 <= r && r <= 122: // ['s','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -745,6 +773,8 @@ var TransTab = TransitionTable{
 		case r == 111: // ['o','o']
 			return 127
 		case 112 <= r && r <= 122: // ['p','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -769,6 +799,8 @@ var TransTab = TransitionTable{
 		case r == 117: // ['u','u']
 			return 129
 		case 118 <= r && r <= 122: // ['v','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -801,6 +833,8 @@ var TransTab = TransitionTable{
 		case r == 112: // ['p','p']
 			return 134
 		case 113 <= r && r <= 122: // ['q','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -836,6 +870,8 @@ var TransTab = TransitionTable{
 			return 139
 		case 118 <= r && r <= 122: // ['v','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -860,6 +896,8 @@ var TransTab = TransitionTable{
 			return 141
 		case 111 <= r && r <= 122: // ['o','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -877,6 +915,8 @@ var TransTab = TransitionTable{
 		case r == 97: // ['a','a']
 			return 142
 		case 98 <= r && r <= 122: // ['b','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -898,6 +938,8 @@ var TransTab = TransitionTable{
 			return 143
 		case 118 <= r && r <= 122: // ['v','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -918,6 +960,8 @@ var TransTab = TransitionTable{
 			return 144
 		case 115 <= r && r <= 122: // ['s','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -937,6 +981,8 @@ var TransTab = TransitionTable{
 		case r == 101: // ['e','e']
 			return 145
 		case 102 <= r && r <= 122: // ['f','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -959,6 +1005,8 @@ var TransTab = TransitionTable{
 		case r == 117: // ['u','u']
 			return 147
 		case 118 <= r && r <= 122: // ['v','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -984,6 +1032,8 @@ var TransTab = TransitionTable{
 			return 149
 		case 115 <= r && r <= 122: // ['s','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -1004,6 +1054,8 @@ var TransTab = TransitionTable{
 			return 150
 		case 111 <= r && r <= 122: // ['o','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -1021,6 +1073,8 @@ var TransTab = TransitionTable{
 		case r == 97: // ['a','a']
 			return 151
 		case 98 <= r && r <= 122: // ['b','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -1041,6 +1095,8 @@ var TransTab = TransitionTable{
 		case r == 104: // ['h','h']
 			return 152
 		case 105 <= r && r <= 122: // ['i','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -1158,6 +1214,8 @@ var TransTab = TransitionTable{
 			return 57
 		case r == 126: // ['~','~']
 			return 57
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 57
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 57
 		}
@@ -1252,6 +1310,8 @@ var TransTab = TransitionTable{
 			return 65
 		case 97 <= r && r <= 122: // ['a','z']
 			return 63
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 63
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 63
 		}
@@ -1267,6 +1327,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 65
 		case 97 <= r && r <= 122: // ['a','z']
+			return 63
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 63
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 63
@@ -1291,6 +1353,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 65
 		case 97 <= r && r <= 122: // ['a','z']
+			return 63
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 63
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 63
@@ -1604,6 +1668,8 @@ var TransTab = TransitionTable{
 			return 182
 		case 97 <= r && r <= 122: // ['a','z']
 			return 181
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 181
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 181
 		}
@@ -1625,6 +1691,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 182
 		case 97 <= r && r <= 122: // ['a','z']
+			return 181
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 181
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 181
@@ -1716,6 +1784,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -1732,6 +1802,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -1747,6 +1819,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -1768,6 +1842,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -1788,6 +1864,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -1805,6 +1883,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -1826,6 +1906,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -1845,6 +1927,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -1866,6 +1950,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -1886,6 +1972,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -1905,6 +1993,8 @@ var TransTab = TransitionTable{
 		case r == 102: // ['f','f']
 			return 192
 		case 103 <= r && r <= 122: // ['g','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -1930,6 +2020,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -1946,6 +2038,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -1961,6 +2055,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -1982,6 +2078,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2001,6 +2099,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2022,6 +2122,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2041,6 +2143,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2084,6 +2188,8 @@ var TransTab = TransitionTable{
 			return 201
 		case 109 <= r && r <= 122: // ['m','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2103,6 +2209,8 @@ var TransTab = TransitionTable{
 		case r == 114: // ['r','r']
 			return 202
 		case 115 <= r && r <= 122: // ['s','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2124,6 +2232,8 @@ var TransTab = TransitionTable{
 			return 203
 		case 104 <= r && r <= 122: // ['h','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2143,6 +2253,8 @@ var TransTab = TransitionTable{
 		case r == 111: // ['o','o']
 			return 204
 		case 112 <= r && r <= 122: // ['p','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2164,6 +2276,8 @@ var TransTab = TransitionTable{
 			return 205
 		case 102 <= r && r <= 122: // ['f','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2183,6 +2297,8 @@ var TransTab = TransitionTable{
 		case r == 108: // ['l','l']
 			return 206
 		case 109 <= r && r <= 122: // ['m','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2204,6 +2320,8 @@ var TransTab = TransitionTable{
 			return 207
 		case 111 <= r && r <= 122: // ['o','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2219,6 +2337,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2240,6 +2360,8 @@ var TransTab = TransitionTable{
 			return 208
 		case 110 <= r && r <= 122: // ['n','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2259,6 +2381,8 @@ var TransTab = TransitionTable{
 		case r == 117: // ['u','u']
 			return 209
 		case 118 <= r && r <= 122: // ['v','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2284,6 +2408,8 @@ var TransTab = TransitionTable{
 			return 211
 		case 116 <= r && r <= 122: // ['t','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2303,6 +2429,8 @@ var TransTab = TransitionTable{
 		case r == 105: // ['i','i']
 			return 212
 		case 106 <= r && r <= 122: // ['j','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2324,6 +2452,8 @@ var TransTab = TransitionTable{
 			return 213
 		case 101 <= r && r <= 122: // ['e','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2343,6 +2473,8 @@ var TransTab = TransitionTable{
 		case r == 114: // ['r','r']
 			return 214
 		case 115 <= r && r <= 122: // ['s','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2364,6 +2496,8 @@ var TransTab = TransitionTable{
 			return 215
 		case 109 <= r && r <= 122: // ['m','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2383,6 +2517,8 @@ var TransTab = TransitionTable{
 		case r == 108: // ['l','l']
 			return 216
 		case 109 <= r && r <= 122: // ['m','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2404,6 +2540,8 @@ var TransTab = TransitionTable{
 			return 217
 		case 112 <= r && r <= 122: // ['p','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2423,6 +2561,8 @@ var TransTab = TransitionTable{
 		case r == 114: // ['r','r']
 			return 218
 		case 115 <= r && r <= 122: // ['s','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2444,6 +2584,8 @@ var TransTab = TransitionTable{
 			return 219
 		case 111 <= r && r <= 122: // ['o','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2459,6 +2601,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2480,6 +2624,8 @@ var TransTab = TransitionTable{
 			return 220
 		case 117 <= r && r <= 122: // ['u','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2499,6 +2645,8 @@ var TransTab = TransitionTable{
 		case r == 112: // ['p','p']
 			return 221
 		case 113 <= r && r <= 122: // ['q','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2522,6 +2670,8 @@ var TransTab = TransitionTable{
 			return 223
 		case 110 <= r && r <= 122: // ['n','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2542,6 +2692,8 @@ var TransTab = TransitionTable{
 			return 224
 		case 106 <= r && r <= 122: // ['j','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2561,6 +2713,8 @@ var TransTab = TransitionTable{
 		case r == 116: // ['t','t']
 			return 225
 		case 117 <= r && r <= 122: // ['u','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2586,6 +2740,8 @@ var TransTab = TransitionTable{
 			return 227
 		case 115 <= r && r <= 122: // ['s','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2605,6 +2761,8 @@ var TransTab = TransitionTable{
 		case r == 98: // ['b','b']
 			return 228
 		case 99 <= r && r <= 122: // ['c','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2626,6 +2784,8 @@ var TransTab = TransitionTable{
 			return 229
 		case 102 <= r && r <= 122: // ['f','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2645,6 +2805,8 @@ var TransTab = TransitionTable{
 		case r == 117: // ['u','u']
 			return 230
 		case 118 <= r && r <= 122: // ['v','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2666,6 +2828,8 @@ var TransTab = TransitionTable{
 			return 231
 		case 116 <= r && r <= 122: // ['t','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2686,6 +2850,8 @@ var TransTab = TransitionTable{
 			return 232
 		case 115 <= r && r <= 122: // ['s','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -2705,6 +2871,8 @@ var TransTab = TransitionTable{
 		case r == 105: // ['i','i']
 			return 233
 		case 106 <= r && r <= 122: // ['j','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -2815,6 +2983,8 @@ var TransTab = TransitionTable{
 		case r == 125: // ['}','}']
 			return 57
 		case r == 126: // ['~','~']
+			return 57
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 57
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 57
@@ -3074,6 +3244,8 @@ var TransTab = TransitionTable{
 			return 182
 		case 97 <= r && r <= 122: // ['a','z']
 			return 181
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 181
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 181
 		}
@@ -3090,6 +3262,8 @@ var TransTab = TransitionTable{
 			return 182
 		case 97 <= r && r <= 122: // ['a','z']
 			return 181
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 181
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 181
 		}
@@ -3105,6 +3279,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 182
 		case 97 <= r && r <= 122: // ['a','z']
+			return 181
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 181
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 181
@@ -3208,6 +3384,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3227,6 +3405,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3248,6 +3428,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3263,6 +3445,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3280,6 +3464,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3295,6 +3481,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3312,6 +3500,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3328,6 +3518,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3343,6 +3535,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3364,6 +3558,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3379,6 +3575,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3396,6 +3594,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3412,6 +3612,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3427,6 +3629,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3456,6 +3660,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3471,6 +3677,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3492,6 +3700,8 @@ var TransTab = TransitionTable{
 			return 255
 		case 106 <= r && r <= 122: // ['j','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3512,6 +3722,8 @@ var TransTab = TransitionTable{
 			return 256
 		case 109 <= r && r <= 122: // ['m','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3529,6 +3741,8 @@ var TransTab = TransitionTable{
 		case r == 97: // ['a','a']
 			return 257
 		case 98 <= r && r <= 122: // ['b','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3550,6 +3764,8 @@ var TransTab = TransitionTable{
 			return 258
 		case 109 <= r && r <= 122: // ['m','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3569,6 +3785,8 @@ var TransTab = TransitionTable{
 		case r == 116: // ['t','t']
 			return 259
 		case 117 <= r && r <= 122: // ['u','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3590,6 +3808,8 @@ var TransTab = TransitionTable{
 			return 260
 		case 113 <= r && r <= 122: // ['q','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3609,6 +3829,8 @@ var TransTab = TransitionTable{
 		case r == 109: // ['m','m']
 			return 261
 		case 110 <= r && r <= 122: // ['n','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3630,6 +3852,8 @@ var TransTab = TransitionTable{
 			return 262
 		case 103 <= r && r <= 122: // ['g','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3649,6 +3873,8 @@ var TransTab = TransitionTable{
 		case r == 101: // ['e','e']
 			return 263
 		case 102 <= r && r <= 122: // ['f','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3670,6 +3896,8 @@ var TransTab = TransitionTable{
 			return 264
 		case 117 <= r && r <= 122: // ['u','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3685,6 +3913,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3706,6 +3936,8 @@ var TransTab = TransitionTable{
 			return 265
 		case 106 <= r && r <= 122: // ['j','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3725,6 +3957,8 @@ var TransTab = TransitionTable{
 		case r == 115: // ['s','s']
 			return 266
 		case 116 <= r && r <= 122: // ['t','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3746,6 +3980,8 @@ var TransTab = TransitionTable{
 			return 267
 		case 117 <= r && r <= 122: // ['u','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3764,6 +4000,8 @@ var TransTab = TransitionTable{
 			return 268
 		case 98 <= r && r <= 122: // ['b','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3779,6 +4017,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3800,6 +4040,8 @@ var TransTab = TransitionTable{
 			return 269
 		case 100 <= r && r <= 122: // ['d','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3816,6 +4058,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3831,6 +4075,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3852,6 +4098,8 @@ var TransTab = TransitionTable{
 			return 270
 		case 109 <= r && r <= 122: // ['m','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3867,6 +4115,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3888,6 +4138,8 @@ var TransTab = TransitionTable{
 			return 271
 		case 111 <= r && r <= 122: // ['o','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3907,6 +4159,8 @@ var TransTab = TransitionTable{
 		case r == 117: // ['u','u']
 			return 272
 		case 118 <= r && r <= 122: // ['v','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3932,6 +4186,8 @@ var TransTab = TransitionTable{
 			return 274
 		case 112 <= r && r <= 122: // ['p','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3947,6 +4203,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -3968,6 +4226,8 @@ var TransTab = TransitionTable{
 			return 275
 		case 115 <= r && r <= 122: // ['s','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -3983,6 +4243,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4004,6 +4266,8 @@ var TransTab = TransitionTable{
 			return 276
 		case 102 <= r && r <= 122: // ['f','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4024,6 +4288,8 @@ var TransTab = TransitionTable{
 			return 277
 		case 102 <= r && r <= 122: // ['f','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4039,6 +4305,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4059,6 +4327,8 @@ var TransTab = TransitionTable{
 		case r == 108: // ['l','l']
 			return 278
 		case 109 <= r && r <= 122: // ['m','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4145,6 +4415,8 @@ var TransTab = TransitionTable{
 		case r == 125: // ['}','}']
 			return 57
 		case r == 126: // ['~','~']
+			return 57
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 57
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 57
@@ -4426,6 +4698,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4446,6 +4720,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4461,6 +4737,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4482,6 +4760,8 @@ var TransTab = TransitionTable{
 			return 286
 		case 111 <= r && r <= 122: // ['o','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4497,6 +4777,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4518,6 +4800,8 @@ var TransTab = TransitionTable{
 			return 287
 		case 108 <= r && r <= 122: // ['l','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4533,6 +4817,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4554,6 +4840,8 @@ var TransTab = TransitionTable{
 			return 288
 		case 106 <= r && r <= 122: // ['j','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4569,6 +4857,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4590,6 +4880,8 @@ var TransTab = TransitionTable{
 			return 289
 		case 113 <= r && r <= 122: // ['q','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4606,6 +4898,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4621,6 +4915,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4650,6 +4946,8 @@ var TransTab = TransitionTable{
 			return 292
 		case 113 <= r && r <= 122: // ['q','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4669,6 +4967,8 @@ var TransTab = TransitionTable{
 		case r == 110: // ['n','n']
 			return 293
 		case 111 <= r && r <= 122: // ['o','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4690,6 +4990,8 @@ var TransTab = TransitionTable{
 			return 294
 		case 102 <= r && r <= 122: // ['f','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4709,6 +5011,8 @@ var TransTab = TransitionTable{
 		case r == 101: // ['e','e']
 			return 295
 		case 102 <= r && r <= 122: // ['f','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4730,6 +5034,8 @@ var TransTab = TransitionTable{
 			return 296
 		case 117 <= r && r <= 122: // ['u','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4750,6 +5056,8 @@ var TransTab = TransitionTable{
 			return 297
 		case 117 <= r && r <= 122: // ['u','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4765,6 +5073,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4786,6 +5096,8 @@ var TransTab = TransitionTable{
 			return 298
 		case 117 <= r && r <= 122: // ['u','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4805,6 +5117,8 @@ var TransTab = TransitionTable{
 		case r == 114: // ['r','r']
 			return 299
 		case 115 <= r && r <= 122: // ['s','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4826,6 +5140,8 @@ var TransTab = TransitionTable{
 			return 300
 		case 115 <= r && r <= 122: // ['s','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4846,6 +5162,8 @@ var TransTab = TransitionTable{
 			return 301
 		case 118 <= r && r <= 122: // ['v','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4862,6 +5180,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4877,6 +5197,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4898,6 +5220,8 @@ var TransTab = TransitionTable{
 			return 302
 		case 117 <= r && r <= 122: // ['u','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -4917,6 +5241,8 @@ var TransTab = TransitionTable{
 		case r == 101: // ['e','e']
 			return 303
 		case 102 <= r && r <= 122: // ['f','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -4980,6 +5306,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5000,6 +5328,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5016,6 +5346,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5031,6 +5363,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5052,6 +5386,8 @@ var TransTab = TransitionTable{
 			return 309
 		case 111 <= r && r <= 122: // ['o','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5067,6 +5403,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5084,6 +5422,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5100,6 +5440,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5115,6 +5457,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5136,6 +5480,8 @@ var TransTab = TransitionTable{
 			return 310
 		case 117 <= r && r <= 122: // ['u','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5151,6 +5497,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5172,6 +5520,8 @@ var TransTab = TransitionTable{
 			return 311
 		case 115 <= r && r <= 122: // ['s','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5188,6 +5538,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5203,6 +5555,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5224,6 +5578,8 @@ var TransTab = TransitionTable{
 			return 312
 		case 111 <= r && r <= 122: // ['o','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5243,6 +5599,8 @@ var TransTab = TransitionTable{
 		case r == 110: // ['n','n']
 			return 313
 		case 111 <= r && r <= 122: // ['o','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5264,6 +5622,8 @@ var TransTab = TransitionTable{
 			return 314
 		case 115 <= r && r <= 122: // ['s','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5284,6 +5644,8 @@ var TransTab = TransitionTable{
 			return 315
 		case 117 <= r && r <= 122: // ['u','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5300,6 +5662,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5315,6 +5679,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5352,6 +5718,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5371,6 +5739,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5392,6 +5762,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5411,6 +5783,8 @@ var TransTab = TransitionTable{
 		case r == 117: // ['u','u']
 			return 320
 		case 118 <= r && r <= 122: // ['v','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5432,6 +5806,8 @@ var TransTab = TransitionTable{
 			return 321
 		case 111 <= r && r <= 122: // ['o','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5447,6 +5823,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5464,6 +5842,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5479,6 +5859,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5496,6 +5878,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5511,6 +5895,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5540,6 +5926,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5556,6 +5944,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5571,6 +5961,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5592,6 +5984,8 @@ var TransTab = TransitionTable{
 			return 324
 		case 102 <= r && r <= 122: // ['f','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5607,6 +6001,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
@@ -5632,6 +6028,8 @@ var TransTab = TransitionTable{
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
 			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
+			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
 		}
@@ -5647,6 +6045,8 @@ var TransTab = TransitionTable{
 		case r == 95: // ['_','_']
 			return 102
 		case 97 <= r && r <= 122: // ['a','z']
+			return 101
+		case 160 <= r && r <= 255: // [\u00a0,\u00ff]
 			return 101
 		case 256 <= r && r <= 1114111: // [\u0100,\U0010ffff]
 			return 101
