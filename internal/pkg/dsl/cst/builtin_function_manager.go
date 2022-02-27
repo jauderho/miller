@@ -385,7 +385,7 @@ used within subsequent DSL statements. See also "Regular expressions" at ` + lib
 		{
 			name:       ".",
 			class:      FUNC_CLASS_STRING,
-			help:       `String concatenation.`,
+			help:       `String concatenation. Non-strings are coerced, so you can do '"ax".98' etc.`,
 			binaryFunc: bifs.BIF_dot,
 		},
 
@@ -569,8 +569,8 @@ each "{}" in the format string. Too-few arguments are treated as the empty strin
 			help: `Using first argument as format string, unpacks second argument into an array of matches,
 with type-inference. On non-match, returns error -- use is_error() to check.`,
 			examples: []string{
-				`unformat("{}:{}:{}",  "1:2:3") gives [1, 2, 3]".`,
-				`unformat("{}h{}m{}s", "3h47m22s") gives [3, 47, 22]".`,
+				`unformat("{}:{}:{}",  "1:2:3") gives [1, 2, 3].`,
+				`unformat("{}h{}m{}s", "3h47m22s") gives [3, 47, 22].`,
 				`is_error(unformat("{}h{}m{}s", "3:47:22")) gives true.`,
 			},
 			binaryFunc: bifs.BIF_unformat,
@@ -581,8 +581,8 @@ with type-inference. On non-match, returns error -- use is_error() to check.`,
 			class: FUNC_CLASS_STRING,
 			help:  `Same as unformat, but without type-inference.`,
 			examples: []string{
-				`unformatx("{}:{}:{}",  "1:2:3") gives ["1", "2", "3"]".`,
-				`unformatx("{}h{}m{}s", "3h47m22s") gives ["3", "47", "22"]".`,
+				`unformatx("{}:{}:{}",  "1:2:3") gives ["1", "2", "3"].`,
+				`unformatx("{}h{}m{}s", "3h47m22s") gives ["3", "47", "22"].`,
 				`is_error(unformatx("{}h{}m{}s", "3:47:22")) gives true.`,
 			},
 			binaryFunc: bifs.BIF_unformatx,
@@ -1529,7 +1529,7 @@ second is the separator to split on.`,
 			help: `Splits string into array without type inference. First argument is string to split;
 second is the separator to split on.`,
 			examples: []string{
-				`splita("3,4,5", ",") = ["3","4","5"]`,
+				`splitax("3,4,5", ",") = ["3","4","5"]`,
 			},
 			binaryFunc: bifs.BIF_splitax,
 		},

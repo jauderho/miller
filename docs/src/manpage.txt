@@ -1248,6 +1248,9 @@ VERBS
                       defaults to -j values if omitted.
          -r {a,b,c}   Comma-separated join-field names for right input file(s);
                       defaults to -j values if omitted.
+         --lk|--left-keep-field-names {a,b,c} If supplied, this means keep only the specified field
+                      names from the left file. Automatically includes the join-field name(s). Helpful
+                      for when you only want a limited subset of information from the left file.
          --lp {text}  Additional prefix for non-join output field names from
                       the left file
          --rp {text}  Additional prefix for non-join output field names from
@@ -2513,7 +2516,7 @@ FUNCTIONS FOR FILTER/PUT
    splitax
         (class=conversion #args=2) Splits string into array without type inference. First argument is string to split; second is the separator to split on.
        Example:
-       splita("3,4,5", ",") = ["3","4","5"]
+       splitax("3,4,5", ",") = ["3","4","5"]
 
    splitkv
         (class=conversion #args=3) Splits string by separators into map with type inference. First argument is string to split; second argument is pair separator; third argument is field separator.
@@ -2634,15 +2637,15 @@ FUNCTIONS FOR FILTER/PUT
    unformat
         (class=string #args=2) Using first argument as format string, unpacks second argument into an array of matches, with type-inference. On non-match, returns error -- use is_error() to check.
        Examples:
-       unformat("{}:{}:{}",  "1:2:3") gives [1, 2, 3]".
-       unformat("{}h{}m{}s", "3h47m22s") gives [3, 47, 22]".
+       unformat("{}:{}:{}",  "1:2:3") gives [1, 2, 3].
+       unformat("{}h{}m{}s", "3h47m22s") gives [3, 47, 22].
        is_error(unformat("{}h{}m{}s", "3:47:22")) gives true.
 
    unformatx
         (class=string #args=2) Same as unformat, but without type-inference.
        Examples:
-       unformatx("{}:{}:{}",  "1:2:3") gives ["1", "2", "3"]".
-       unformatx("{}h{}m{}s", "3h47m22s") gives ["3", "47", "22"]".
+       unformatx("{}:{}:{}",  "1:2:3") gives ["1", "2", "3"].
+       unformatx("{}h{}m{}s", "3h47m22s") gives ["3", "47", "22"].
        is_error(unformatx("{}h{}m{}s", "3:47:22")) gives true.
 
    uptime
@@ -2699,7 +2702,7 @@ FUNCTIONS FOR FILTER/PUT
         (class=arithmetic #args=1,2) Subtraction as binary operator; unary negation operator.
 
    .
-        (class=string #args=2) String concatenation.
+        (class=string #args=2) String concatenation. Non-strings are coerced, so you can do '"ax".98' etc.
 
    .*
         (class=arithmetic #args=2) Multiplication, with integer-to-integer overflow.
@@ -3166,4 +3169,4 @@ SEE ALSO
 
 
 
-                                  2022-02-21                         MILLER(1)
+                                  2022-02-24                         MILLER(1)
