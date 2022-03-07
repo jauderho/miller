@@ -1,42 +1,22 @@
 ===============================================================
+* 404 -- what broke?
+  https://github.com/johnkerl/miller/pull/757/files
+* https://github.com/johnkerl/miller/issues?q=is%3Aissue+is%3Aopen+label%3Aneeds-documentation
+
 RELEASES
-* plan 6.1.0
-  o unsparsify -f CSV by default -- ? into CSV record-writer -- ? caveat that record 1 controls all ...
-  o fmt/unfmt/regex doc
-  o FAQ/examples reorg
-
-  o https://github.com/johnkerl/miller/issues?q=is%3Aissue+is%3Aopen+label%3Aneeds-documentation
-
-  k mlr join --left-fields a,b,c
-  k strptime/882
-  k fmtifnum, & recursive fmtnum/fmtifnum
-  k unicode string literals
-  k natural sort order
-  k IANA-TSV w/ \{X}
-  k still need csv --lazy-quotes
-  k default colors; bold/underline/reverse
-  k array concat
-  k format/unformat
-  k split verb
-  k slwin & shift-lead
-  k 0o.. octal literals in the DSL
-  k codeql/codespell/goreleaseer binaries/zips
-  k :rb
-  k ?foo and ??foo @ repl help
-  k doc-improves
-
-  d all-contribs check before release
-    > release notes in particular Poshi derekmahar aborruso
-
-* plan 6.2.0
+* 6.2.0 plan:
   ! extended field accessors for #763 and #948 (positional & json.nested)
   ! strict mode
   ! awk-like exit
+  o unsparsify -f CSV by default -- ? into CSV record-writer -- ? caveat that record 1 controls all ...
+  o mlr split -- needs an example page along with the tee DSL function
+    - some mlr merge somehow -- ? would need a verb-API refactor
   ? datediff et al.
   ? strmatch
   ? rank
   ? YAML
   ? #908 inferencing options
+  ? gogll
 
 ================================================================
 FEATURES
@@ -111,20 +91,14 @@ inference:
 * for data files: --symbol-true yes --symbol-false off --symbol-infinity inf --symbol-not-available N/A
 
 ----------------------------------------------------------------
-mlr join --left-fields a,b,c
-
-----------------------------------------------------------------
-! Better functions for values manipulation, e.g. easier conversion of strings like "$1,234.56" into numeric values
-  o note on is_error(x) (or string(x) == "(error)")
-  ?  dhms w/ optional separgs -- ? what about fenceposting? ["d","h","m","s"] vs ["-",":",":",""] -- ?
-  o 'Ability to specify some formats that are fixed. Like we can process
-    "5d18h53m20s" format in *dhms* commands, but what about "5-18:53:20"? This is
-    a common format used by the SLURM resource manager.'
-  o linked-to faqent w/ -f -s etc ...
-
-----------------------------------------------------------------
-k better print-interpolate with {} etc
-  doc: mlr --csv --from example.csv  put -q 'print format("Index {} at quantity {} and rate {}", $index, $quantity, $rate)'
+strict-mode ideas
+* localvar:
+  o LHS: just require typedecl (even just var)
+  o RHS: like put -w, but with turning warnings into errors
+* oosvar:
+  o abend unless @?x -- ?
+* srec:
+  o abend unless $?x -- ?
 
 ----------------------------------------------------------------
 ! sysdate, sysdate_local; datediff ...
@@ -226,6 +200,10 @@ UX
 
 ================================================================
 DOC
+
+* issue on gnu parallel -> link to scripting page
+
+* https://stackoverflow.com/questions/71011603/is-there-a-simple-way-to-convert-a-csv-with-0-indexed-paths-as-keys-to-json-with/71015190#71015190
 
 ! slwin / unformat narrative:
   o prototype in DSL
