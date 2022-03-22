@@ -165,7 +165,46 @@ b it is!
 c is it ...
 </pre>
 
-The [`ssub`](reference-dsl-builtin-functions.md#ssub) function exists precisely for this reason: so you don't have to escape anything.
+The
+[`ssub`](reference-dsl-builtin-functions.md#ssub) and
+[`gssub`](reference-dsl-builtin-functions.md#gssub)
+functions exist precisely for this reason: so you don't have to escape anything.
+
+## Latin-1 and UTF-8 character encodings
+
+The `ssub` and `gssub` functions are also handy for dealing with non-UTF-8 strings such as Latin 1, since Go's
+`regexp` library -- which Miller uses -- requires UTF-8 strings. For example:
+
+<pre class="pre-highlight-in-pair">
+<b>mlr -n put 'end {</b>
+<b>  name = "Ka\xf0l\xedn og \xdeormundr";</b>
+<b>  name = gssub(name, "\xde", "\u00de");</b>
+<b>  name = gssub(name, "\xf0", "\u00f0");</b>
+<b>  name = gssub(name, "\xed", "\u00ed");</b>
+<b>  print name;</b>
+<b>}'</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+Kaðlín og Þormundr
+</pre>
+
+More generally, though, we have the DSL functions
+[`latin1_to_utf8`](reference-dsl-builtin-functions.md#latin1_to_utf8) and
+[`utf8_to_latin1`](reference-dsl-builtin-functions.md#utf8_to_latin1)
+and the verbs
+[`latin1-to-utf8`](reference-verbs.md#latin1-to-utf8) and
+[`utf8-to-latin1`](reference-verbs.md#utf8-to-latin1). The former let you fix encodings on a field-by-field
+level; the latter, for all records (with less keystroking). (Latin 1 is also known as
+[ISO/IEC 8859-1](https://en.wikipedia.org/wiki/ISO/IEC_8859-1).)
+
+In this example, all the inputs are convertible from Latin-1 to UTF-8:
+
+![pix/latin1-to-utf8.png](pix/latin1-to-utf8.png)
+
+In this example, the English and German pangrams are convertible from UTF-8 to Latin-1, but the
+Russian one is not:
+
+![pix/utf8-to-latin1.png](pix/utf8-to-latin1.png)
 
 ## How to apply math to regex output?
 
