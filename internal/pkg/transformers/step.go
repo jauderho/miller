@@ -96,8 +96,6 @@ var StepSetup = TransformerSetup{
 
 func transformerStepUsage(
 	o *os.File,
-	doExit bool,
-	exitCode int,
 ) {
 	fmt.Fprintf(o, "Usage: mlr %s [options]\n", verbNameStep)
 	fmt.Fprintf(o, "Computes values dependent on earlier/later records, optionally grouped by category.\n")
@@ -118,7 +116,7 @@ func transformerStepUsage(
 	fmt.Fprintf(o, "             as a no-op for backward compatibility with Miller 5 and below.\n")
 
 	fmt.Fprintf(o, "-d {x,y,z}   Weights for EWMA. 1 means current sample gets all weight (no\n")
-	fmt.Fprintf(o, "             smoothing), near under under 1 is light smoothing, near over 0 is\n")
+	fmt.Fprintf(o, "             smoothing), near under 1 is light smoothing, near over 0 is\n")
 	fmt.Fprintf(o, "             heavy smoothing. Multiple weights may be specified, e.g.\n")
 	fmt.Fprintf(o, "             \"mlr %s -a ewma -f sys_load -d 0.01,0.1,0.9\". Default if omitted\n", verbNameStep)
 	fmt.Fprintf(o, "             is \"-d %s\".\n", DEFAULT_STRING_ALPHA)
@@ -141,10 +139,6 @@ func transformerStepUsage(
 	fmt.Fprintf(o, "Please see https://miller.readthedocs.io/en/latest/reference-verbs.html#filter or\n")
 	fmt.Fprintf(o, "https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average\n")
 	fmt.Fprintf(o, "for more information on EWMA.\n")
-
-	if doExit {
-		os.Exit(exitCode)
-	}
 }
 
 func transformerStepParseCLI(
@@ -177,7 +171,8 @@ func transformerStepParseCLI(
 		argi++
 
 		if opt == "-h" || opt == "--help" {
-			transformerStepUsage(os.Stdout, true, 0)
+			transformerStepUsage(os.Stdout)
+			os.Exit(0)
 
 		} else if opt == "-a" {
 			// Let them do '-a delta -a rsum' or '-a delta,rsum'
@@ -214,7 +209,8 @@ func transformerStepParseCLI(
 			// as a no-op for backward compatibility with Miller 5 and below.
 
 		} else {
-			transformerStepUsage(os.Stderr, true, 1)
+			transformerStepUsage(os.Stderr)
+			os.Exit(1)
 		}
 	}
 

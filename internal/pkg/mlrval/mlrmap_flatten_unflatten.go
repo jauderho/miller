@@ -112,14 +112,14 @@ func (mlrmap *Mlrmap) isFlattenable() bool {
 //
 // Examples:
 //
-// * The three fields x.a = 7, x.b = 8, x.c = 9  become
-//   the single field x = {"a": 7, "b": 8, "c": 9}.
+//   - The three fields x.a = 7, x.b = 8, x.c = 9  become
+//     the single field x = {"a": 7, "b": 8, "c": 9}.
 //
-// * The three fields x.1 = 7, x.2 = 8, x.3 = 9 become
-//   the single field x = [7,8,9].
+//   - The three fields x.1 = 7, x.2 = 8, x.3 = 9 become
+//     the single field x = [7,8,9].
 //
-// * The two fields x.1 = 7, x.3 = 9 become
-//   the single field x = {"1": 7, "3": 9}
+//   - The two fields x.1 = 7, x.3 = 9 become
+//     the single field x = {"1": 7, "3": 9}
 func (mlrmap *Mlrmap) Unflatten(
 	separator string,
 ) {
@@ -137,13 +137,14 @@ func (mlrmap *Mlrmap) CopyUnflattened(
 		// Is the field name something dot something?
 		if strings.Contains(pe.Key, separator) {
 			arrayOfIndices := SplitAXHelper(pe.Key, separator)
-			lib.InternalCodingErrorIf(len(arrayOfIndices.arrayval) < 1)
+			arrayval := arrayOfIndices.intf.([]*Mlrval)
+			lib.InternalCodingErrorIf(len(arrayval) < 1)
 			// If the input field name was "x.a" then remember the "x".
-			baseIndex := arrayOfIndices.arrayval[0].String()
+			baseIndex := arrayval[0].String()
 			affectedBaseIndices[baseIndex] = true
 			// Use PutIndexed to assign $x["a"] = 7, or $x["b"] = 8, etc.
 			other.PutIndexed(
-				CopyMlrvalArray(arrayOfIndices.arrayval),
+				CopyMlrvalArray(arrayval),
 				unflattenTerminal(pe.Value).Copy(),
 			)
 		} else {
@@ -187,13 +188,14 @@ func (mlrmap *Mlrmap) CopyUnflattenFields(
 		// Is the field name something dot something?
 		if strings.Contains(pe.Key, separator) {
 			arrayOfIndices := SplitAXHelper(pe.Key, separator)
-			lib.InternalCodingErrorIf(len(arrayOfIndices.arrayval) < 1)
+			arrayval := arrayOfIndices.intf.([]*Mlrval)
+			lib.InternalCodingErrorIf(len(arrayval) < 1)
 			// If the input field name was "x.a" then remember the "x".
-			baseIndex := arrayOfIndices.arrayval[0].String()
+			baseIndex := arrayval[0].String()
 			if fieldNameSet[baseIndex] {
 				// Use PutIndexed to assign $x["a"] = 7, or $x["b"] = 8, etc.
 				other.PutIndexed(
-					CopyMlrvalArray(arrayOfIndices.arrayval),
+					CopyMlrvalArray(arrayval),
 					unflattenTerminal(pe.Value).Copy(),
 				)
 				affectedBaseIndices[baseIndex] = true
@@ -247,7 +249,7 @@ func SplitAXHelper(input string, separator string) *Mlrval {
 	output := FromArray(make([]*Mlrval, len(fields)))
 
 	for i, field := range fields {
-		output.arrayval[i] = FromString(field)
+		output.intf.([]*Mlrval)[i] = FromString(field)
 	}
 
 	return output

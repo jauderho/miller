@@ -54,22 +54,12 @@
 package mlrval
 
 type Mlrval struct {
-
+	printrep      string
+	intf          interface{}
+	printrepValid bool
 	// Enumeration for string / int / float / boolean / etc.
 	// I would call this "type" not "mvtype" but "type" is a keyword in Go.
 	mvtype MVType
-
-	printrep      string
-	printrepValid bool
-	intval        int64
-	floatval      float64
-	boolval       bool
-
-	arrayval []*Mlrval
-	mapval   *Mlrmap
-	// First-class-function literals from internal/pkg/dsl/cst.
-	// Interfaced here to avoid package-dependency cycles.
-	funcval interface{}
 }
 
 const INVALID_PRINTREP = "(bug-if-you-see-this:case-2)"
@@ -84,7 +74,7 @@ const ABSENT_PRINTREP = "(absent)"
 // JavaScript, similarly, there are undefined and null, respectively --
 // Miller's absent is more like JavaScript's undefined.)
 
-type MVType int
+type MVType int8
 
 // Important: the values of these enums are used to index into disposition
 // matrices. If they are changed, it will break the disposition matrices, or
@@ -102,10 +92,13 @@ const (
 	// optimization.
 	MT_PENDING MVType = -1
 
+	// intf is int64
 	MT_INT MVType = 0
 
+	// intf is float64
 	MT_FLOAT MVType = 1
 
+	// intf is bool
 	MT_BOOL MVType = 2
 
 	// Key present in input record with empty value, e.g. input data '$x=,$y=2'
@@ -113,10 +106,13 @@ const (
 
 	MT_STRING MVType = 4
 
+	// intf is []*Mlrval
 	MT_ARRAY MVType = 5
 
+	// intf is *Mlrmap
 	MT_MAP MVType = 6
 
+	// intf is interface{} -- resolved in the cst package to avoid circular dependencies
 	MT_FUNC MVType = 7
 
 	// E.g. error encountered in one eval & it propagates up the AST at

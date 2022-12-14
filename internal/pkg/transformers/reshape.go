@@ -52,8 +52,6 @@ var ReshapeSetup = TransformerSetup{
 
 func transformerReshapeUsage(
 	o *os.File,
-	doExit bool,
-	exitCode int,
 ) {
 	argv0 := "mlr"
 	verb := verbNameReshape
@@ -62,9 +60,11 @@ func transformerReshapeUsage(
 
 	fmt.Fprintf(o, "Wide-to-long options:\n")
 	fmt.Fprintf(o, "  -i {input field names}   -o {key-field name,value-field name}\n")
-	fmt.Fprintf(o, "  -r {input field regexes} -o {key-field name,value-field name}\n")
+	fmt.Fprintf(o, "  -r {input field regex} -o {key-field name,value-field name}\n")
 	fmt.Fprintf(o, "  These pivot/reshape the input data such that the input fields are removed\n")
 	fmt.Fprintf(o, "  and separate records are emitted for each key/value pair.\n")
+	fmt.Fprintf(o, "  Note: if you have multiple regexes, please specify them using multiple -r,\n")
+	fmt.Fprintf(o, "  since regexes can contain commas within them.\n")
 	fmt.Fprintf(o, "  Note: this works with tail -f and produces output records for each input\n")
 	fmt.Fprintf(o, "  record seen.\n")
 	fmt.Fprintf(o, "Long-to-wide options:\n")
@@ -114,10 +114,6 @@ func transformerReshapeUsage(
 	fmt.Fprintf(o, "    2009-01-02 -0.89248112 0.2154713\n")
 	fmt.Fprintf(o, "    2009-01-03 0.98012375  1.3179287\n")
 	fmt.Fprintf(o, "See also %s nest.\n", argv0)
-
-	if doExit {
-		os.Exit(exitCode)
-	}
 }
 
 func transformerReshapeParseCLI(
@@ -150,19 +146,25 @@ func transformerReshapeParseCLI(
 		argi++
 
 		if opt == "-h" || opt == "--help" {
-			transformerReshapeUsage(os.Stdout, true, 0)
+			transformerReshapeUsage(os.Stdout)
+			os.Exit(0)
 
 		} else if opt == "-i" {
 			inputFieldNames = cli.VerbGetStringArrayArgOrDie(verb, opt, args, &argi, argc)
 		} else if opt == "-r" {
-			inputFieldRegexStrings = cli.VerbGetStringArrayArgOrDie(verb, opt, args, &argi, argc)
+			inputFieldRegexString := cli.VerbGetStringArgOrDie(verb, opt, args, &argi, argc)
+			if inputFieldRegexStrings == nil {
+				inputFieldRegexStrings = make([]string, 0)
+			}
+			inputFieldRegexStrings = append(inputFieldRegexStrings, inputFieldRegexString)
 		} else if opt == "-o" {
 			outputFieldNames = cli.VerbGetStringArrayArgOrDie(verb, opt, args, &argi, argc)
 		} else if opt == "-s" {
 			splitOutFieldNames = cli.VerbGetStringArrayArgOrDie(verb, opt, args, &argi, argc)
 
 		} else {
-			transformerReshapeUsage(os.Stderr, true, 1)
+			transformerReshapeUsage(os.Stderr)
+			os.Exit(1)
 		}
 	}
 
@@ -174,21 +176,25 @@ func transformerReshapeParseCLI(
 	if splitOutFieldNames == nil {
 		// wide to long
 		if inputFieldNames == nil && inputFieldRegexStrings == nil {
-			transformerReshapeUsage(os.Stderr, true, 1)
+			transformerReshapeUsage(os.Stderr)
+			os.Exit(1)
 		}
 
 		if outputFieldNames == nil {
-			transformerReshapeUsage(os.Stderr, true, 1)
+			transformerReshapeUsage(os.Stderr)
+			os.Exit(1)
 		}
 		if len(outputFieldNames) != 2 {
-			transformerReshapeUsage(os.Stderr, true, 1)
+			transformerReshapeUsage(os.Stderr)
+			os.Exit(1)
 		}
 		outputKeyFieldName = outputFieldNames[0]
 		outputValueFieldName = outputFieldNames[1]
 	} else {
 		// long to wide
 		if len(splitOutFieldNames) != 2 {
-			transformerReshapeUsage(os.Stderr, true, 1)
+			transformerReshapeUsage(os.Stderr)
+			os.Exit(1)
 		}
 		splitOutKeyFieldName = splitOutFieldNames[0]
 		splitOutValueFieldName = splitOutFieldNames[1]

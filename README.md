@@ -33,6 +33,8 @@ key-value-pair data in a variety of data formats.
 * [MLR for CSV manipulation](https://guillim.github.io/terminal/2018/06/19/MLR-for-CSV-manipulation.html)
 * [Linux Magazine: Process structured text files with Miller](https://www.linux-magazine.com/Issues/2016/187/Miller)
 * [Miller: Command Line CSV File Processing](https://onepointzero.app/posts/miller-command-line-csv-file-processing/)
+* [Miller - A Swiss Army Chainsaw for CSV Data, Data Science and Data Munging](https://fuzzyblog.io/blog/data_science/2022/05/13/miller-a-swiss-army-chainsaw-for-csv-data-data-science-and-data-munging.html)
+* [Pandas Killer: mlr, the Scientist](https://xvzftube.xyz/posts/pandas_killers/#mlr%3A-the-scientist)
 
 # More documentation links
 
@@ -96,6 +98,10 @@ See also [building from source](https://miller.readthedocs.io/en/latest/build.ht
 
 # Building from source
 
+* First:
+  * `cd /where/you/want/to/put/the/source`
+  * `git clone https://github.com/johnkerl/miller`
+  * `cd miller`
 * With `make`:
   * To build: `make`. This takes just a few seconds and produces the Miller executable, which is `./mlr` (or `.\mlr.exe` on Windows).
   * To run tests: `make check`.
@@ -106,7 +112,12 @@ See also [building from source](https://miller.readthedocs.io/en/latest/build.ht
   * To run tests: `go test github.com/johnkerl/miller/internal/pkg/...` and `mlr regtest`.
   * To install: `go install github.com/johnkerl/miller/cmd/mlr` will install to _GOPATH_`/bin/mlr`.
 * See also the doc page on [building from source](https://miller.readthedocs.io/en/latest/build).
-* For more developer information please see [README-go-port.md](./README-go-port.md).
+* For more developer information please see [README-dev.md](./README-dev.md).
+
+# For developers
+
+* [README-dev.md](README-dev.md)
+* [How to contribute](https://miller.readthedocs.io/en/latest/contributing/)
 
 # License
 

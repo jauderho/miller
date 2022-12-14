@@ -19,14 +19,14 @@ import (
 )
 
 // FinalizeReaderOptions does a few things.
-// * If a file format was specified but one or more separators were not, a
-//   default specific to that file format is applied.
-// * Computing regexes for IPS and IFS, and unbackslashing IRS.  This is
-//   because the '\n' at the command line which is Go "\\n" (a backslash and an
-//   n) needs to become the single newline character, and likewise for "\t", etc.
-// * IFS/IPS can have escapes like "\x1f" which aren't valid regex literals
-//   so we unhex them. For example, from "\x1f" -- the four bytes '\', 'x', '1', 'f'
-//   -- to the single byte with hex code 0x1f.
+//   - If a file format was specified but one or more separators were not, a
+//     default specific to that file format is applied.
+//   - Computing regexes for IPS and IFS, and unbackslashing IRS.  This is
+//     because the '\n' at the command line which is Go "\\n" (a backslash and an
+//     n) needs to become the single newline character, and likewise for "\t", etc.
+//   - IFS/IPS can have escapes like "\x1f" which aren't valid regex literals
+//     so we unhex them. For example, from "\x1f" -- the four bytes '\', 'x', '1', 'f'
+//     -- to the single byte with hex code 0x1f.
 func FinalizeReaderOptions(readerOptions *TReaderOptions) {
 
 	readerOptions.IFS = lib.UnhexStringLiteral(readerOptions.IFS)
@@ -92,6 +92,7 @@ var FLAG_TABLE = FlagTable{
 		&FileFormatFlagSection,
 		&FormatConversionKeystrokeSaverFlagSection,
 		&CSVTSVOnlyFlagSection,
+		&JSONOnlyFlagSection,
 		&PPRINTOnlyFlagSection,
 		&CompressedDataFlagSection,
 		&CommentsInDataFlagSection,
@@ -406,10 +407,72 @@ var SeparatorFlagSection = FlagSection{
 }
 
 // ================================================================
+// JSON-ONLY FLAGS
+
+func JSONOnlyPrintInfo() {
+	fmt.Println("These are flags which are applicable to JSON output format.")
+}
+
+func init() { JSONOnlyFlagSection.Sort() }
+
+var JSONOnlyFlagSection = FlagSection{
+	name:        "JSON-only flags",
+	infoPrinter: JSONOnlyPrintInfo,
+	flags: []Flag{
+
+		{
+			name: "--jvstack",
+			help: "Put one key-value pair per line for JSON output (multi-line output). This is the default for JSON output format.",
+			parser: func(args []string, argc int, pargi *int, options *TOptions) {
+				options.WriterOptions.JSONOutputMultiline = true
+				*pargi += 1
+			},
+		},
+
+		{
+			name: "--no-jvstack",
+			help: "Put objects/arrays all on one line for JSON output. This is the default for JSON Lines output format.",
+			parser: func(args []string, argc int, pargi *int, options *TOptions) {
+				options.WriterOptions.JSONOutputMultiline = false
+				*pargi += 1
+			},
+		},
+
+		{
+			name:     "--jlistwrap",
+			altNames: []string{"--jl"},
+			help:     "Wrap JSON output in outermost `[ ]`. This is the default for JSON output format.",
+			parser: func(args []string, argc int, pargi *int, options *TOptions) {
+				options.WriterOptions.WrapJSONOutputInOuterList = true
+				*pargi += 1
+			},
+		},
+
+		{
+			name: "--no-jlistwrap",
+			help: "Wrap JSON output in outermost `[ ]`. This is the default for JSON Lines output format.",
+			parser: func(args []string, argc int, pargi *int, options *TOptions) {
+				options.WriterOptions.WrapJSONOutputInOuterList = false
+				*pargi += 1
+			},
+		},
+
+		{
+			name: "--jvquoteall",
+			help: "Force all JSON values -- recursively into lists and object -- to string.",
+			parser: func(args []string, argc int, pargi *int, options *TOptions) {
+				options.WriterOptions.JVQuoteAll = true
+				*pargi += 1
+			},
+		},
+	},
+}
+
+// ================================================================
 // PPRINT-ONLY FLAGS
 
 func PPRINTOnlyPrintInfo() {
-	fmt.Println("These are flags which are applicable to PPRINT output format.")
+	fmt.Println("These are flags which are applicable to PPRINT format.")
 }
 
 func init() { PPRINTOnlyFlagSection.Sort() }
@@ -490,12 +553,6 @@ var LegacyFlagSection = FlagSection{
 		},
 
 		{
-			name:   "--jvquoteall",
-			help:   "Type information from JSON input files is now preserved throughout the processing stream.",
-			parser: NoOpParse1,
-		},
-
-		{
 			name:   "--json-fatal-arrays-on-input",
 			help:   "Miller now supports arrays as of version 6.",
 			parser: NoOpParse1,
@@ -520,11 +577,6 @@ var LegacyFlagSection = FlagSection{
 		},
 
 		{
-			name:   "--quote-all",
-			help:   "Ignored as of version 6. Types are inferred/retained through the processing flow now.",
-			parser: NoOpParse1,
-		},
-		{
 			name:   "--quote-none",
 			help:   "Ignored as of version 6. Types are inferred/retained through the processing flow now.",
 			parser: NoOpParse1,
@@ -543,43 +595,6 @@ var LegacyFlagSection = FlagSection{
 			name:   "--quote-original",
 			help:   "Ignored as of version 6. Types are inferred/retained through the processing flow now.",
 			parser: NoOpParse1,
-		},
-
-		{
-			name: "--jvstack",
-			help: "Put one key-value pair per line for JSON output (multi-line output). This is the default for JSON output format.",
-			parser: func(args []string, argc int, pargi *int, options *TOptions) {
-				options.WriterOptions.JSONOutputMultiline = true
-				*pargi += 1
-			},
-		},
-
-		{
-			name: "--no-jvstack",
-			help: "Put objects/arrays all on one line for JSON output. This is the default for JSON Lines output format.",
-			parser: func(args []string, argc int, pargi *int, options *TOptions) {
-				options.WriterOptions.JSONOutputMultiline = false
-				*pargi += 1
-			},
-		},
-
-		{
-			name:     "--jlistwrap",
-			altNames: []string{"--jl"},
-			help:     "Wrap JSON output in outermost `[ ]`. This is the default for JSON output format.",
-			parser: func(args []string, argc int, pargi *int, options *TOptions) {
-				options.WriterOptions.WrapJSONOutputInOuterList = true
-				*pargi += 1
-			},
-		},
-
-		{
-			name: "--no-jlistwrap",
-			help: "Wrap JSON output in outermost `[ ]`. This is the default for JSON Lines output format.",
-			parser: func(args []string, argc int, pargi *int, options *TOptions) {
-				options.WriterOptions.WrapJSONOutputInOuterList = false
-				*pargi += 1
-			},
 		},
 	},
 }
@@ -1090,6 +1105,15 @@ var FileFormatFlagSection = FlagSection{
 			parser: func(args []string, argc int, pargi *int, options *TOptions) {
 				options.ReaderOptions.InputFileFormat = "xtab"
 				options.WriterOptions.OutputFileFormat = "xtab"
+				*pargi += 1
+			},
+		},
+
+		{
+			name: "--xvright",
+			help: "Right-justify values for XTAB format.",
+			parser: func(args []string, argc int, pargi *int, options *TOptions) {
+				options.WriterOptions.RightAlignedXTABOutput = true
 				*pargi += 1
 			},
 		},
@@ -2148,6 +2172,15 @@ var CSVTSVOnlyFlagSection = FlagSection{
 				*pargi += 1
 			},
 		},
+
+		{
+			name: "--quote-all",
+			help: "Force double-quoting of CSV fields.",
+			parser: func(args []string, argc int, pargi *int, options *TOptions) {
+				options.WriterOptions.CSVQuoteAll = true
+				*pargi += 1
+			},
+		},
 	},
 }
 
@@ -2428,7 +2461,6 @@ var OutputColorizationFlagSection = FlagSection{
 			parser: func(args []string, argc int, pargi *int, options *TOptions) {
 				colorizer.ListColorCodes()
 				os.Exit(0)
-				*pargi += 1
 			},
 		},
 
@@ -2438,7 +2470,6 @@ var OutputColorizationFlagSection = FlagSection{
 			parser: func(args []string, argc int, pargi *int, options *TOptions) {
 				colorizer.ListColorNames()
 				os.Exit(0)
-				*pargi += 1
 			},
 		},
 
@@ -2573,15 +2604,6 @@ var FlattenUnflattenFlagSection = FlagSection{
 		},
 
 		{
-			name: "--xvright",
-			help: "Right-justify values for XTAB format.",
-			parser: func(args []string, argc int, pargi *int, options *TOptions) {
-				options.WriterOptions.RightAlignedXTABOutput = true
-				*pargi += 1
-			},
-		},
-
-		{
 			name: "--no-auto-flatten",
 			help: "When output is non-JSON, suppress the default auto-flatten behavior. Default: if `$y = [7,8,9]` then this flattens to `y.1=7,y.2=8,y.3=9, and similarly for maps. With `--no-auto-flatten`, instead we get `$y=[1, 2, 3]`.",
 			parser: func(args []string, argc int, pargi *int, options *TOptions) {
@@ -2699,6 +2721,10 @@ var MiscFlagSection = FlagSection{
 				for *pargi < argc && args[*pargi] != "--" {
 					options.FileNames = append(options.FileNames, args[*pargi])
 					*pargi += 1
+				}
+				if *pargi >= argc {
+					fmt.Fprintf(os.Stderr, "mlr: \"--mfrom\" must be terminated by \"--\".\n")
+					os.Exit(1)
 				}
 				if args[*pargi] == "--" {
 					*pargi += 1

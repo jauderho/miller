@@ -57,6 +57,7 @@ Flags:
   mlr help file-format-flags
   mlr help flatten-unflatten-flags
   mlr help format-conversion-keystroke-saver-flags
+  mlr help json-only-flags
   mlr help legacy-flags
   mlr help miscellaneous-flags
   mlr help output-colorization-flags
@@ -103,7 +104,7 @@ If you know the name of the thing you're looking for, use `mlr help`:
 <b>mlr help map</b>
 </pre>
 <pre class="pre-non-highlight-in-pair">
-map: declares an map-valued local variable in the current curly-braced scope.
+map: declares a map-valued local variable in the current curly-braced scope.
 Type-checking happens at assignment: 'map b = 0' is an error. map b = {} is
 always OK. map b = a is OK or not depending on whether a is a map.
 </pre>
@@ -179,6 +180,8 @@ Options:
 -n         Prepend field "n" to each record with record-counter starting at 1.
 -N {name}  Prepend field {name} to each record with record-counter starting at 1.
 -g {a,b,c} Optional group-by-field names for counters, e.g. a,b,c
+--filename Prepend current filename to each record.
+--filenum  Prepend current filenum (1-up) to each record.
 -h|--help Show this message.
 </pre>
 
@@ -213,7 +216,7 @@ Options:
 -nf {comma-separated field names}  Same as -n
 -nr {comma-separated field names}  Numerical descending; nulls sort first
 -t  {comma-separated field names}  Natural ascending
--tr {comma-separated field names}  Natural descending
+-tr|-rt {comma-separated field names}  Natural descending
 -h|--help Show this message.
 
 Example:

@@ -45,7 +45,6 @@ import (
 	"bufio"
 	"errors"
 	"strings"
-	"unicode"
 	"unicode/utf8"
 
 	"github.com/johnkerl/miller/internal/pkg/colorizer"
@@ -58,6 +57,7 @@ func (writer *RecordWriterCSV) WriteCSVRecordMaybeColorized(
 	bufferedOutputStream *bufio.Writer,
 	outputIsStdout bool,
 	isKey bool,
+	quoteAll bool,
 ) error {
 	comma := writer.csvWriter.Comma
 
@@ -82,7 +82,8 @@ func (writer *RecordWriterCSV) WriteCSVRecordMaybeColorized(
 
 		// If we don't have to have a quoted field then just
 		// write out the field and continue to the next field.
-		if !fieldNeedsQuotes(field, comma) {
+		needsQuotes := quoteAll || fieldNeedsQuotes(field, comma)
+		if !needsQuotes {
 			if _, err := bufferedOutputStream.WriteString(prefix); err != nil {
 				return err
 			}
@@ -171,6 +172,8 @@ func validDelim(r rune) bool {
 // fieldNeedsQuotes reports whether our field must be enclosed in quotes.
 // Fields with a Comma, fields with a quote or newline, and
 // fields which start with a space must be enclosed in quotes.
+// [NOTE: https://www.rfc-editor.org/rfc/rfc4180 doesn't specify this so Miller
+// does not use this.]
 // We used to quote empty strings, but we do not anymore (as of Go 1.4).
 // The two representations should be equivalent, but Postgres distinguishes
 // quoted vs non-quoted empty string during database imports, and it has
@@ -203,6 +206,8 @@ func fieldNeedsQuotes(field string, comma rune) bool {
 		}
 	}
 
-	r1, _ := utf8.DecodeRuneInString(field)
-	return unicode.IsSpace(r1)
+	// Not used by Miller as noted above
+	// r1, _ := utf8.DecodeRuneInString(field)
+	// return unicode.IsSpace(r1)
+	return false
 }

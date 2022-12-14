@@ -3,6 +3,7 @@ package mlrval
 import (
 	"fmt"
 	"os"
+	"reflect"
 	"strconv"
 )
 
@@ -18,7 +19,7 @@ func (mv *Mlrval) String() string {
 	//if floatOutputFormatter != nil && (mv.mvtype == MT_FLOAT || mv.mvtype == MT_PENDING) {
 	if floatOutputFormatter != nil && mv.Type() == MT_FLOAT {
 		// Use the format string from global --ofmt, if supplied
-		return floatOutputFormatter.FormatFloat(mv.floatval)
+		return floatOutputFormatter.FormatFloat(mv.intf.(float64))
 	}
 
 	// TODO: track dirty-flag checking / somesuch.
@@ -30,6 +31,17 @@ func (mv *Mlrval) String() string {
 
 	mv.setPrintRep()
 	return mv.printrep
+}
+
+// OriginalString gets the field value as a string regardless of --ofmt specification.
+// E.g if the ofmt is "%.4f" and input is 3.1415926535, OriginalString() will return
+// "3.1415926535" while String() will return "3.1416".
+func (mv *Mlrval) OriginalString() string {
+	if mv.printrepValid {
+		return mv.printrep
+	} else {
+		return mv.String()
+	}
 }
 
 // See mlrval.go for more about JIT-formatting of string backings
@@ -59,13 +71,13 @@ func (mv *Mlrval) setPrintRep() {
 			break
 
 		case MT_INT:
-			mv.printrep = strconv.FormatInt(mv.intval, 10)
+			mv.printrep = strconv.FormatInt(mv.intf.(int64), 10)
 
 		case MT_FLOAT:
-			mv.printrep = strconv.FormatFloat(mv.floatval, 'f', -1, 64)
+			mv.printrep = strconv.FormatFloat(mv.intf.(float64), 'f', -1, 64)
 
 		case MT_BOOL:
-			if mv.boolval == true {
+			if mv.intf.(bool) == true {
 				mv.printrep = "true"
 			} else {
 				mv.printrep = "false"
@@ -91,4 +103,31 @@ func (mv *Mlrval) setPrintRep() {
 		}
 		mv.printrepValid = true
 	}
+}
+
+// StringifyValuesRecursively is nominally for the `--jvquoteall` flag.
+func (mv *Mlrval) StringifyValuesRecursively() {
+	switch mv.mvtype {
+
+	case MT_ARRAY:
+		for i, _ := range mv.intf.([]*Mlrval) {
+			mv.intf.([]*Mlrval)[i].StringifyValuesRecursively()
+		}
+
+	case MT_MAP:
+		for pe := mv.intf.(*Mlrmap).Head; pe != nil; pe = pe.Next {
+			pe.Value.StringifyValuesRecursively()
+		}
+
+	default:
+		mv.SetFromString(mv.String())
+	}
+}
+
+func (mv *Mlrval) ShowSizes() {
+	fmt.Printf("TOTAL            %p %d\n", mv, reflect.TypeOf(*mv).Size())
+	//fmt.Printf("mv.intf          %p %d\n", &mv.intf, reflect.TypeOf(mv.intf).Size())
+	fmt.Printf("mv.printrep      %p %d\n", &mv.printrep, reflect.TypeOf(mv.printrep).Size())
+	fmt.Printf("mv.printrepValid %p %d\n", &mv.printrepValid, reflect.TypeOf(mv.printrepValid).Size())
+	fmt.Printf("mv.mvtype        %p %d\n", &mv.mvtype, reflect.TypeOf(mv.mvtype).Size())
 }

@@ -93,7 +93,10 @@ func ParseCommandLine(
 ) {
 	// mlr -s scriptfile {data-file names ...} means take the contents of
 	// scriptfile as if it were command-line items.
-	args = maybeInterpolateDashS(args)
+	args, err = maybeInterpolateDashS(args)
+	if err != nil {
+		return nil, nil, err
+	}
 
 	// Pass one as described at the top of this file.
 	flagSequences, verbSequences, dataFileNames := parseCommandLinePassOne(args)
@@ -162,13 +165,17 @@ func parseCommandLinePassOne(
 				os.Exit(1)
 			}
 
-		} else if onFirst || args[argi] == "then" {
+		} else if onFirst || args[argi] == "then" || args[argi] == "+" {
 			// The first verb in the then-chain can *optionally* be preceded by
 			// 'then'.  The others one *must* be.
-			if args[argi] == "then" {
+			if args[argi] == "then" || args[argi] == "+" {
 				cli.CheckArgCount(args, argi, argc, 1)
 				oargi++
 				argi++
+			}
+			if argi >= argc {
+				fmt.Fprintln(os.Stderr, "mlr: 'then' must have a verb after it.")
+				os.Exit(1)
 			}
 			verb := args[argi]
 			onFirst = false
@@ -277,7 +284,10 @@ func parseCommandLinePassTwo(
 	}
 
 	// Check now to avoid confusing timezone-library behavior later on
-	lib.SetTZFromEnv()
+	err = lib.SetTZFromEnv()
+	if err != nil {
+		return nil, nil, err
+	}
 
 	cli.FinalizeReaderOptions(&options.ReaderOptions)
 	cli.FinalizeWriterOptions(&options.WriterOptions)

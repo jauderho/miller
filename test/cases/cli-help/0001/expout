@@ -42,6 +42,8 @@ Options:
 -n         Prepend field "n" to each record with record-counter starting at 1.
 -N {name}  Prepend field {name} to each record with record-counter starting at 1.
 -g {a,b,c} Optional group-by-field names for counters, e.g. a,b,c
+--filename Prepend current filename to each record.
+--filenum  Prepend current filenum (1-up) to each record.
 -h|--help Show this message.
 
 ================================================================
@@ -490,14 +492,6 @@ Options:
 -h|--help Show this message.
 
 ================================================================
-utf8-to-latin1
-Usage: mlr utf8-to-latin1, with no options.
-Recursively converts record strings from Latin-1 to UTF-8.
-For field-level control, please see the utf8_to_latin1 DSL function.
-Options:
--h|--help Show this message.
-
-================================================================
 least-frequent
 Usage: mlr least-frequent [options]
 Shows the least frequently occurring distinct values for specified field names.
@@ -517,6 +511,8 @@ specified fields.
 Options:
 -a {sum,count,...}  Names of accumulators. One or more of:
   count    Count instances of fields
+  null_count Count number of empty-string/JSON-null instances per field
+  distinct_count Count number of distinct values per field
   mode     Find most-frequently-occurring values for fields; first-found wins tie
   antimode Find least-frequently-occurring values for fields; first-found wins tie
   sum      Compute sums of specified fields
@@ -528,6 +524,8 @@ Options:
   kurtosis Compute sample kurtosis of specified fields
   min      Compute minimum values of specified fields
   max      Compute maximum values of specified fields
+  minlen   Compute minimum string-lengths of specified fields
+  maxlen   Compute maximum string-lengths of specified fields
 -f {a,b,c}  Value-field names on which to compute statistics. Requires -o.
 -r {a,b,c}  Regular expressions for value-field names on which to compute
             statistics. Requires -o.
@@ -685,7 +683,7 @@ Examples:
 More example put expressions:
   If-statements:
     'if ($flag == true) { $quantity *= 10}'
-    'if ($x > 0.0 { $y=log10($x); $z=sqrt($y) } else {$y = 0.0; $z = 0.0}'
+    'if ($x > 0.0) { $y=log10($x); $z=sqrt($y) } else {$y = 0.0; $z = 0.0}'
   Newly created fields can be read after being written:
     '$new_field = $index**2; $qn = $quantity * $new_field'
   Regex-replacement:
@@ -796,9 +794,11 @@ reshape
 Usage: mlr reshape [options]
 Wide-to-long options:
   -i {input field names}   -o {key-field name,value-field name}
-  -r {input field regexes} -o {key-field name,value-field name}
+  -r {input field regex} -o {key-field name,value-field name}
   These pivot/reshape the input data such that the input fields are removed
   and separate records are emitted for each key/value pair.
+  Note: if you have multiple regexes, please specify them using multiple -r,
+  since regexes can contain commas within them.
   Note: this works with tail -f and produces output records for each input
   record seen.
 Long-to-wide options:
@@ -936,7 +936,7 @@ Options:
 -nf {comma-separated field names}  Same as -n
 -nr {comma-separated field names}  Numerical descending; nulls sort first
 -t  {comma-separated field names}  Natural ascending
--tr {comma-separated field names}  Natural descending
+-tr|-rt {comma-separated field names}  Natural descending
 -h|--help Show this message.
 
 Example:
@@ -1003,6 +1003,8 @@ Options:
   median   This is the same as p50
   p10 p25.2 p50 p98 p100 etc.
   count    Count instances of fields
+  null_count Count number of empty-string/JSON-null instances per field
+  distinct_count Count number of distinct values per field
   mode     Find most-frequently-occurring values for fields; first-found wins tie
   antimode Find least-frequently-occurring values for fields; first-found wins tie
   sum      Compute sums of specified fields
@@ -1014,6 +1016,8 @@ Options:
   kurtosis Compute sample kurtosis of specified fields
   min      Compute minimum values of specified fields
   max      Compute maximum values of specified fields
+  minlen   Compute minimum string-lengths of specified fields
+  maxlen   Compute maximum string-lengths of specified fields
 
 -f {a,b,c}     Value-field names on which to compute statistics
 --fr {regex}   Regex for value-field names on which to compute statistics
@@ -1105,7 +1109,7 @@ Options:
              As of Miller 6 this happens automatically, but the flag is accepted
              as a no-op for backward compatibility with Miller 5 and below.
 -d {x,y,z}   Weights for EWMA. 1 means current sample gets all weight (no
-             smoothing), near under under 1 is light smoothing, near over 0 is
+             smoothing), near under 1 is light smoothing, near over 0 is
              heavy smoothing. Multiple weights may be specified, e.g.
              "mlr step -a ewma -f sys_load -d 0.01,0.1,0.9". Default if omitted
              is "-d 0.5".
@@ -1125,6 +1129,49 @@ Examples:
 Please see https://miller.readthedocs.io/en/latest/reference-verbs.html#filter or
 https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average
 for more information on EWMA.
+
+================================================================
+summary
+Usage: mlr summary [options]
+Show summary statistics about the input data.
+
+All summarizers:
+  field_type      string, int, etc. -- if a column has mixed types, all encountered types are printed
+  count           +1 for every instance of the field across all records in the input record stream
+  null_count      count of field values either empty string or JSON null
+  distinct_count  count of distinct values for the field
+  mode            most-frequently-occurring value for the field
+  sum             sum of field values
+  mean            mean of the field values
+  stddev          standard deviation of the field values
+  var             variance of the field values
+  skewness        skewness of the field values
+  minlen          length of shortest string representation for the field
+  maxlen          length of longest string representation for the field
+  min             minimum field value
+  p25             first-quartile field value
+  median          median field value
+  p75             third-quartile field value
+  max             maximum field value
+  iqr             interquartile range: p75 - p25
+  lof             lower outer fence: p25 - 3.0 * iqr
+  lif             lower inner fence: p25 - 1.5 * iqr
+  uif             upper inner fence: p75 + 1.5 * iqr
+  uof             upper outer fence: p75 + 3.0 * iqr
+
+Default summarizers:
+  field_type count mean min max null_count distinct_count
+
+Notes:
+* min, p25, median, p75, and max work for strings as well as numbers
+* Distinct-counts are computed on string representations -- so 4.1 and 4.10 are counted as distinct here.
+* If the mode is not unique in the input data, the first-encountered value is reported as the mode.
+
+Options:
+-a {mean,sum,etc.} Use only the specified summarizers.
+-x {mean,sum,etc.} Use all summarizers, except the specified ones.
+--all              Use all available summarizers.
+-h|--help Show this message.
 
 ================================================================
 tac
@@ -1189,6 +1236,14 @@ optionally by category. If -a is given, then the top records are emitted
 with the same fields as they appeared in the input. Without -a, only fields
 from -f, fields from -g, and the top-index field are emitted. For more information
 please see https://miller.readthedocs.io/en/latest/reference-verbs#top
+
+================================================================
+utf8-to-latin1
+Usage: mlr utf8-to-latin1, with no options.
+Recursively converts record strings from Latin-1 to UTF-8.
+For field-level control, please see the utf8_to_latin1 DSL function.
+Options:
+-h|--help Show this message.
 
 ================================================================
 unflatten

@@ -40,7 +40,6 @@ var TRANSFORMER_LOOKUP_TABLE = []TransformerSetup{
 	JoinSetup,
 	LabelSetup,
 	Latin1ToUTF8Setup,
-	UTF8ToLatin1Setup,
 	LeastFrequentSetup,
 	MergeFieldsSetup,
 	MostFrequentSetup,
@@ -65,11 +64,13 @@ var TRANSFORMER_LOOKUP_TABLE = []TransformerSetup{
 	Stats1Setup,
 	Stats2Setup,
 	StepSetup,
+	SummarySetup,
 	TacSetup,
 	TailSetup,
 	TeeSetup,
 	TemplateSetup,
 	TopSetup,
+	UTF8ToLatin1Setup,
 	UnflattenSetup,
 	UniqSetup,
 	UnsparsifySetup,
@@ -79,7 +80,7 @@ func ShowHelpForTransformer(verb string) bool {
 	transformerSetup := LookUp(verb)
 	if transformerSetup != nil {
 		fmt.Println(colorizer.MaybeColorizeHelp(transformerSetup.Verb, true))
-		transformerSetup.UsageFunc(os.Stdout, false, 0)
+		transformerSetup.UsageFunc(os.Stdout)
 		return true
 	}
 	return false
@@ -90,7 +91,7 @@ func ShowHelpForTransformerApproximate(searchString string) bool {
 	for _, transformerSetup := range TRANSFORMER_LOOKUP_TABLE {
 		if strings.Contains(transformerSetup.Verb, searchString) {
 			fmt.Println(colorizer.MaybeColorizeHelp(transformerSetup.Verb, true))
-			transformerSetup.UsageFunc(os.Stdout, false, 0)
+			transformerSetup.UsageFunc(os.Stdout)
 			found = true
 		}
 	}
@@ -133,8 +134,7 @@ func UsageVerbs() {
 		fmt.Printf("%s\n", separator)
 		lib.InternalCodingErrorIf(transformerSetup.UsageFunc == nil)
 		fmt.Println(colorizer.MaybeColorizeHelp(transformerSetup.Verb, true))
-		transformerSetup.UsageFunc(os.Stdout, false, 0)
+		transformerSetup.UsageFunc(os.Stdout)
 	}
 	fmt.Printf("%s\n", separator)
-	os.Exit(0)
 }

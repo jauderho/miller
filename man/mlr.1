@@ -2,12 +2,12 @@
 .\"     Title: mlr
 .\"    Author: [see the "AUTHOR" section]
 .\" Generator: ./mkman.rb
-.\"      Date: 2022-03-20
+.\"      Date: 2022-12-05
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "MILLER" "1" "2022-03-20" "\ \&" "\ \&"
+.TH "MILLER" "1" "2022-12-05" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Portability definitions
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -47,7 +47,7 @@ on integer-indexed fields: if the natural data structure for the latter is the
 array, then Miller's natural data structure is the insertion-ordered hash map.
 This encompasses a variety of data formats, including but not limited to the
 familiar CSV, TSV, and JSON.  (Miller can handle positionally-indexed data as
-a special case.) This manpage documents mlr 6.2.0-dev.
+a special case.) This manpage documents mlr 6.5.0-dev.
 .SH "EXAMPLES"
 .sp
 
@@ -163,6 +163,7 @@ Flags:
   mlr help file-format-flags
   mlr help flatten-unflatten-flags
   mlr help format-conversion-keystroke-saver-flags
+  mlr help json-only-flags
   mlr help legacy-flags
   mlr help miscellaneous-flags
   mlr help output-colorization-flags
@@ -212,11 +213,11 @@ for all things with "map" in their names.
 altkv bar bootstrap cat check clean-whitespace count-distinct count
 count-similar cut decimate fill-down fill-empty filter flatten format-values
 fraction gap grep group-by group-like having-fields head histogram json-parse
-json-stringify join label latin1-to-utf8 utf8-to-latin1 least-frequent
-merge-fields most-frequent nest nothing put regularize remove-empty-columns
-rename reorder repeat reshape sample sec2gmtdate sec2gmt seqgen shuffle
-skip-trivial-records sort sort-within-records split stats1 stats2 step tac
-tail tee template top unflatten uniq unsparsify
+json-stringify join label latin1-to-utf8 least-frequent merge-fields
+most-frequent nest nothing put regularize remove-empty-columns rename reorder
+repeat reshape sample sec2gmtdate sec2gmt seqgen shuffle skip-trivial-records
+sort sort-within-records split stats1 stats2 step summary tac tail tee
+template top utf8-to-latin1 unflatten uniq unsparsify
 .fi
 .if n \{\
 .RE
@@ -232,13 +233,13 @@ asserting_map asserting_nonempty_map asserting_not_array asserting_not_empty
 asserting_not_map asserting_not_null asserting_null asserting_numeric
 asserting_present asserting_string atan atan2 atanh bitcount boolean
 capitalize cbrt ceil clean_whitespace collapse_whitespace concat cos cosh
-depth dhms2fsec dhms2sec erf erfc every exp expm1 flatten float floor fmtifnum
-fmtnum fold format fsec2dhms fsec2hms get_keys get_values gmt2localtime
-gmt2sec gssub gsub haskey hexfmt hms2fsec hms2sec hostname int invqnorm
-is_absent is_array is_bool is_boolean is_empty is_empty_map is_error is_float
-is_int is_map is_nan is_nonempty_map is_not_array is_not_empty is_not_map
-is_not_null is_null is_numeric is_present is_string joink joinkv joinv
-json_parse json_stringify latin1_to_utf8 leafcount length localtime2gmt
+depth dhms2fsec dhms2sec erf erfc every exec exp expm1 flatten float floor
+fmtifnum fmtnum fold format fsec2dhms fsec2hms get_keys get_values
+gmt2localtime gmt2sec gssub gsub haskey hexfmt hms2fsec hms2sec hostname int
+invqnorm is_absent is_array is_bool is_boolean is_empty is_empty_map is_error
+is_float is_int is_map is_nan is_nonempty_map is_not_array is_not_empty
+is_not_map is_not_null is_null is_numeric is_present is_string joink joinkv
+joinv json_parse json_stringify latin1_to_utf8 leafcount length localtime2gmt
 localtime2sec log log10 log1p logifit lstrip madd mapdiff mapexcept mapselect
 mapsum max md5 mexp min mmul msub os pow qnorm reduce regextract
 regextract_or_else round roundm rstrip sec2dhms sec2gmt sec2gmtdate sec2hms
@@ -383,6 +384,7 @@ These are flags which are applicable to CSV format.
                          --no-implicit-csv-header -l
                          your-join-in-with-header.csv ...
                          your-headerless.csv`.
+--quote-all              Force double-quoting of CSV fields.
 -N                       Keystroke-saver for `--implicit-csv-header
                          --headerless-csv-output`.
 .fi
@@ -452,6 +454,7 @@ are overridden in all cases by setting output format to `format2`.
 --tsvlite                Use TSV-lite format for input and output data.
 --usv or --usvlite       Use USV format for input and output data.
 --xtab                   Use XTAB format for input and output data.
+--xvright                Right-justify values for XTAB format.
 -i {format name}         Use format name for input data. For example: `-i csv`
                          is the same as `--icsv`.
 -o {format name}         Use format name for output data. For example: `-o
@@ -485,7 +488,6 @@ See the Flatten/unflatten doc page for more information.
                          `$y=[7,8,9]`. flattens to `y.1=7,y.2=8,y.3=9. With
                          `--no-auto-flatten`, instead we get
                          `${y.1}=7,${y.2}=8,${y.3}=9`.
---xvright                Right-justify values for XTAB format.
 .fi
 .if n \{\
 .RE
@@ -517,6 +519,29 @@ format is available for output only.
 .fi
 .if n \{\
 .RE
+.SH "JSON-ONLY FLAGS"
+.sp
+
+.if n \{\
+.RS 0
+.\}
+.nf
+These are flags which are applicable to JSON output format.
+
+--jlistwrap or --jl      Wrap JSON output in outermost `[ ]`. This is the
+                         default for JSON output format.
+--jvquoteall             Force all JSON values -- recursively into lists and
+                         object -- to string.
+--jvstack                Put one key-value pair per line for JSON output
+                         (multi-line output). This is the default for JSON
+                         output format.
+--no-jlistwrap           Wrap JSON output in outermost `[ ]`. This is the
+                         default for JSON Lines output format.
+--no-jvstack             Put objects/arrays all on one line for JSON output.
+                         This is the default for JSON Lines output format.
+.fi
+.if n \{\
+.RE
 .SH "LEGACY FLAGS"
 .sp
 
@@ -529,8 +554,6 @@ They are accepted as no-op flags in order to keep old scripts from breaking.
 
 --jknquoteint            Type information from JSON input files is now
                          preserved throughout the processing stream.
---jlistwrap or --jl      Wrap JSON output in outermost `[ ]`. This is the
-                         default for JSON output format.
 --jquoteall              Type information from JSON input files is now
                          preserved throughout the processing stream.
 --json-fatal-arrays-on-input
@@ -540,22 +563,11 @@ They are accepted as no-op flags in order to keep old scripts from breaking.
 --json-skip-arrays-on-input
                          Miller now supports arrays as of version 6.
 --jsonx                  The `--jvstack` flag is now default true in Miller 6.
---jvquoteall             Type information from JSON input files is now
-                         preserved throughout the processing stream.
---jvstack                Put one key-value pair per line for JSON output
-                         (multi-line output). This is the default for JSON
-                         output format.
 --mmap                   Miller no longer uses memory-mapping to access data
                          files.
---no-jlistwrap           Wrap JSON output in outermost `[ ]`. This is the
-                         default for JSON Lines output format.
---no-jvstack             Put objects/arrays all on one line for JSON output.
-                         This is the default for JSON Lines output format.
 --no-mmap                Miller no longer uses memory-mapping to access data
                          files.
 --ojsonx                 The `--jvstack` flag is now default true in Miller 6.
---quote-all              Ignored as of version 6. Types are inferred/retained
-                         through the processing flow now.
 --quote-minimal          Ignored as of version 6. Types are inferred/retained
                          through the processing flow now.
 --quote-none             Ignored as of version 6. Types are inferred/retained
@@ -764,7 +776,7 @@ those can be joined with a "-", like "red-bold", "bold-170", "bold-underline", e
 .RS 0
 .\}
 .nf
-These are flags which are applicable to PPRINT output format.
+These are flags which are applicable to PPRINT format.
 
 --barred                 Prints a border around PPRINT output (not available
                          for input).
@@ -1071,6 +1083,8 @@ Options:
 -n         Prepend field "n" to each record with record-counter starting at 1.
 -N {name}  Prepend field {name} to each record with record-counter starting at 1.
 -g {a,b,c} Optional group-by-field names for counters, e.g. a,b,c
+--filename Prepend current filename to each record.
+--filenum  Prepend current filenum (1-up) to each record.
 -h|--help Show this message.
 .fi
 .if n \{\
@@ -1645,19 +1659,6 @@ Options:
 .fi
 .if n \{\
 .RE
-.SS "utf8-to-latin1"
-.if n \{\
-.RS 0
-.\}
-.nf
-Usage: mlr utf8-to-latin1, with no options.
-Recursively converts record strings from Latin-1 to UTF-8.
-For field-level control, please see the utf8_to_latin1 DSL function.
-Options:
--h|--help Show this message.
-.fi
-.if n \{\
-.RE
 .SS "least-frequent"
 .if n \{\
 .RS 0
@@ -1686,6 +1687,8 @@ specified fields.
 Options:
 -a {sum,count,...}  Names of accumulators. One or more of:
   count    Count instances of fields
+  null_count Count number of empty-string/JSON-null instances per field
+  distinct_count Count number of distinct values per field
   mode     Find most-frequently-occurring values for fields; first-found wins tie
   antimode Find least-frequently-occurring values for fields; first-found wins tie
   sum      Compute sums of specified fields
@@ -1697,6 +1700,8 @@ Options:
   kurtosis Compute sample kurtosis of specified fields
   min      Compute minimum values of specified fields
   max      Compute maximum values of specified fields
+  minlen   Compute minimum string-lengths of specified fields
+  maxlen   Compute maximum string-lengths of specified fields
 -f {a,b,c}  Value-field names on which to compute statistics. Requires -o.
 -r {a,b,c}  Regular expressions for value-field names on which to compute
             statistics. Requires -o.
@@ -1874,7 +1879,7 @@ Examples:
 More example put expressions:
   If-statements:
     'if ($flag == true) { $quantity *= 10}'
-    'if ($x > 0.0 { $y=log10($x); $z=sqrt($y) } else {$y = 0.0; $z = 0.0}'
+    'if ($x > 0.0) { $y=log10($x); $z=sqrt($y) } else {$y = 0.0; $z = 0.0}'
   Newly created fields can be read after being written:
     '$new_field = $index**2; $qn = $quantity * $new_field'
   Regex-replacement:
@@ -2015,9 +2020,11 @@ produces:
 Usage: mlr reshape [options]
 Wide-to-long options:
   -i {input field names}   -o {key-field name,value-field name}
-  -r {input field regexes} -o {key-field name,value-field name}
+  -r {input field regex} -o {key-field name,value-field name}
   These pivot/reshape the input data such that the input fields are removed
   and separate records are emitted for each key/value pair.
+  Note: if you have multiple regexes, please specify them using multiple -r,
+  since regexes can contain commas within them.
   Note: this works with tail -f and produces output records for each input
   record seen.
 Long-to-wide options:
@@ -2190,7 +2197,7 @@ Options:
 -nf {comma-separated field names}  Same as -n
 -nr {comma-separated field names}  Numerical descending; nulls sort first
 -t  {comma-separated field names}  Natural ascending
--tr {comma-separated field names}  Natural descending
+-tr|-rt {comma-separated field names}  Natural descending
 -h|--help Show this message.
 
 Example:
@@ -2272,6 +2279,8 @@ Options:
   median   This is the same as p50
   p10 p25.2 p50 p98 p100 etc.
   count    Count instances of fields
+  null_count Count number of empty-string/JSON-null instances per field
+  distinct_count Count number of distinct values per field
   mode     Find most-frequently-occurring values for fields; first-found wins tie
   antimode Find least-frequently-occurring values for fields; first-found wins tie
   sum      Compute sums of specified fields
@@ -2283,6 +2292,8 @@ Options:
   kurtosis Compute sample kurtosis of specified fields
   min      Compute minimum values of specified fields
   max      Compute maximum values of specified fields
+  minlen   Compute minimum string-lengths of specified fields
+  maxlen   Compute maximum string-lengths of specified fields
 
 -f {a,b,c}     Value-field names on which to compute statistics
 --fr {regex}   Regex for value-field names on which to compute statistics
@@ -2384,7 +2395,7 @@ Options:
              As of Miller 6 this happens automatically, but the flag is accepted
              as a no-op for backward compatibility with Miller 5 and below.
 -d {x,y,z}   Weights for EWMA. 1 means current sample gets all weight (no
-             smoothing), near under under 1 is light smoothing, near over 0 is
+             smoothing), near under 1 is light smoothing, near over 0 is
              heavy smoothing. Multiple weights may be specified, e.g.
              "mlr step -a ewma -f sys_load -d 0.01,0.1,0.9". Default if omitted
              is "-d 0.5".
@@ -2404,6 +2415,54 @@ Examples:
 Please see https://miller.readthedocs.io/en/latest/reference-verbs.html#filter or
 https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average
 for more information on EWMA.
+.fi
+.if n \{\
+.RE
+.SS "summary"
+.if n \{\
+.RS 0
+.\}
+.nf
+Usage: mlr summary [options]
+Show summary statistics about the input data.
+
+All summarizers:
+  field_type      string, int, etc. -- if a column has mixed types, all encountered types are printed
+  count           +1 for every instance of the field across all records in the input record stream
+  null_count      count of field values either empty string or JSON null
+  distinct_count  count of distinct values for the field
+  mode            most-frequently-occurring value for the field
+  sum             sum of field values
+  mean            mean of the field values
+  stddev          standard deviation of the field values
+  var             variance of the field values
+  skewness        skewness of the field values
+  minlen          length of shortest string representation for the field
+  maxlen          length of longest string representation for the field
+  min             minimum field value
+  p25             first-quartile field value
+  median          median field value
+  p75             third-quartile field value
+  max             maximum field value
+  iqr             interquartile range: p75 - p25
+  lof             lower outer fence: p25 - 3.0 * iqr
+  lif             lower inner fence: p25 - 1.5 * iqr
+  uif             upper inner fence: p75 + 1.5 * iqr
+  uof             upper outer fence: p75 + 3.0 * iqr
+
+Default summarizers:
+  field_type count mean min max null_count distinct_count
+
+Notes:
+* min, p25, median, p75, and max work for strings as well as numbers
+* Distinct-counts are computed on string representations -- so 4.1 and 4.10 are counted as distinct here.
+* If the mode is not unique in the input data, the first-encountered value is reported as the mode.
+
+Options:
+-a {mean,sum,etc.} Use only the specified summarizers.
+-x {mean,sum,etc.} Use all summarizers, except the specified ones.
+--all              Use all available summarizers.
+-h|--help Show this message.
 .fi
 .if n \{\
 .RE
@@ -2493,6 +2552,19 @@ optionally by category. If -a is given, then the top records are emitted
 with the same fields as they appeared in the input. Without -a, only fields
 from -f, fields from -g, and the top-index field are emitted. For more information
 please see https://miller.readthedocs.io/en/latest/reference-verbs#top
+.fi
+.if n \{\
+.RE
+.SS "utf8-to-latin1"
+.if n \{\
+.RS 0
+.\}
+.nf
+Usage: mlr utf8-to-latin1, with no options.
+Recursively converts record strings from Latin-1 to UTF-8.
+For field-level control, please see the utf8_to_latin1 DSL function.
+Options:
+-h|--help Show this message.
 .fi
 .if n \{\
 .RE
@@ -2989,6 +3061,17 @@ concat([1,2],[3]) is [1,2,3]
 Examples:
 Array example: every(["a", "b", "c"], func(e) {return $[e] >= 0})
 Map example: every({"a": "foo", "b": "bar"}, func(k,v) {return $[k] == v})
+.fi
+.if n \{\
+.RE
+.SS "exec"
+.if n \{\
+.RS 0
+.\}
+.nf
+ (class=system #args=variadic) '$output = exec( "command", ["arg1", "arg2"], {"env": ["ENV_VAR=ENV_VALUE", "ENV_VAR2=ENV_VALUE2"], "dir": "/tmp/run_command_here", "stdin_string": "this is input fed to program", "combined_output": true )' Run a command via executable, path, args and environment, yielding its stdout minus final carriage return.
+Example:
+exec("echo", ["I don't do", "$SHELL things"], {"env": "SHELL=sh"}) outputs "I don't do $SHELL things"
 .fi
 .if n \{\
 .RE
@@ -3899,7 +3982,7 @@ Map example: select({"a":1, "b":3, "c":5}, func(k,v) {return v >= 3}) returns {"
 .RS 0
 .\}
 .nf
- (class=higher-order-functions #args=1-2) Given a map or array as first argument and string flags or function as optional second argument, returns a sorted copy of the input. With one argument, sorts array elements with numbers first numerically and then strings lexically, and map elements likewise by map keys. If the second argument is a string, it can contain any of "f" for lexical ("n" is for the above default), "c" for case-folded lexical, or "t" for natural sort order. An additional "r" in that string is for reverse. If the second argument is a function, then for arrays it should take two arguments a and b, returning < 0, 0, or > 0 as a < b, a == b, or a > b respectively; for maps the function should take four arguments ak, av, bk, and bv, again returning < 0, 0, or > 0, using a and b's keys and values.
+ (class=higher-order-functions #args=1-2) Given a map or array as first argument and string flags or function as optional second argument, returns a sorted copy of the input. With one argument, sorts array elements with numbers first numerically and then strings lexically, and map elements likewise by map keys. If the second argument is a string, it can contain any of "f" for lexical ("n" is for the above default), "c" for case-folded lexical, or "t" for natural sort order. An additional "r" in that string is for reverse. An additional "v" in that string means sort maps by value, rather than by key. If the second argument is a function, then for arrays it should take two arguments a and b, returning < 0, 0, or > 0 as a < b, a == b, or a > b respectively; for maps the function should take four arguments ak, av, bk, and bv, again returning < 0, 0, or > 0, using a and b's keys and values.
 Examples:
 Default sorting: sort([3,"A",1,"B",22]) returns [1, 3, 20, "A", "B"].
   Note that this is numbers before strings.
@@ -3910,6 +3993,9 @@ Case-folded descending: sort(["E","a","c","B","d"], "cr") returns ["E", "d", "c"
 Natural sorting: sort(["a1","a10","a100","a2","a20","a200"], "t") returns ["a1", "a2", "a10", "a20", "a100", "a200"].
 Array with function: sort([5,2,3,1,4], func(a,b) {return b <=> a}) returns [5,4,3,2,1].
 Map with function: sort({"c":2,"a":3,"b":1}, func(ak,av,bk,bv) {return bv <=> av}) returns {"a":3,"c":2,"b":1}.
+Map without function: sort({"c":2,"a":3,"b":1}) returns {"a":3,"b":1,"c":2}.
+Map without function: sort({"c":2,"a":3,"b":1}, "v") returns {"b":1,"c":2,"a":3}.
+Map without function: sort({"c":2,"a":3,"b":1}, "vnr") returns {"a":3,"c":2,"b":1}.
 .fi
 .if n \{\
 .RE
@@ -5040,7 +5126,7 @@ Type-checking happens at assignment: 'int x = 0.0' is an error.
 .RS 0
 .\}
 .nf
-map: declares an map-valued local variable in the current curly-braced scope.
+map: declares a map-valued local variable in the current curly-braced scope.
 Type-checking happens at assignment: 'map b = 0' is an error. map b = {} is
 always OK. map b = a is OK or not depending on whether a is a map.
 .fi

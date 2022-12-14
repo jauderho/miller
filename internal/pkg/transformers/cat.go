@@ -23,8 +23,6 @@ var CatSetup = TransformerSetup{
 
 func transformerCatUsage(
 	o *os.File,
-	doExit bool,
-	exitCode int,
 ) {
 	fmt.Fprintf(o, "Usage: %s %s [options]\n", "mlr", verbNameCat)
 	fmt.Fprintf(o, "Passes input records directly to output. Most useful for format conversion.\n")
@@ -32,11 +30,9 @@ func transformerCatUsage(
 	fmt.Fprintf(o, "-n         Prepend field \"n\" to each record with record-counter starting at 1.\n")
 	fmt.Fprintf(o, "-N {name}  Prepend field {name} to each record with record-counter starting at 1.\n")
 	fmt.Fprintf(o, "-g {a,b,c} Optional group-by-field names for counters, e.g. a,b,c\n")
+	fmt.Fprintf(o, "--filename Prepend current filename to each record.\n")
+	fmt.Fprintf(o, "--filenum  Prepend current filenum (1-up) to each record.\n")
 	fmt.Fprintf(o, "-h|--help Show this message.\n")
-
-	if doExit {
-		os.Exit(exitCode)
-	}
 }
 
 func transformerCatParseCLI(
@@ -56,6 +52,8 @@ func transformerCatParseCLI(
 	doCounters := false
 	counterFieldName := ""
 	var groupByFieldNames []string = nil
+	doFileName := false
+	doFileNum := false
 
 	for argi < argc /* variable increment: 1 or 2 depending on flag */ {
 		opt := args[argi]
@@ -68,7 +66,8 @@ func transformerCatParseCLI(
 		argi++
 
 		if opt == "-h" || opt == "--help" {
-			transformerCatUsage(os.Stdout, true, 0)
+			transformerCatUsage(os.Stdout)
+			os.Exit(0)
 
 		} else if opt == "-n" {
 			counterFieldName = "n"
@@ -79,8 +78,15 @@ func transformerCatParseCLI(
 		} else if opt == "-g" {
 			groupByFieldNames = cli.VerbGetStringArrayArgOrDie(verb, opt, args, &argi, argc)
 
+		} else if opt == "--filename" {
+			doFileName = true
+
+		} else if opt == "--filenum" {
+			doFileNum = true
+
 		} else {
-			transformerCatUsage(os.Stderr, true, 1)
+			transformerCatUsage(os.Stderr)
+			os.Exit(1)
 		}
 	}
 
@@ -93,6 +99,8 @@ func transformerCatParseCLI(
 		doCounters,
 		counterFieldName,
 		groupByFieldNames,
+		doFileName,
+		doFileNum,
 	)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -111,6 +119,9 @@ type TransformerCat struct {
 	countsByGroup    map[string]int64
 	counterFieldName string
 
+	doFileName bool
+	doFileNum  bool
+
 	recordTransformerFunc RecordTransformerFunc
 }
 
@@ -119,6 +130,8 @@ func NewTransformerCat(
 	doCounters bool,
 	counterFieldName string,
 	groupByFieldNames []string,
+	doFileName bool,
+	doFileNum bool,
 ) (*TransformerCat, error) {
 
 	if counterFieldName != "" {
@@ -131,6 +144,8 @@ func NewTransformerCat(
 		counter:           0,
 		countsByGroup:     make(map[string]int64),
 		counterFieldName:  counterFieldName,
+		doFileName:        doFileName,
+		doFileNum:         doFileNum,
 	}
 
 	if !doCounters {
@@ -155,7 +170,12 @@ func (tr *TransformerCat) Transform(
 	outputDownstreamDoneChannel chan<- bool,
 ) {
 	HandleDefaultDownstreamDone(inputDownstreamDoneChannel, outputDownstreamDoneChannel)
-	tr.recordTransformerFunc(inrecAndContext, outputRecordsAndContexts, inputDownstreamDoneChannel, outputDownstreamDoneChannel)
+	tr.recordTransformerFunc(
+		inrecAndContext,
+		outputRecordsAndContexts,
+		inputDownstreamDoneChannel,
+		outputDownstreamDoneChannel,
+	)
 }
 
 // ----------------------------------------------------------------
@@ -165,6 +185,14 @@ func (tr *TransformerCat) simpleCat(
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
+	if !inrecAndContext.EndOfStream {
+		if tr.doFileName {
+			inrecAndContext.Record.PrependCopy("filename", mlrval.FromString(inrecAndContext.Context.FILENAME))
+		}
+		if tr.doFileNum {
+			inrecAndContext.Record.PrependCopy("filenum", mlrval.FromInt(inrecAndContext.Context.FILENUM))
+		}
+	}
 	outputRecordsAndContexts.PushBack(inrecAndContext)
 }
 
@@ -180,6 +208,13 @@ func (tr *TransformerCat) countersUngrouped(
 		tr.counter++
 		key := tr.counterFieldName
 		inrec.PrependCopy(key, mlrval.FromInt(tr.counter))
+
+		if tr.doFileName {
+			inrec.PrependCopy("filename", mlrval.FromString(inrecAndContext.Context.FILENAME))
+		}
+		if tr.doFileNum {
+			inrec.PrependCopy("filenum", mlrval.FromInt(inrecAndContext.Context.FILENUM))
+		}
 	}
 	outputRecordsAndContexts.PushBack(inrecAndContext)
 }
@@ -212,6 +247,13 @@ func (tr *TransformerCat) countersGrouped(
 
 		key := tr.counterFieldName
 		inrec.PrependCopy(key, mlrval.FromInt(counter))
+
+		if tr.doFileName {
+			inrec.PrependCopy("filename", mlrval.FromString(inrecAndContext.Context.FILENAME))
+		}
+		if tr.doFileNum {
+			inrec.PrependCopy("filenum", mlrval.FromInt(inrecAndContext.Context.FILENUM))
+		}
 	}
 	outputRecordsAndContexts.PushBack(inrecAndContext)
 }
