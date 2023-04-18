@@ -538,6 +538,18 @@ array and string indices, but, this is a backward-compatibility issue with Mille
 Arrays are new in Miller 6; the substr function is older.`,
 			ternaryFunc: bifs.BIF_substr_0_up,
 		},
+		{
+			name:       "index",
+			class:      FUNC_CLASS_STRING,
+			help:       `Returns the index (1-based) of the second argument within the first. Returns -1 if the second argument isn't a substring of the first. Stringifies non-string inputs. Uses UTF-8 encoding to count characters, not bytes.`,
+			binaryFunc: bifs.BIF_index,
+			examples: []string{
+				`index("abcde", "e") gives 5`,
+				`index("abcde", "x") gives 01`,
+				`index(12345, 34) gives 3`,
+				`index("forêt", "t") gives 5`,
+			},
+		},
 
 		{
 			name:      "tolower",
@@ -558,6 +570,29 @@ Arrays are new in Miller 6; the substr function is older.`,
 			class:      FUNC_CLASS_STRING,
 			help:       `Truncates string first argument to max length of int second argument.`,
 			binaryFunc: bifs.BIF_truncate,
+		},
+
+		{
+			name:        "leftpad",
+			class:       FUNC_CLASS_STRING,
+			help:        `Left-pads first argument to at most the specified length (second, integer argument) using specified pad value (third, string argument). If the first argument is not a string, it will be stringified first.`,
+			ternaryFunc: bifs.BIF_leftpad,
+			examples: []string{
+				`leftpad("abcdefg", 10 , "*") gives "***abcdefg".`,
+				`leftpad("abcdefg", 10 , "XY") gives "XYabcdefg".`,
+				`leftpad("1234567", 10 , "0") gives "0001234567".`,
+			},
+		},
+		{
+			name:        "rightpad",
+			class:       FUNC_CLASS_STRING,
+			help:        `Right-pads first argument to at most the specified length (second, integer argument) using specified pad value (third, string argument). If the first argument is not a string, it will be stringified first.`,
+			ternaryFunc: bifs.BIF_rightpad,
+			examples: []string{
+				`rightpad("abcdefg", 10 , "*") gives "abcdefg***".`,
+				`rightpad("abcdefg", 10 , "XY") gives "abcdefgXY".`,
+				`rightpad("1234567", 10 , "0") gives "1234567000".`,
+			},
 		},
 
 		{
@@ -1506,10 +1541,25 @@ Note that NaN has the property that NaN != NaN, so you need 'is_nan(x)' rather t
 		},
 
 		{
-			name:      "int",
-			class:     FUNC_CLASS_CONVERSION,
-			help:      "Convert int/float/bool/string to int.",
-			unaryFunc: bifs.BIF_int,
+			name:  "int",
+			class: FUNC_CLASS_CONVERSION,
+			help: `Convert int/float/bool/string to int.
+If the second argument is omitted and the first argument is a string, base is inferred from the first argument's prefix.
+If the second argument is provided and the first argument is a string, the second argument is used as the base.
+If the second argument is provided and the first argument is not a string, the second argument is ignored.`,
+
+			unaryFunc:          bifs.BIF_int,
+			binaryFunc:         bifs.BIF_int_with_base,
+			hasMultipleArities: true,
+			examples: []string{
+				`int("345") gives decimal 345 (base-10/decimal input is inferred)`,
+				`int("0xff") gives decimal 255 (base-16/hexadecimal input is inferred)`,
+				`int("0377") gives decimal 255 (base-8/octal input is inferred)`,
+				`int("0b11010011") gives decimal 211 which is hexadecimal 0xd3 (base-2/binary input is inferred)`,
+				`int("0377", 10) gives decimal 377`,
+				`int(345, 16) gives decimal 345`,
+				`int(string(345), 16) gives decimal 837`,
+			},
 		},
 
 		{

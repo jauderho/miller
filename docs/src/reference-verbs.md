@@ -20,14 +20,14 @@ Verbs are the building blocks of how you can use Miller to process your data.
 When you type
 
 <pre class="pre-highlight-in-pair">
-<b>mlr --icsv --opprint sort -n quanity then head -n 4 example.csv</b>
+<b>mlr --icsv --opprint sort -n quantity then head -n 4 example.csv</b>
 </pre>
 <pre class="pre-non-highlight-in-pair">
-color  shape    flag  k index quantity rate
-yellow triangle true  1 11    43.6498  9.8870
-red    square   true  2 15    79.2778  0.0130
-red    circle   true  3 16    13.8103  2.9010
-red    square   false 4 48    77.5542  7.4670
+color  shape    flag k index quantity rate
+red    circle   true 3 16    13.8103  2.9010
+yellow triangle true 1 11    43.6498  9.8870
+yellow circle   true 9 87    63.5058  8.3350
+yellow circle   true 8 73    63.9785  4.2370
 </pre>
 
 the `sort` and `head` bits are _verbs_.  See the [Miller command
@@ -821,6 +821,20 @@ Options:
  -e Decimate by printing last of every n (default).
  -g {a,b,c} Optional group-by-field names for decimate counts, e.g. a,b,c.
  -n {n} Decimation factor (default 10).
+-h|--help Show this message.
+</pre>
+
+## downcase
+
+<pre class="pre-highlight-in-pair">
+<b>mlr downcase --help</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+Usage: mlr downcase [options]
+Lowercases strings in record keys and/or values.
+Options:
+-k        Downcase only keys, not keys and values.
+-v        Downcase only values, not keys and values.
 -h|--help Show this message.
 </pre>
 
@@ -2175,8 +2189,9 @@ Notes:
   been lost.
 * The combination "--implode --values --across-records" is non-streaming:
   no output records are produced until all input records have been read. In
-  particular, this means it won't work in tail -f contexts. But all other flag
-  combinations result in streaming (tail -f friendly) data processing.
+  particular, this means it won't work in `tail -f` contexts. But all other flag
+  combinations result in streaming (`tail -f` friendly) data processing.
+  If input is coming from `tail -f`, be sure to use `--records-per-batch 1`.
 * It's up to you to ensure that the nested-fs is distinct from your data's IFS:
   e.g. by default the former is semicolon and the latter is comma.
 See also mlr reshape.
@@ -2265,7 +2280,7 @@ More example put expressions:
   Regex-replacement:
     '$name = sub($name, "http.*com"i, "")'
   Regex-capture:
-    'if ($a =~ "([a-z]+)_([0-9]+)) { $b = "left_\1"; $c = "right_\2" }'
+	'if ($a =~ "([a-z]+)_([0-9]+)") { $b = "left_\1"; $c = "right_\2" }'
   Built-in variables:
     '$filename = FILENAME'
   Aggregations (use mlr put -q):
@@ -2561,7 +2576,8 @@ Wide-to-long options:
   Note: if you have multiple regexes, please specify them using multiple -r,
   since regexes can contain commas within them.
   Note: this works with tail -f and produces output records for each input
-  record seen.
+  record seen.  If input is coming from `tail -f`, be sure to use
+  `--records-per-batch 1`.
 Long-to-wide options:
   -s {key-field name,value-field name}
   These pivot/reshape the input data to undo the wide-to-long operation.
@@ -3118,9 +3134,10 @@ Options:
 
 -i             Use interpolated percentiles, like R's type=7; default like type=1.
                Not sensical for string-valued fields.\n");
--s             Print iterative stats. Useful in tail -f contexts (in which
+-s             Print iterative stats. Useful in tail -f contexts, in which
                case please avoid pprint-format output since end of input
-               stream will never be seen).
+               stream will never be seen. Likewise, if input is coming from `tail -f`
+               be sure to use `--records-per-batch 1`.
 -h|--help      Show this message.
 Example: mlr stats1 -a min,p10,p50,p90,max -f value -g size,shape
 Example: mlr stats1 -a count,mode -f size
@@ -3235,9 +3252,10 @@ accumulated across the input record stream.
                There must be an even number of names.
 -g {e,f,g}     Optional group-by-field names.
 -v             Print additional output for linreg-pca.
--s             Print iterative stats. Useful in tail -f contexts (in which
+-s             Print iterative stats. Useful in tail -f contexts, in which
                case please avoid pprint-format output since end of input
-               stream will never be seen).
+               stream will never be seen. Likewise, if input is coming from
+               `tail -f`, be sure to use `--records-per-batch 1`.
 --fit          Rather than printing regression parameters, applies them to
                the input data to compute new fit fields. All input records are
                held in memory until end of input stream. Has effect only for
@@ -3386,6 +3404,7 @@ Options:
   ewma       Exponentially weighted moving average over successive records
   from-first Compute differences in field(s) from first record
   ratio      Compute ratios in field(s) between successive records
+  rprod      Compute running products of field(s) between successive records
   rsum       Compute running sums of field(s) between successive records
   shift      Alias for shift_lag
   shift_lag  Include value(s) in field(s) from the previous record, if any
@@ -4267,3 +4286,16 @@ a b v u w x
 - - 1 - 2 -
 </pre>
 
+## upcase
+
+<pre class="pre-highlight-in-pair">
+<b>mlr upcase --help</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+Usage: mlr upcase [options]
+Uppercases strings in record keys and/or values.
+Options:
+-k        Upcase only keys, not keys and values.
+-v        Upcase only values, not keys and values.
+-h|--help Show this message.
+</pre>

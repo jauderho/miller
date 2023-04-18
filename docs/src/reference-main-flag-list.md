@@ -276,7 +276,10 @@ These are flags which don't fit into any other category.
 * `--no-hash-records`: See --hash-records.
 * `--nr-progress-mod {m}`: With m a positive integer: print filename and record count to os.Stderr every m input records.
 * `--ofmt {format}`: E.g. `%.18f`, `%.0f`, `%9.6e`. Please use sprintf-style codes (https://pkg.go.dev/fmt) for floating-point numbers. If not specified, default formatting is used.  See also the `fmtnum` function and the `format-values` verb.
-* `--records-per-batch {n}`: This is an internal parameter for maximum number of records in a batch size. Normally this does not need to be modified.
+* `--ofmte {n}`: Use --ofmte 6 as shorthand for --ofmt %.6e, etc.
+* `--ofmtf {n}`: Use --ofmtf 6 as shorthand for --ofmt %.6f, etc.
+* `--ofmtg {n}`: Use --ofmtg 6 as shorthand for --ofmt %.6g, etc.
+* `--records-per-batch {n}`: This is an internal parameter for maximum number of records in a batch size. Normally this does not need to be modified, except when input is from `tail -f`. See also https://miller.readthedocs.io/en/latest/reference-main-flag-list/.
 * `--seed {n}`: with `n` of the form `12345678` or `0xcafefeed`. For `put`/`filter` `urand`, `urandint`, and `urand32`.
 * `--tz {timezone}`: Specify timezone, overriding `$TZ` environment variable (if any).
 * `-I`: Process files in-place. For each file name on the command line, output is written to a temp file in the same directory, which is then renamed over the original. Each file is processed in isolation: if the output format is CSV, CSV headers will be present in each output file, statistics are only over each file's own records; and so on.

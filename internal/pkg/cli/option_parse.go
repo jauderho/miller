@@ -2744,6 +2744,39 @@ var MiscFlagSection = FlagSection{
 		},
 
 		{
+			name: "--ofmte",
+			arg:  "{n}",
+			help: "Use --ofmte 6 as shorthand for --ofmt %.6e, etc.",
+			parser: func(args []string, argc int, pargi *int, options *TOptions) {
+				CheckArgCount(args, *pargi, argc, 2)
+				options.WriterOptions.FPOFMT = "%." + args[*pargi+1] + "e"
+				*pargi += 2
+			},
+		},
+
+		{
+			name: "--ofmtf",
+			arg:  "{n}",
+			help: "Use --ofmtf 6 as shorthand for --ofmt %.6f, etc.",
+			parser: func(args []string, argc int, pargi *int, options *TOptions) {
+				CheckArgCount(args, *pargi, argc, 2)
+				options.WriterOptions.FPOFMT = "%." + args[*pargi+1] + "f"
+				*pargi += 2
+			},
+		},
+
+		{
+			name: "--ofmtg",
+			arg:  "{n}",
+			help: "Use --ofmtg 6 as shorthand for --ofmt %.6g, etc.",
+			parser: func(args []string, argc int, pargi *int, options *TOptions) {
+				CheckArgCount(args, *pargi, argc, 2)
+				options.WriterOptions.FPOFMT = "%." + args[*pargi+1] + "g"
+				*pargi += 2
+			},
+		},
+
+		{
 			name: "--load",
 			arg:  "{filename}",
 			help: "Load DSL script file for all put/filter operations on the command line.  If the name following `--load` is a directory, load all `*.mlr` files in that directory. This is just like `put -f` and `filter -f` except it's up-front on the command line, so you can do something like `alias mlr='mlr --load ~/myscripts'` if you like.",
@@ -2837,14 +2870,15 @@ on JSON input records, where duplicate keys always result in the last one's valu
 		{
 			name: "--records-per-batch",
 			arg:  "{n}",
-			help: `This is an internal parameter for maximum number of records in a batch size. Normally
-this does not need to be modified.`,
+			help: "This is an internal parameter for maximum number of records in a batch size. Normally this does not\n" +
+				"need to be modified, except when input is from `tail -f`. See also\n" +
+				"https://miller.readthedocs.io/en/latest/reference-main-flag-list/.",
 			parser: func(args []string, argc int, pargi *int, options *TOptions) {
 				CheckArgCount(args, *pargi, argc, 2)
 				recordsPerBatch, ok := lib.TryIntFromString(args[*pargi+1])
 				if !ok || recordsPerBatch <= 0 {
 					fmt.Fprintf(os.Stderr,
-						"%s: --nr-progress-mod argument must be a positive integer; got \"%s\".\n",
+						"%s: --records-per-batch argument must be a positive integer; got \"%s\".\n",
 						"mlr", args[*pargi+1])
 					os.Exit(1)
 				}

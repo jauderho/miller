@@ -29,6 +29,7 @@ fi
 
 # Build the bin/gocc executable:
 go install github.com/goccmack/gocc
+go mod tidy
 bingocc="$HOME/go/bin/gocc"
 if [ ! -x "$bingocc" ]; then
   exit 1
@@ -51,5 +52,9 @@ fi
 
 # Override GOCC codegen with customized error handling
 cp internal/pkg/parsing/errors.go.template internal/pkg/parsing/errors/errors.go
+
+# We might need a manual replace of os.ReadFile by ioutil.ReadFile in autogen code.  Note we don't
+# use latest-and-greatest Go compiler version in our go.mod since we want to build on Centos which
+# can be trailing-edge in that regard.
 
 for x in internal/pkg/parsing/*/*.go; do gofmt -w $x; done
