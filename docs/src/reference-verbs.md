@@ -233,6 +233,45 @@ orange 0.4802164827586204  290
 green  0.5129018241860459  1075
 </pre>
 
+## case
+
+<pre class="pre-highlight-in-pair">
+<b>mlr case --help</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+Usage: mlr case [options]
+Uppercases strings in record keys and/or values.
+Options:
+-k  Case only keys, not keys and values.
+-v  Case only values, not keys and values.
+-f  {a,b,c} Specify which field names to case (default: all)
+-u  Convert to uppercase
+-l  Convert to lowercase
+-s  Convert to sentence case (capitalize first letter)
+-t  Convert to title case (capitalize words)
+-h|--help Show this message.
+</pre>
+
+<pre class="pre-highlight-non-pair">
+<b>mlr --from test/input/cases.csv --icsv --ojson case -u</b>
+</pre>
+
+<pre class="pre-highlight-non-pair">
+<b>mlr --from test/input/cases.csv --icsv --ojson case -u -k</b>
+</pre>
+
+<pre class="pre-highlight-non-pair">
+<b>mlr --from test/input/cases.csv --icsv --ojson case -u -v</b>
+</pre>
+
+<pre class="pre-highlight-non-pair">
+<b>mlr --from test/input/cases.csv --icsv --ojson case -k -t then case -v -s</b>
+</pre>
+
+<pre class="pre-highlight-non-pair">
+<b>mlr --from test/input/cases.csv --icsv --ojson case -u -f apple,ball then case -l -f cat,dog</b>
+</pre>
+
 ## cat
 
 Most useful for format conversions (see [File Formats](file-formats.md)) and concatenating multiple same-schema CSV files to have the same header:
@@ -337,8 +376,12 @@ n a   b   i x        y
 </pre>
 <pre class="pre-non-highlight-in-pair">
 Usage: mlr check [options]
-Consumes records without printing any output.
+Consumes records without printing any output,
 Useful for doing a well-formatted check on input data.
+with the exception that warnings are printed to stderr.
+Current checks are:
+* Data are parseable
+* If any key is the empty string
 Options:
 -h|--help Show this message.
 </pre>
@@ -553,6 +596,7 @@ Same as uniq -c.
 
 Options:
 -f {a,b,c}    Field names for distinct count.
+-x {a,b,c}    Field names to exclude for distinct count: use each record's others instead.
 -n            Show only the number of distinct values. Not compatible with -u.
 -o {name}     Field name for output count. Default "count".
               Ignored with -u.
@@ -824,20 +868,6 @@ Options:
 -h|--help Show this message.
 </pre>
 
-## downcase
-
-<pre class="pre-highlight-in-pair">
-<b>mlr downcase --help</b>
-</pre>
-<pre class="pre-non-highlight-in-pair">
-Usage: mlr downcase [options]
-Lowercases strings in record keys and/or values.
-Options:
--k        Downcase only keys, not keys and values.
--v        Downcase only values, not keys and values.
--h|--help Show this message.
-</pre>
-
 ## fill-down
 
 <pre class="pre-highlight-in-pair">
@@ -940,6 +970,10 @@ a,b,c
 </pre>
 <pre class="pre-non-highlight-in-pair">
 Usage: mlr filter [options] {DSL expression}
+Lets you use a domain-specific language to progamatically filter which
+stream records will be output.
+See also: https://miller.readthedocs.io/en/latest/reference-verbs
+
 Options:
 -f {file name} File containing a DSL expression (see examples below). If the filename
    is a directory, all *.mlr files in that directory are loaded.
@@ -1325,14 +1359,15 @@ Passes through records which match the regular expression.
 Options:
 -i  Use case-insensitive search.
 -v  Invert: pass through records which do not match the regex.
+-a  Only grep for values, not keys and values.
 -h|--help Show this message.
 Note that "mlr filter" is more powerful, but requires you to know field names.
-By contrast, "mlr grep" allows you to regex-match the entire record. It does
-this by formatting each record in memory as DKVP, using command-line-specified
-ORS/OFS/OPS, and matching the resulting line against the regex specified
-here. In particular, the regex is not applied to the input stream: if you
-have CSV with header line "x,y,z" and data line "1,2,3" then the regex will
-be matched, not against either of these lines, but against the DKVP line
+By contrast, "mlr grep" allows you to regex-match the entire record. It does this
+by formatting each record in memory as DKVP (or NIDX, if -a is supplied), using
+OFS "," and OPS "=", and matching the resulting line against the regex specified
+here. In particular, the regex is not applied to the input stream: if you have
+CSV with header line "x,y,z" and data line "1,2,3" then the regex will be
+matched, not against either of these lines, but against the DKVP line
 "x=1,y=2,z=3".  Furthermore, not all the options to system grep are supported,
 and this command is intended to be merely a keystroke-saver. To get all the
 features of system grep, you can do
@@ -1415,6 +1450,55 @@ resource             loadsec ok
 record_count resource
 100          /path/to/file
 150          /path/to/second/file
+</pre>
+
+## gsub
+
+<pre class="pre-highlight-in-pair">
+<b>mlr gsub -h</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+Usage: mlr gsub [options]
+Replaces old string with new string in specified field(s), with regex support
+for the old string and handling multiple matches, like the `gsub` DSL function.
+See also the `sub` and `ssub` verbs.
+Options:
+-f {a,b,c}  Field names to convert.
+-h|--help   Show this message.
+</pre>
+
+<pre class="pre-highlight-in-pair">
+<b>mlr --icsv --opprint --from example.csv cat --filename then sub -f color,shape l X</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+filename    color  shape    flag  k  index quantity rate
+example.csv yeXlow triangXe true  1  11    43.6498  9.8870
+example.csv red    square   true  2  15    79.2778  0.0130
+example.csv red    circXe   true  3  16    13.8103  2.9010
+example.csv red    square   false 4  48    77.5542  7.4670
+example.csv purpXe triangXe false 5  51    81.2290  8.5910
+example.csv red    square   false 6  64    77.1991  9.5310
+example.csv purpXe triangXe false 7  65    80.1405  5.8240
+example.csv yeXlow circXe   true  8  73    63.9785  4.2370
+example.csv yeXlow circXe   true  9  87    63.5058  8.3350
+example.csv purpXe square   false 10 91    72.3735  8.2430
+</pre>
+
+<pre class="pre-highlight-in-pair">
+<b>mlr --icsv --opprint --from example.csv cat --filename then gsub -f color,shape l X</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+filename    color  shape    flag  k  index quantity rate
+example.csv yeXXow triangXe true  1  11    43.6498  9.8870
+example.csv red    square   true  2  15    79.2778  0.0130
+example.csv red    circXe   true  3  16    13.8103  2.9010
+example.csv red    square   false 4  48    77.5542  7.4670
+example.csv purpXe triangXe false 5  51    81.2290  8.5910
+example.csv red    square   false 6  64    77.1991  9.5310
+example.csv purpXe triangXe false 7  65    80.1405  5.8240
+example.csv yeXXow circXe   true  8  73    63.9785  4.2370
+example.csv yeXXow circXe   true  9  87    63.5058  8.3350
+example.csv purpXe square   false 10 91    72.3735  8.2430
 </pre>
 
 ## having-fields
@@ -1591,6 +1675,8 @@ Options:
   --lk|--left-keep-field-names {a,b,c} If supplied, this means keep only the specified field
                names from the left file. Automatically includes the join-field name(s). Helpful
                for when you only want a limited subset of information from the left file.
+               Tip: you can use --lk "": this means the left file becomes solely a row-selector
+               for the input files.
   --lp {text}  Additional prefix for non-join output field names from
                the left file
   --rp {text}  Additional prefix for non-join output field names from
@@ -2007,6 +2093,7 @@ Options:
   antimode Find least-frequently-occurring values for fields; first-found wins tie
   sum      Compute sums of specified fields
   mean     Compute averages (sample means) of specified fields
+  mad      Compute mean absolute deviation
   var      Compute sample variance of specified fields
   stddev   Compute sample standard deviation of specified fields
   meaneb   Estimate error bars for averages (assuming no sample autocorrelation)
@@ -2158,8 +2245,8 @@ Options:
   -f {field name}       Required.
   --nested-fs {string}  Defaults to ";". Field separator for nested values.
   --nested-ps {string}  Defaults to ":". Pair separator for nested key-value pairs.
-  --evar {string}       Shorthand for --explode --values ---across-records --nested-fs {string}
-  --ivar {string}       Shorthand for --implode --values ---across-records --nested-fs {string}
+  --evar {string}       Shorthand for --explode --values --across-records --nested-fs {string}
+  --ivar {string}       Shorthand for --implode --values --across-records --nested-fs {string}
 Please use "mlr --usage-separator-options" for information on specifying separators.
 
 Examples:
@@ -2219,6 +2306,9 @@ Options:
 </pre>
 <pre class="pre-non-highlight-in-pair">
 Usage: mlr put [options] {DSL expression}
+Lets you use a domain-specific language to progamatically alter stream records.
+See also: https://miller.readthedocs.io/en/latest/reference-verbs
+
 Options:
 -f {file name} File containing a DSL expression (see examples below). If the filename
    is a directory, all *.mlr files in that directory are loaded.
@@ -3044,6 +3134,23 @@ a b c
 9 8 7
 </pre>
 
+## sparsify
+
+<pre class="pre-highlight-in-pair">
+<b>mlr sparsify --help</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+Usage: mlr sparsify [options]
+Unsets fields for which the key is the empty string (or, optionally, another
+specified value). Only makes sense with output format not being CSV or TSV.
+Options:
+-s {filler string} What values to remove. Defaults to the empty string.
+-f {a,b,c} Specify field names to be operated on; any other fields won't be
+           modified. The default is to modify all fields.
+-h|--help  Show this message.
+Example: if input is a=1,b=,c=3 then output is a=1,c=3.
+</pre>
+
 ## split
 
 <pre class="pre-highlight-in-pair">
@@ -3060,6 +3167,8 @@ Exactly one  of -m, -n, or -g must be supplied.
 --suffix {s} Specify filename suffix; default is from mlr output format, e.g. "csv".
 -a           Append to existing file(s), if any, rather than overwriting.
 -v           Send records along to downstream verbs as well as splitting to files.
+-e           Do NOT URL-escape names of output files.
+-j {J}       Use string J to join filename parts; default "_".
 -h|--help    Show this message.
 Any of the output-format command-line flags (see mlr -h). For example, using
   mlr --icsv --from myfile.csv split --ojson -n 1000
@@ -3090,6 +3199,54 @@ then there will be split_yellow_triangle.csv, split_yellow_square.csv, etc.
 See also the "tee" DSL function which lets you do more ad-hoc customization.
 </pre>
 
+## ssub
+
+<pre class="pre-highlight-in-pair">
+<b>mlr ssub -h</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+Usage: mlr ssub [options]
+Replaces old string with new string in specified field(s), without regex support for
+the old string, like the `ssub` DSL function. See also the `gsub` and `sub` verbs.
+Options:
+-f {a,b,c}  Field names to convert.
+-h|--help   Show this message.
+</pre>
+
+<pre class="pre-highlight-in-pair">
+<b>mlr --icsv --opprint --from example.csv cat --filename then sub -f filename . o</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+filename    color  shape    flag  k  index quantity rate
+oxample.csv yellow triangle true  1  11    43.6498  9.8870
+oxample.csv red    square   true  2  15    79.2778  0.0130
+oxample.csv red    circle   true  3  16    13.8103  2.9010
+oxample.csv red    square   false 4  48    77.5542  7.4670
+oxample.csv purple triangle false 5  51    81.2290  8.5910
+oxample.csv red    square   false 6  64    77.1991  9.5310
+oxample.csv purple triangle false 7  65    80.1405  5.8240
+oxample.csv yellow circle   true  8  73    63.9785  4.2370
+oxample.csv yellow circle   true  9  87    63.5058  8.3350
+oxample.csv purple square   false 10 91    72.3735  8.2430
+</pre>
+
+<pre class="pre-highlight-in-pair">
+<b>mlr --icsv --opprint --from example.csv cat --filename then ssub -f filename . o</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+filename    color  shape    flag  k  index quantity rate
+exampleocsv yellow triangle true  1  11    43.6498  9.8870
+exampleocsv red    square   true  2  15    79.2778  0.0130
+exampleocsv red    circle   true  3  16    13.8103  2.9010
+exampleocsv red    square   false 4  48    77.5542  7.4670
+exampleocsv purple triangle false 5  51    81.2290  8.5910
+exampleocsv red    square   false 6  64    77.1991  9.5310
+exampleocsv purple triangle false 7  65    80.1405  5.8240
+exampleocsv yellow circle   true  8  73    63.9785  4.2370
+exampleocsv yellow circle   true  9  87    63.5058  8.3350
+exampleocsv purple square   false 10 91    72.3735  8.2430
+</pre>
+
 ## stats1
 
 <pre class="pre-highlight-in-pair">
@@ -3110,6 +3267,7 @@ Options:
   antimode Find least-frequently-occurring values for fields; first-found wins tie
   sum      Compute sums of specified fields
   mean     Compute averages (sample means) of specified fields
+  mad      Compute mean absolute deviation
   var      Compute sample variance of specified fields
   stddev   Compute sample standard deviation of specified fields
   meaneb   Estimate error bars for averages (assuming no sample autocorrelation)
@@ -3544,6 +3702,55 @@ $ each 10 uptime | mlr -p step -a delta -f 11
 
 </pre>
 
+## sub
+
+<pre class="pre-highlight-in-pair">
+<b>mlr sub -h</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+Usage: mlr sub [options]
+Replaces old string with new string in specified field(s), with regex support
+for the old string and not handling multiple matches, like the `sub` DSL function.
+See also the `gsub` and `ssub` verbs.
+Options:
+-f {a,b,c}  Field names to convert.
+-h|--help   Show this message.
+</pre>
+
+<pre class="pre-highlight-in-pair">
+<b>mlr --icsv --opprint --from example.csv cat --filename then sub -f color,shape l X</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+filename    color  shape    flag  k  index quantity rate
+example.csv yeXlow triangXe true  1  11    43.6498  9.8870
+example.csv red    square   true  2  15    79.2778  0.0130
+example.csv red    circXe   true  3  16    13.8103  2.9010
+example.csv red    square   false 4  48    77.5542  7.4670
+example.csv purpXe triangXe false 5  51    81.2290  8.5910
+example.csv red    square   false 6  64    77.1991  9.5310
+example.csv purpXe triangXe false 7  65    80.1405  5.8240
+example.csv yeXlow circXe   true  8  73    63.9785  4.2370
+example.csv yeXlow circXe   true  9  87    63.5058  8.3350
+example.csv purpXe square   false 10 91    72.3735  8.2430
+</pre>
+
+<pre class="pre-highlight-in-pair">
+<b>mlr --icsv --opprint --from example.csv cat --filename then gsub -f color,shape l X</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+filename    color  shape    flag  k  index quantity rate
+example.csv yeXXow triangXe true  1  11    43.6498  9.8870
+example.csv red    square   true  2  15    79.2778  0.0130
+example.csv red    circXe   true  3  16    13.8103  2.9010
+example.csv red    square   false 4  48    77.5542  7.4670
+example.csv purpXe triangXe false 5  51    81.2290  8.5910
+example.csv red    square   false 6  64    77.1991  9.5310
+example.csv purpXe triangXe false 7  65    80.1405  5.8240
+example.csv yeXXow circXe   true  8  73    63.9785  4.2370
+example.csv yeXXow circXe   true  9  87    63.5058  8.3350
+example.csv purpXe square   false 10 91    72.3735  8.2430
+</pre>
+
 ## summary
 
 <pre class="pre-highlight-in-pair">
@@ -3629,8 +3836,8 @@ max            zee    zee    10000              0.999952670371898      0.9999648
 iqr            -      -      5000               0.5015156280035271     0.5118661397595003
 lof            -      -      -12499             -1.2578765057782637    -1.2834617140383442
 lif            -      -      -4999              -0.5056030637729731    -0.5156625043990937
-uif            -      -      10001              0.9989438202376082     1.0199359148794074
-uof            -      -      17501              1.751217262242899      1.787735124518658
+uif            -      -      15001              1.5004594482411353     1.5318020546389077
+uof            -      -      22501              2.252732890246426      2.2996012642781585
 </pre>
 
 <pre class="pre-highlight-in-pair">
@@ -3888,6 +4095,7 @@ count-distinct. For uniq, -f is a synonym for -g.
 
 Options:
 -g {d,e,f}    Group-by-field names for uniq counts.
+-x {a,b,c}    Field names to exclude for uniq: use each record's others instead.
 -c            Show repeat counts in addition to unique values.
 -n            Show only the number of distinct values.
 -o {name}     Field name for output count. Default "count".
@@ -4286,18 +4494,4 @@ a b v u w x
 - 2 - 1 - -
 1 - 2 - - 3
 - - 1 - 2 -
-</pre>
-
-## upcase
-
-<pre class="pre-highlight-in-pair">
-<b>mlr upcase --help</b>
-</pre>
-<pre class="pre-non-highlight-in-pair">
-Usage: mlr upcase [options]
-Uppercases strings in record keys and/or values.
-Options:
--k        Upcase only keys, not keys and values.
--v        Upcase only values, not keys and values.
--h|--help Show this message.
 </pre>

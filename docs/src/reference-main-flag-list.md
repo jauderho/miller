@@ -72,7 +72,7 @@ Notes:
 Miller offers a few different ways to handle reading data files
 	which have been compressed.
 
-* Decompression done within the Miller process itself: `--bz2in` `--gzin` `--zin`
+* Decompression done within the Miller process itself: `--bz2in` `--gzin` `--zin``--zstdin`
 * Decompression done outside the Miller process: `--prepipe` `--prepipex`
 
 Using `--prepipe` and `--prepipex` you can specify an action to be
@@ -95,7 +95,7 @@ compression (or other) utilities, simply pipe the output:
 
 Lastly, note that if `--prepipe` or `--prepipex` is specified, it replaces any
 decisions that might have been made based on the file suffix. Likewise,
-`--gzin`/`--bz2in`/`--zin` are ignored if `--prepipe` is also specified.
+`--gzin`/`--bz2in`/`--zin``--zin` are ignored if `--prepipe` is also specified.
 
 
 **Flags:**
@@ -106,8 +106,10 @@ decisions that might have been made based on the file suffix. Likewise,
 * `--prepipe-bz2`: Same as  `--prepipe bz2`, except this is allowed in `.mlrrc`.
 * `--prepipe-gunzip`: Same as  `--prepipe gunzip`, except this is allowed in `.mlrrc`.
 * `--prepipe-zcat`: Same as  `--prepipe zcat`, except this is allowed in `.mlrrc`.
+* `--prepipe-zstdcat`: Same as  `--prepipe zstdcat`, except this is allowed in `.mlrrc`.
 * `--prepipex {decompression command}`: Like `--prepipe` with one exception: doesn't insert `<` between command and filename at runtime. Useful for some commands like `unzip -qc` which don't read standard input.  Allowed at the command line, but not in `.mlrrc` to avoid unexpected code execution.
 * `--zin`: Uncompress zlib within the Miller process. Done by default if file ends in `.z`.
+* `--zstdin`: Uncompress zstd within the Miller process. Done by default if file ends in `.zstd`.
 
 ## CSV/TSV-only flags
 
@@ -121,6 +123,7 @@ These are flags which are applicable to CSV format.
 * `--headerless-csv-output or --ho or --headerless-tsv-output`: Print only CSV/TSV data lines; do not print CSV/TSV header lines.
 * `--implicit-csv-header or --headerless-csv-input or --hi or --implicit-tsv-header`: Use 1,2,3,... as field labels, rather than from line 1 of input files. Tip: combine with `label` to recreate missing headers.
 * `--lazy-quotes`: Accepts quotes appearing in unquoted fields, and non-doubled quotes appearing in quoted fields.
+* `--no-auto-unsparsify`: For CSV/TSV output: if the record keys change from one row to another, emit a blank line and a new header line. This is non-compliant with RFC 4180 but it helpful for heterogeneous data.
 * `--no-implicit-csv-header or --no-implicit-tsv-header`: Opposite of `--implicit-csv-header`. This is the default anyway -- the main use is for the flags to `mlr join` if you have main file(s) which are headerless but you want to join in on a file which does have a CSV/TSV header. Then you could use `mlr --csv --implicit-csv-header join --no-implicit-csv-header -l your-join-in-with-header.csv ... your-headerless.csv`.
 * `--quote-all`: Force double-quoting of CSV fields.
 * `-N`: Keystroke-saver for `--implicit-csv-header --headerless-csv-output`.
@@ -155,6 +158,7 @@ are overridden in all cases by setting output format to `format2`.
 * `--igen`: Ignore input files and instead generate sequential numeric input using --gen-field-name, --gen-start, --gen-step, and --gen-stop values. See also the seqgen verb, which is more useful/intuitive.
 * `--ijson`: Use JSON format for input data.
 * `--ijsonl`: Use JSON Lines format for input data.
+* `--imd or --imarkdown`: Use markdown-tabular format for input data.
 * `--inidx`: Use NIDX format for input data.
 * `--io {format name}`: Use format name for input and output data. For example: `--io csv` is the same as `--csv`.
 * `--ipprint`: Use PPRINT format for input data.
@@ -171,7 +175,7 @@ are overridden in all cases by setting output format to `format2`.
 * `--odkvp`: Use DKVP format for output data.
 * `--ojson`: Use JSON format for output data.
 * `--ojsonl`: Use JSON Lines format for output data.
-* `--omd`: Use markdown-tabular format for output data.
+* `--omd or --omarkdown`: Use markdown-tabular format for output data.
 * `--onidx`: Use NIDX format for output data.
 * `--opprint`: Use PPRINT format for output data.
 * `--otsv`: Use TSV format for output data.
@@ -231,7 +235,7 @@ These are flags which are applicable to JSON output format.
 * `--jlistwrap or --jl`: Wrap JSON output in outermost `[ ]`. This is the default for JSON output format.
 * `--jvquoteall`: Force all JSON values -- recursively into lists and object -- to string.
 * `--jvstack`: Put one key-value pair per line for JSON output (multi-line output). This is the default for JSON output format.
-* `--no-jlistwrap`: Wrap JSON output in outermost `[ ]`. This is the default for JSON Lines output format.
+* `--no-jlistwrap`: Do not wrap JSON output in outermost `[ ]`. This is the default for JSON Lines output format.
 * `--no-jvstack`: Put objects/arrays all on one line for JSON output. This is the default for JSON Lines output format.
 
 ## Legacy flags
@@ -264,6 +268,7 @@ These are flags which don't fit into any other category.
 **Flags:**
 
 * `--fflush`: Force buffered output to be written after every output record. The default is flush output after every record if the output is to the terminal, or less often if the output is to a file or a pipe. The default is a significant performance optimization for large files.  Use this flag to force frequent updates even when output is to a pipe or file, at a performance cost.
+* `--files {filename}`: Use this to specify a file which itself contains, one per line, names of input files. May be used more than once.
 * `--from {filename}`: Use this to specify an input file before the verb(s), rather than after. May be used more than once. Example: `mlr --from a.dat --from b.dat cat` is the same as `mlr cat a.dat b.dat`.
 * `--hash-records`: This is an internal parameter which normally does not need to be modified. It controls the mechanism by which Miller accesses fields within records. In general --no-hash-records is faster, and is the default. For specific use-cases involving data having many fields, and many of them being processed during a given processing run, --hash-records might offer a slight performance benefit.
 * `--infer-int-as-float or -A`: Cast all integers in data files to floats.
@@ -275,17 +280,20 @@ These are flags which don't fit into any other category.
 * `--no-dedupe-field-names`: By default, if an input record has a field named `x` and another also named `x`, the second will be renamed `x_2`, and so on.  With this flag provided, the second `x`'s value will replace the first `x`'s value when the record is read.  This flag has no effect on JSON input records, where duplicate keys always result in the last one's value being retained.
 * `--no-fflush`: Let buffered output not be written after every output record. The default is flush output after every record if the output is to the terminal, or less often if the output is to a file or a pipe. The default is a significant performance optimization for large files.  Use this flag to allow less-frequent updates when output is to the terminal. This is unlikely to be a noticeable performance improvement, since direct-to-screen output for large files has its own overhead.
 * `--no-hash-records`: See --hash-records.
+* `--norc`: Do not load a .mlrrc file.
 * `--nr-progress-mod {m}`: With m a positive integer: print filename and record count to os.Stderr every m input records.
 * `--ofmt {format}`: E.g. `%.18f`, `%.0f`, `%9.6e`. Please use sprintf-style codes (https://pkg.go.dev/fmt) for floating-point numbers. If not specified, default formatting is used.  See also the `fmtnum` function and the `format-values` verb.
 * `--ofmte {n}`: Use --ofmte 6 as shorthand for --ofmt %.6e, etc.
 * `--ofmtf {n}`: Use --ofmtf 6 as shorthand for --ofmt %.6f, etc.
 * `--ofmtg {n}`: Use --ofmtg 6 as shorthand for --ofmt %.6g, etc.
 * `--records-per-batch {n}`: This is an internal parameter for maximum number of records in a batch size. Normally this does not need to be modified, except when input is from `tail -f`. See also https://miller.readthedocs.io/en/latest/reference-main-flag-list/.
+* `--s-no-comment-strip {file name}`: Take command-line flags from file name, like -s, but with no comment-stripping. For more information please see https://miller.readthedocs.io/en/latest/scripting/.
 * `--seed {n}`: with `n` of the form `12345678` or `0xcafefeed`. For `put`/`filter` `urand`, `urandint`, and `urand32`.
 * `--tz {timezone}`: Specify timezone, overriding `$TZ` environment variable (if any).
 * `-I`: Process files in-place. For each file name on the command line, output is written to a temp file in the same directory, which is then renamed over the original. Each file is processed in isolation: if the output format is CSV, CSV headers will be present in each output file, statistics are only over each file's own records; and so on.
 * `-n`: Process no input files, nor standard input either. Useful for `mlr put` with `begin`/`end` statements only. (Same as `--from /dev/null`.) Also useful in `mlr -n put -v '...'` for analyzing abstract syntax trees (if that's your thing).
 * `-s {file name}`: Take command-line flags from file name. For more information please see https://miller.readthedocs.io/en/latest/scripting/.
+* `-x`: If any record has an error value in it, report it and stop the process. The default is to print the field value as `(error)` and continue.
 
 ## Output-colorization flags
 
@@ -367,7 +375,8 @@ These are flags which are applicable to PPRINT format.
 
 **Flags:**
 
-* `--barred`: Prints a border around PPRINT output (not available for input).
+* `--barred or --barred-output`: Prints a border around PPRINT output.
+* `--barred-input`: When used in conjunction with --pprint, accepts barred input.
 * `--right`: Right-justifies all fields for PPRINT output.
 
 ## Profiling flags
@@ -469,6 +478,7 @@ Notes about all other separators:
         csv      ","    N/A    "\n"
         csvlite  ","    N/A    "\n"
         dkvp     ","    "="    "\n"
+        gen      ","    N/A    "\n"
         json     N/A    N/A    N/A
         markdown " "    N/A    "\n"
         nidx     " "    N/A    "\n"

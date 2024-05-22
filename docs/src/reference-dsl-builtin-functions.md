@@ -74,9 +74,10 @@ is 2. Unary operators such as `!` and `~` show argument-count of 1; the ternary
 * [**Hashing functions**](#hashing-functions):  [md5](#md5),  [sha1](#sha1),  [sha256](#sha256),  [sha512](#sha512).
 * [**Higher-order-functions functions**](#higher-order-functions-functions):  [any](#any),  [apply](#apply),  [every](#every),  [fold](#fold),  [reduce](#reduce),  [select](#select),  [sort](#sort).
 * [**Math functions**](#math-functions):  [abs](#abs),  [acos](#acos),  [acosh](#acosh),  [asin](#asin),  [asinh](#asinh),  [atan](#atan),  [atan2](#atan2),  [atanh](#atanh),  [cbrt](#cbrt),  [ceil](#ceil),  [cos](#cos),  [cosh](#cosh),  [erf](#erf),  [erfc](#erfc),  [exp](#exp),  [expm1](#expm1),  [floor](#floor),  [invqnorm](#invqnorm),  [log](#log),  [log10](#log10),  [log1p](#log1p),  [logifit](#logifit),  [max](#max),  [min](#min),  [qnorm](#qnorm),  [round](#round),  [roundm](#roundm),  [sgn](#sgn),  [sin](#sin),  [sinh](#sinh),  [sqrt](#sqrt),  [tan](#tan),  [tanh](#tanh),  [urand](#urand),  [urand32](#urand32),  [urandelement](#urandelement),  [urandint](#urandint),  [urandrange](#urandrange).
-* [**String functions**](#string-functions):  [capitalize](#capitalize),  [clean_whitespace](#clean_whitespace),  [collapse_whitespace](#collapse_whitespace),  [format](#format),  [gssub](#gssub),  [gsub](#gsub),  [index](#index),  [latin1_to_utf8](#latin1_to_utf8),  [leftpad](#leftpad),  [lstrip](#lstrip),  [regextract](#regextract),  [regextract_or_else](#regextract_or_else),  [rightpad](#rightpad),  [rstrip](#rstrip),  [ssub](#ssub),  [strip](#strip),  [strlen](#strlen),  [sub](#sub),  [substr](#substr),  [substr0](#substr0),  [substr1](#substr1),  [tolower](#tolower),  [toupper](#toupper),  [truncate](#truncate),  [unformat](#unformat),  [unformatx](#unformatx),  [utf8_to_latin1](#utf8_to_latin1),  [\.](#dot).
-* [**System functions**](#system-functions):  [exec](#exec),  [hostname](#hostname),  [os](#os),  [system](#system),  [version](#version).
-* [**Time functions**](#time-functions):  [dhms2fsec](#dhms2fsec),  [dhms2sec](#dhms2sec),  [fsec2dhms](#fsec2dhms),  [fsec2hms](#fsec2hms),  [gmt2localtime](#gmt2localtime),  [gmt2sec](#gmt2sec),  [hms2fsec](#hms2fsec),  [hms2sec](#hms2sec),  [localtime2gmt](#localtime2gmt),  [localtime2sec](#localtime2sec),  [sec2dhms](#sec2dhms),  [sec2gmt](#sec2gmt),  [sec2gmtdate](#sec2gmtdate),  [sec2hms](#sec2hms),  [sec2localdate](#sec2localdate),  [sec2localtime](#sec2localtime),  [strftime](#strftime),  [strftime_local](#strftime_local),  [strptime](#strptime),  [strptime_local](#strptime_local),  [systime](#systime),  [systimeint](#systimeint),  [uptime](#uptime).
+* [**Stats functions**](#stats-functions):  [antimode](#antimode),  [count](#count),  [distinct_count](#distinct_count),  [kurtosis](#kurtosis),  [maxlen](#maxlen),  [mean](#mean),  [meaneb](#meaneb),  [median](#median),  [minlen](#minlen),  [mode](#mode),  [null_count](#null_count),  [percentile](#percentile),  [percentiles](#percentiles),  [skewness](#skewness),  [sort_collection](#sort_collection),  [stddev](#stddev),  [sum](#sum),  [sum2](#sum2),  [sum3](#sum3),  [sum4](#sum4),  [variance](#variance).
+* [**String functions**](#string-functions):  [capitalize](#capitalize),  [clean_whitespace](#clean_whitespace),  [collapse_whitespace](#collapse_whitespace),  [contains](#contains),  [format](#format),  [gssub](#gssub),  [gsub](#gsub),  [index](#index),  [latin1_to_utf8](#latin1_to_utf8),  [leftpad](#leftpad),  [lstrip](#lstrip),  [regextract](#regextract),  [regextract_or_else](#regextract_or_else),  [rightpad](#rightpad),  [rstrip](#rstrip),  [ssub](#ssub),  [strip](#strip),  [strlen](#strlen),  [strmatch](#strmatch),  [strmatchx](#strmatchx),  [sub](#sub),  [substr](#substr),  [substr0](#substr0),  [substr1](#substr1),  [tolower](#tolower),  [toupper](#toupper),  [truncate](#truncate),  [unformat](#unformat),  [unformatx](#unformatx),  [utf8_to_latin1](#utf8_to_latin1),  [\.](#dot).
+* [**System functions**](#system-functions):  [exec](#exec),  [hostname](#hostname),  [os](#os),  [stat](#stat),  [system](#system),  [version](#version).
+* [**Time functions**](#time-functions):  [dhms2fsec](#dhms2fsec),  [dhms2sec](#dhms2sec),  [fsec2dhms](#fsec2dhms),  [fsec2hms](#fsec2hms),  [gmt2localtime](#gmt2localtime),  [gmt2nsec](#gmt2nsec),  [gmt2sec](#gmt2sec),  [hms2fsec](#hms2fsec),  [hms2sec](#hms2sec),  [localtime2gmt](#localtime2gmt),  [localtime2nsec](#localtime2nsec),  [localtime2sec](#localtime2sec),  [nsec2gmt](#nsec2gmt),  [nsec2gmtdate](#nsec2gmtdate),  [nsec2localdate](#nsec2localdate),  [nsec2localtime](#nsec2localtime),  [sec2dhms](#sec2dhms),  [sec2gmt](#sec2gmt),  [sec2gmtdate](#sec2gmtdate),  [sec2hms](#sec2hms),  [sec2localdate](#sec2localdate),  [sec2localtime](#sec2localtime),  [strfntime](#strfntime),  [strfntime_local](#strfntime_local),  [strftime](#strftime),  [strftime_local](#strftime_local),  [strpntime](#strpntime),  [strpntime_local](#strpntime_local),  [strptime](#strptime),  [strptime_local](#strptime_local),  [sysntime](#sysntime),  [systime](#systime),  [systimeint](#systimeint),  [upntime](#upntime),  [uptime](#uptime).
 * [**Typing functions**](#typing-functions):  [asserting_absent](#asserting_absent),  [asserting_array](#asserting_array),  [asserting_bool](#asserting_bool),  [asserting_boolean](#asserting_boolean),  [asserting_empty](#asserting_empty),  [asserting_empty_map](#asserting_empty_map),  [asserting_error](#asserting_error),  [asserting_float](#asserting_float),  [asserting_int](#asserting_int),  [asserting_map](#asserting_map),  [asserting_nonempty_map](#asserting_nonempty_map),  [asserting_not_array](#asserting_not_array),  [asserting_not_empty](#asserting_not_empty),  [asserting_not_map](#asserting_not_map),  [asserting_not_null](#asserting_not_null),  [asserting_null](#asserting_null),  [asserting_numeric](#asserting_numeric),  [asserting_present](#asserting_present),  [asserting_string](#asserting_string),  [is_absent](#is_absent),  [is_array](#is_array),  [is_bool](#is_bool),  [is_boolean](#is_boolean),  [is_empty](#is_empty),  [is_empty_map](#is_empty_map),  [is_error](#is_error),  [is_float](#is_float),  [is_int](#is_int),  [is_map](#is_map),  [is_nan](#is_nan),  [is_nonempty_map](#is_nonempty_map),  [is_not_array](#is_not_array),  [is_not_empty](#is_not_empty),  [is_not_map](#is_not_map),  [is_not_null](#is_not_null),  [is_null](#is_null),  [is_numeric](#is_numeric),  [is_present](#is_present),  [is_string](#is_string),  [typeof](#typeof).
 
 ## Arithmetic functions
@@ -533,9 +534,14 @@ $* = fmtifnum($*, "%.6f") formats numeric fields in the current record, leaving 
 
 ### fmtnum
 <pre class="pre-non-highlight-non-pair">
-fmtnum  (class=conversion #args=2) Convert int/float/bool to string using printf-style format string (https://pkg.go.dev/fmt), e.g. '$s = fmtnum($n, "%08d")' or '$t = fmtnum($n, "%.6e")'. This function recurses on array and map values.
-Example:
-$x = fmtnum($x, "%.6f")
+fmtnum  (class=conversion #args=2) Convert int/float/bool to string using printf-style format string (https://pkg.go.dev/fmt), e.g. '$s = fmtnum($n, "%08d")' or '$t = fmtnum($n, "%.6e")'. Miller-specific extension: "%_d" and "%_f" for comma-separated thousands. This function recurses on array and map values.
+Examples:
+$y = fmtnum($x, "%.6f")
+$o = fmtnum($n, "%d")
+$o = fmtnum($n, "%12d")
+$y = fmtnum($x, "%.6_f")
+$o = fmtnum($n, "%_d")
+$o = fmtnum($n, "%12_d")
 </pre>
 
 
@@ -877,13 +883,13 @@ logifit  (class=math #args=3) Given m and b from logistic regression, compute fi
 
 ### max
 <pre class="pre-non-highlight-non-pair">
-max  (class=math #args=variadic) Max of n numbers; null loses.
+max  (class=math #args=variadic) Max of n numbers; null loses. The min and max functions also recurse into arrays and maps, so they can be used to get min/max stats on array/map values.
 </pre>
 
 
 ### min
 <pre class="pre-non-highlight-non-pair">
-min  (class=math #args=variadic) Min of n numbers; null loses.
+min  (class=math #args=variadic) Min of n numbers; null loses. The min and max functions also recurse into arrays and maps, so they can be used to get min/max stats on array/map values.
 </pre>
 
 
@@ -972,6 +978,231 @@ urandint  (class=math #args=2) Integer uniformly distributed between inclusive i
 urandrange  (class=math #args=2) Floating-point numbers uniformly distributed on the interval [a, b).
 </pre>
 
+## Stats functions
+
+
+### antimode
+<pre class="pre-non-highlight-non-pair">
+antimode  (class=stats #args=1) Returns the least frequently occurring value in an array or map. Returns error for non-array/non-map types. Values are stringified for comparison, so for example string "1" and integer 1 are not distinct. In cases of ties, first-found wins.
+Examples:
+antimode([3,3,4,4,4]) is 3
+antimode([3,3,4,4]) is 3
+</pre>
+
+
+### count
+<pre class="pre-non-highlight-non-pair">
+count  (class=stats #args=1) Returns the length of an array or map. Returns error for non-array/non-map types.
+Examples:
+count([7,8,9]) is 3
+count({"a":7,"b":8,"c":9}) is 3
+</pre>
+
+
+### distinct_count
+<pre class="pre-non-highlight-non-pair">
+distinct_count  (class=stats #args=1) Returns the number of disinct values in an array or map. Returns error for non-array/non-map types. Values are stringified for comparison, so for example string "1" and integer 1 are not distinct.
+Examples:
+distinct_count([7,8,9,7])  is 3
+distinct_count([1,"1"]) is 1
+distinct_count([1,1.0]) is 2
+</pre>
+
+
+### kurtosis
+<pre class="pre-non-highlight-non-pair">
+kurtosis  (class=stats #args=1) Returns the sample kurtosis of values in an array or map. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+Example:
+kurtosis([4,5,9,10,11]) is -1.6703688
+</pre>
+
+
+### maxlen
+<pre class="pre-non-highlight-non-pair">
+maxlen  (class=stats #args=1) Returns the maximum string length of values in an array or map. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+Example:
+maxlen(["año", "alto"]) is 4
+</pre>
+
+
+### mean
+<pre class="pre-non-highlight-non-pair">
+mean  (class=stats #args=1) Returns the arithmetic mean of values in an array or map. Returns empty string AKA void for empty array/map; returns error for non-array/non-map types.
+Example:
+mean([4,5,7,10]) is 6.5
+</pre>
+
+
+### meaneb
+<pre class="pre-non-highlight-non-pair">
+meaneb  (class=stats #args=1) Returns the error bar for arithmetic mean of values in an array or map, assuming the values are independent and identically distributed. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+Example:
+meaneb([4,5,7,10]) is 1.3228756
+</pre>
+
+
+### median
+<pre class="pre-non-highlight-non-pair">
+median  (class=stats #args=1,2) Returns the median of values in an array or map. Returns empty string AKA void for empty array/map; returns error for non-array/non-map types. Please see the percentiles function for information on optional flags, and on performance for large inputs.
+Examples:
+median([3,4,5,6,9,10]) is 6
+median([3,4,5,6,9,10],{"interpolate_linearly":true}) is 5.5
+median(["abc", "def", "ghi", "ghi"]) is "ghi"
+</pre>
+
+
+### minlen
+<pre class="pre-non-highlight-non-pair">
+minlen  (class=stats #args=1) Returns the minimum string length of values in an array or map. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+Example:
+minlen(["año", "alto"]) is 3
+</pre>
+
+
+### mode
+<pre class="pre-non-highlight-non-pair">
+mode  (class=stats #args=1) Returns the most frequently occurring value in an array or map. Returns error for non-array/non-map types. Values are stringified for comparison, so for example string "1" and integer 1 are not distinct. In cases of ties, first-found wins.
+Examples:
+mode([3,3,4,4,4]) is 4
+mode([3,3,4,4]) is 3
+</pre>
+
+
+### null_count
+<pre class="pre-non-highlight-non-pair">
+null_count  (class=stats #args=1) Returns the number of values in an array or map which are empty-string (AKA void) or JSON null. Returns error for non-array/non-map types. Values are stringified for comparison, so for example string "1" and integer 1 are not distinct.
+Example:
+null_count(["a", "", "c"]) is 1
+</pre>
+
+
+### percentile
+<pre class="pre-non-highlight-non-pair">
+percentile  (class=stats #args=2,3) Returns the given percentile of values in an array or map. Returns empty string AKA void for empty array/map; returns error for non-array/non-map types. Please see the percentiles function for information on optional flags, and on performance for large inputs.
+Examples:
+percentile([3,4,5,6,9,10], 90) is 10
+percentile([3,4,5,6,9,10], 90, {"interpolate_linearly":true}) is 9.5
+percentile(["abc", "def", "ghi", "ghi"], 90) is "ghi"
+</pre>
+
+
+### percentiles
+<pre class="pre-non-highlight-non-pair">
+percentiles  (class=stats #args=2,3) Returns the given percentiles of values in an array or map. Returns empty string AKA void for empty array/map; returns error for non-array/non-map types. See examples for information on the three option flags.
+Examples:
+
+Defaults are to not interpolate linearly, to produce a map keyed by percentile name, and to sort the input before computing percentiles:
+
+  percentiles([3,4,5,6,9,10], [25,75]) is { "25": 4, "75": 9 }
+  percentiles(["abc", "def", "ghi", "ghi"], [25,75]) is { "25": "def", "75": "ghi" }
+
+Use "output_array_not_map" (or shorthand "oa") to get the outputs as an array:
+
+  percentiles([3,4,5,6,9,10], [25,75], {"output_array_not_map":true}) is [4, 9]
+
+Use "interpolate_linearly" (or shorthand "il") to do linear interpolation -- note this produces error values on string inputs:
+
+  percentiles([3,4,5,6,9,10], [25,75], {"interpolate_linearly":true}) is { "25": 4.25, "75": 8.25 }
+
+The percentiles function always sorts its inputs before computing percentiles. If you know your input is already sorted -- see also the sort_collection function -- then computation will be faster on large input if you pass in "array_is_sorted" (shorthand: "ais"):
+
+  x = [6,5,9,10,4,3]
+  percentiles(x, [25,75], {"ais":true}) gives { "25": 5, "75": 4 } which is incorrect
+  x = sort_collection(x)
+  percentiles(x, [25,75], {"ais":true}) gives { "25": 4, "75": 9 } which is correct
+
+You can also leverage this feature to compute percentiles on a sort of your choosing. For example:
+
+  Non-sorted input:
+
+    x = splitax("the quick brown fox jumped loquaciously over the lazy dogs", " ")
+    x is: ["the", "quick", "brown", "fox", "jumped", "loquaciously", "over", "the", "lazy", "dogs"]
+
+  Percentiles are taken over the original positions of the words in the array -- "dogs" is last and hence appears as p99:
+
+    percentiles(x, [50, 99], {"oa":true, "ais":true}) gives ["loquaciously", "dogs"]
+
+  With sorting done inside percentiles, "the" is alphabetically last and is therefore the p99:
+
+    percentiles(x, [50, 99], {"oa":true}) gives ["loquaciously", "the"]
+
+  With default sorting done outside percentiles, the same:
+
+    x = sort(x) # or x = sort_collection(x)
+    x is: ["brown", "dogs", "fox", "jumped", "lazy", "loquaciously", "over", "quick", "the", "the"]
+    percentiles(x, [50, 99], {"oa":true, "ais":true}) gives ["loquaciously", "the"]
+    percentiles(x, [50, 99], {"oa":true}) gives ["loquaciously", "the"]
+
+  Now sorting by word length, "loquaciously" is longest and hence is the p99:
+
+    x = sort(x, func(a,b) { return strlen(a) <=> strlen(b) } )
+    x is: ["fox", "the", "the", "dogs", "lazy", "over", "brown", "quick", "jumped", "loquaciously"]
+    percentiles(x, [50, 99], {"oa":true, "ais":true})
+    ["over", "loquaciously"]
+</pre>
+
+
+### skewness
+<pre class="pre-non-highlight-non-pair">
+skewness  (class=stats #args=1) Returns the sample skewness of values in an array or map. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+Example:
+skewness([4,5,9,10,11]) is -0.2097285
+</pre>
+
+
+### sort_collection
+<pre class="pre-non-highlight-non-pair">
+sort_collection  (class=stats #args=1) This is a helper function for the percentiles function; please see its online help for details.
+</pre>
+
+
+### stddev
+<pre class="pre-non-highlight-non-pair">
+stddev  (class=stats #args=1) Returns the sample standard deviation of values in an array or map. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+Example:
+stddev([4,5,9,10,11]) is 3.1144823
+</pre>
+
+
+### sum
+<pre class="pre-non-highlight-non-pair">
+sum  (class=stats #args=1) Returns the sum of values in an array or map. Returns error for non-array/non-map types.
+Example:
+sum([1,2,3,4,5]) is 15
+</pre>
+
+
+### sum2
+<pre class="pre-non-highlight-non-pair">
+sum2  (class=stats #args=1) Returns the sum of squares of values in an array or map. Returns error for non-array/non-map types.
+Example:
+sum2([1,2,3,4,5]) is 55
+</pre>
+
+
+### sum3
+<pre class="pre-non-highlight-non-pair">
+sum3  (class=stats #args=1) Returns the sum of cubes of values in an array or map. Returns error for non-array/non-map types.
+Example:
+sum3([1,2,3,4,5]) is 225
+</pre>
+
+
+### sum4
+<pre class="pre-non-highlight-non-pair">
+sum4  (class=stats #args=1) Returns the sum of fourth powers of values in an array or map. Returns error for non-array/non-map types.
+Example:
+sum4([1,2,3,4,5]) is 979
+</pre>
+
+
+### variance
+<pre class="pre-non-highlight-non-pair">
+variance  (class=stats #args=1) Returns the sample variance of values in an array or map. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+Example:
+variance([4,5,9,10,11]) is 9.7
+</pre>
+
 ## String functions
 
 
@@ -983,13 +1214,24 @@ capitalize  (class=string #args=1) Convert string's first character to uppercase
 
 ### clean_whitespace
 <pre class="pre-non-highlight-non-pair">
-clean_whitespace  (class=string #args=1) Same as collapse_whitespace and strip.
+clean_whitespace  (class=string #args=1) Same as collapse_whitespace and strip, followed by type inference.
 </pre>
 
 
 ### collapse_whitespace
 <pre class="pre-non-highlight-non-pair">
 collapse_whitespace  (class=string #args=1) Strip repeated whitespace from string.
+</pre>
+
+
+### contains
+<pre class="pre-non-highlight-non-pair">
+contains  (class=string #args=2) Returns true if the first argument contains the second as a substring. This is like saying `index(arg1, arg2) >= 0`but with less keystroking.
+Examples:
+contains("abcde", "e") gives true
+contains("abcde", "x") gives false
+contains(12345, 34) gives true
+contains("forêt", "ê") gives true
 </pre>
 
 
@@ -1028,7 +1270,7 @@ gsub("prefix4529:suffix8567", "(....ix)([0-9]+)", "[\1 : \2]") gives "[prefix : 
 index  (class=string #args=2) Returns the index (1-based) of the second argument within the first. Returns -1 if the second argument isn't a substring of the first. Stringifies non-string inputs. Uses UTF-8 encoding to count characters, not bytes.
 Examples:
 index("abcde", "e") gives 5
-index("abcde", "x") gives 01
+index("abcde", "x") gives -1
 index(12345, 34) gives 3
 index("forêt", "t") gives 5
 </pre>
@@ -1110,6 +1352,46 @@ strip  (class=string #args=1) Strip leading and trailing whitespace from string.
 ### strlen
 <pre class="pre-non-highlight-non-pair">
 strlen  (class=string #args=1) String length.
+</pre>
+
+
+### strmatch
+<pre class="pre-non-highlight-non-pair">
+strmatch  (class=string #args=2) Boolean yes/no for whether the stringable first argument matches the regular-expression second argument. No regex captures are provided; please see `strmatch`.
+Examples:
+strmatch("a", "abc") is false
+strmatch("abc", "a") is true
+strmatch("abc", "a[a-z]c") is true
+strmatch("abc", "(a).(c)") is true
+strmatch(12345, "34") is true
+</pre>
+
+
+### strmatchx
+<pre class="pre-non-highlight-non-pair">
+strmatchx  (class=string #args=2) Extended information for whether the stringable first argument matches the regular-expression second argument. Regex captures are provided in the return-value map; \1, \2, etc. are not set, in contrast to the `=~` operator. As well, while the `=~` operator limits matches to \1 through \9, an arbitrary number are supported here.
+Examples:
+strmatchx("a", "abc") returns:
+  {
+    "matched": false
+  }
+strmatchx("abc", "a") returns:
+  {
+    "matched": true,
+    "full_capture": "a",
+    "full_start": 1,
+    "full_end": 1
+  }
+strmatchx("[zy:3458]", "([a-z]+):([0-9]+)") returns:
+  {
+    "matched": true,
+    "full_capture": "zy:3458",
+    "full_start": 2,
+    "full_end": 8,
+    "captures": ["zy", "3458"],
+    "starts": [2, 5],
+    "ends": [3, 8]
+  }
 </pre>
 
 
@@ -1220,6 +1502,21 @@ os  (class=system #args=0) Returns the operating-system name as a string.
 </pre>
 
 
+### stat
+<pre class="pre-non-highlight-non-pair">
+stat  (class=system #args=1) Returns a map containing information about the provided path: "name" with string value, "size" as decimal int value, "mode" as octal int value, "modtime" as int-valued epoch seconds, and "isdir" as boolean value.
+Examples:
+stat("./mlr") gives {
+  "name": "mlr",
+  "size": 38391584,
+  "mode": 0755,
+  "modtime": 1715207874,
+  "isdir": false
+}
+stat("./mlr")["size"] gives 38391584
+</pre>
+
+
 ### system
 <pre class="pre-non-highlight-non-pair">
 system  (class=system #args=1) Run command string, yielding its stdout minus final carriage return.
@@ -1267,6 +1564,14 @@ gmt2localtime("1999-12-31T22:00:00Z", "Asia/Istanbul") = "2000-01-01 00:00:00"
 </pre>
 
 
+### gmt2nsec
+<pre class="pre-non-highlight-non-pair">
+gmt2nsec  (class=time #args=1) Parses GMT timestamp as integer nanoseconds since the epoch.
+Example:
+gmt2nsec("2001-02-03T04:05:06Z") = 981173106000000000
+</pre>
+
+
 ### gmt2sec
 <pre class="pre-non-highlight-non-pair">
 gmt2sec  (class=time #args=1) Parses GMT timestamp as integer seconds since the epoch.
@@ -1296,12 +1601,59 @@ localtime2gmt("2000-01-01 00:00:00", "Asia/Istanbul") = "1999-12-31T22:00:00Z"
 </pre>
 
 
+### localtime2nsec
+<pre class="pre-non-highlight-non-pair">
+localtime2nsec  (class=time #args=1,2) Parses local timestamp as integer nanoseconds since the epoch. Consults $TZ environment variable, unless second argument is supplied.
+Examples:
+localtime2nsec("2001-02-03 04:05:06") = 981165906000000000 with TZ="Asia/Istanbul"
+localtime2nsec("2001-02-03 04:05:06", "Asia/Istanbul") = 981165906000000000"
+</pre>
+
+
 ### localtime2sec
 <pre class="pre-non-highlight-non-pair">
 localtime2sec  (class=time #args=1,2) Parses local timestamp as integer seconds since the epoch. Consults $TZ environment variable, unless second argument is supplied.
 Examples:
 localtime2sec("2001-02-03 04:05:06") = 981165906 with TZ="Asia/Istanbul"
 localtime2sec("2001-02-03 04:05:06", "Asia/Istanbul") = 981165906"
+</pre>
+
+
+### nsec2gmt
+<pre class="pre-non-highlight-non-pair">
+nsec2gmt  (class=time #args=1,2) Formats integer nanoseconds since epoch as GMT timestamp. Leaves non-numbers as-is. With second integer argument n, includes n decimal places for the seconds part.
+Examples:
+nsec2gmt(1234567890000000000)    = "2009-02-13T23:31:30Z"
+nsec2gmt(1234567890123456789)    = "2009-02-13T23:31:30Z"
+nsec2gmt(1234567890123456789, 6) = "2009-02-13T23:31:30.123456Z"
+</pre>
+
+
+### nsec2gmtdate
+<pre class="pre-non-highlight-non-pair">
+nsec2gmtdate  (class=time #args=1) Formats integer nanoseconds since epoch as GMT timestamp with year-month-date. Leaves non-numbers as-is.
+Example:
+sec2gmtdate(1440768801700000000) = "2015-08-28".
+</pre>
+
+
+### nsec2localdate
+<pre class="pre-non-highlight-non-pair">
+nsec2localdate  (class=time #args=1,2) Formats integer nanoseconds since epoch as local timestamp with year-month-date. Leaves non-numbers as-is. Consults $TZ environment variable unless second argument is supplied.
+Examples:
+nsec2localdate(1440768801700000000) = "2015-08-28" with TZ="Asia/Istanbul"
+nsec2localdate(1440768801700000000, "Asia/Istanbul") = "2015-08-28"
+</pre>
+
+
+### nsec2localtime
+<pre class="pre-non-highlight-non-pair">
+nsec2localtime  (class=time #args=1,2,3) Formats integer nanoseconds since epoch as local timestamp. Consults $TZ environment variable unless third argument is supplied. Leaves non-numbers as-is. With second integer argument n, includes n decimal places for the seconds part
+Examples:
+nsec2localtime(1234567890000000000)    = "2009-02-14 01:31:30"        with TZ="Asia/Istanbul"
+nsec2localtime(1234567890123456789)    = "2009-02-14 01:31:30"        with TZ="Asia/Istanbul"
+nsec2localtime(1234567890123456789, 6) = "2009-02-14 01:31:30.123456" with TZ="Asia/Istanbul"
+nsec2localtime(1234567890123456789, 6, "Asia/Istanbul") = "2009-02-14 01:31:30.123456"
 </pre>
 
 
@@ -1355,6 +1707,27 @@ sec2localtime(1234567890.123456, 6, "Asia/Istanbul") = "2009-02-14 01:31:30.1234
 </pre>
 
 
+### strfntime
+<pre class="pre-non-highlight-non-pair">
+strfntime  (class=time #args=2) Formats integer nanoseconds since the epoch as timestamp. Format strings are as at https://pkg.go.dev/github.com/lestrrat-go/strftime, with the Miller-specific addition of "%1S" through "%9S" which format the seconds with 1 through 9 decimal places, respectively. ("%S" uses no decimal places.) See also https://miller.readthedocs.io/en/latest/reference-dsl-time/ for more information on the differences from the C library ("man strftime" on your system). See also strftime_local.
+Examples:
+strfntime(1440768801123456789,"%Y-%m-%dT%H:%M:%SZ")  = "2015-08-28T13:33:21Z"
+strfntime(1440768801123456789,"%Y-%m-%dT%H:%M:%3SZ") = "2015-08-28T13:33:21.123Z"
+strfntime(1440768801123456789,"%Y-%m-%dT%H:%M:%6SZ") = "2015-08-28T13:33:21.123456Z"
+</pre>
+
+
+### strfntime_local
+<pre class="pre-non-highlight-non-pair">
+strfntime_local  (class=time #args=2,3) Like strfntime but consults the $TZ environment variable to get local time zone.
+Examples:
+strfntime_local(1440768801123456789, "%Y-%m-%d %H:%M:%S %z")  = "2015-08-28 16:33:21 +0300" with TZ="Asia/Istanbul"
+strfntime_local(1440768801123456789, "%Y-%m-%d %H:%M:%3S %z") = "2015-08-28 16:33:21.123 +0300" with TZ="Asia/Istanbul"
+strfntime_local(1440768801123456789, "%Y-%m-%d %H:%M:%3S %z", "Asia/Istanbul") = "2015-08-28 16:33:21.123 +0300"
+strfntime_local(1440768801123456789, "%Y-%m-%d %H:%M:%9S %z", "Asia/Istanbul") = "2015-08-28 16:33:21.123456789 +0300"
+</pre>
+
+
 ### strftime
 <pre class="pre-non-highlight-non-pair">
 strftime  (class=time #args=2) Formats seconds since the epoch as timestamp. Format strings are as at https://pkg.go.dev/github.com/lestrrat-go/strftime, with the Miller-specific addition of "%1S" through "%9S" which format the seconds with 1 through 9 decimal places, respectively. ("%S" uses no decimal places.) See also https://miller.readthedocs.io/en/latest/reference-dsl-time/ for more information on the differences from the C library ("man strftime" on your system). See also strftime_local.
@@ -1374,6 +1747,28 @@ strftime_local(1440768801.7, "%Y-%m-%d %H:%M:%3S %z", "Asia/Istanbul") = "2015-0
 </pre>
 
 
+### strpntime
+<pre class="pre-non-highlight-non-pair">
+strpntime  (class=time #args=2) strpntime: Parses timestamp as integer nanoseconds since the epoch. See also strpntime_local.
+Examples:
+strpntime("2015-08-28T13:33:21Z",      "%Y-%m-%dT%H:%M:%SZ")   = 1440768801000000000
+strpntime("2015-08-28T13:33:21.345Z",  "%Y-%m-%dT%H:%M:%SZ")   = 1440768801345000000
+strpntime("1970-01-01 00:00:00 -0400", "%Y-%m-%d %H:%M:%S %z") = 14400000000000
+strpntime("1970-01-01 00:00:00 +0200", "%Y-%m-%d %H:%M:%S %z") = -7200000000000
+</pre>
+
+
+### strpntime_local
+<pre class="pre-non-highlight-non-pair">
+strpntime_local  (class=time #args=2,3) Like strpntime but consults the $TZ environment variable to get local time zone.
+Examples:
+strpntime_local("2015-08-28T13:33:21Z",    "%Y-%m-%dT%H:%M:%SZ") = 1440758001000000000 with TZ="Asia/Istanbul"
+strpntime_local("2015-08-28T13:33:21.345Z","%Y-%m-%dT%H:%M:%SZ") = 1440758001345000000 with TZ="Asia/Istanbul"
+strpntime_local("2015-08-28 13:33:21",     "%Y-%m-%d %H:%M:%S")  = 1440758001000000000 with TZ="Asia/Istanbul"
+strpntime_local("2015-08-28 13:33:21",     "%Y-%m-%d %H:%M:%S", "Asia/Istanbul") = 1440758001000000000
+</pre>
+
+
 ### strptime
 <pre class="pre-non-highlight-non-pair">
 strptime  (class=time #args=2) strptime: Parses timestamp as floating-point seconds since the epoch. See also strptime_local.
@@ -1381,18 +1776,24 @@ Examples:
 strptime("2015-08-28T13:33:21Z",      "%Y-%m-%dT%H:%M:%SZ")   = 1440768801.000000
 strptime("2015-08-28T13:33:21.345Z",  "%Y-%m-%dT%H:%M:%SZ")   = 1440768801.345000
 strptime("1970-01-01 00:00:00 -0400", "%Y-%m-%d %H:%M:%S %z") = 14400
-strptime("1970-01-01 00:00:00 EET",   "%Y-%m-%d %H:%M:%S %Z") = -7200
+strptime("1970-01-01 00:00:00 +0200", "%Y-%m-%d %H:%M:%S %z") = -7200
 </pre>
 
 
 ### strptime_local
 <pre class="pre-non-highlight-non-pair">
-strptime_local  (class=time #args=2,3) Like strftime but consults the $TZ environment variable to get local time zone.
+strptime_local  (class=time #args=2,3) Like strptime but consults the $TZ environment variable to get local time zone.
 Examples:
 strptime_local("2015-08-28T13:33:21Z",    "%Y-%m-%dT%H:%M:%SZ") = 1440758001     with TZ="Asia/Istanbul"
 strptime_local("2015-08-28T13:33:21.345Z","%Y-%m-%dT%H:%M:%SZ") = 1440758001.345 with TZ="Asia/Istanbul"
 strptime_local("2015-08-28 13:33:21",     "%Y-%m-%d %H:%M:%S")  = 1440758001     with TZ="Asia/Istanbul"
 strptime_local("2015-08-28 13:33:21",     "%Y-%m-%d %H:%M:%S", "Asia/Istanbul") = 1440758001
+</pre>
+
+
+### sysntime
+<pre class="pre-non-highlight-non-pair">
+sysntime  (class=time #args=0) Returns the system time in 64-bit nanoseconds since the epoch.
 </pre>
 
 
@@ -1405,6 +1806,12 @@ systime  (class=time #args=0) Returns the system time in floating-point seconds 
 ### systimeint
 <pre class="pre-non-highlight-non-pair">
 systimeint  (class=time #args=0) Returns the system time in integer seconds since the epoch.
+</pre>
+
+
+### upntime
+<pre class="pre-non-highlight-non-pair">
+upntime  (class=time #args=0) Returns the time in 64-bit nanoseconds since the current Miller program was started.
 </pre>
 
 

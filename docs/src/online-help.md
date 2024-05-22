@@ -49,6 +49,7 @@ Essentials:
   mlr help file-formats
 Flags:
   mlr help flags
+  mlr help flag
   mlr help list-separator-aliases
   mlr help list-separator-regex-aliases
   mlr help comments-in-data-flags
@@ -81,9 +82,11 @@ Keywords:
   mlr help keyword
 Other:
   mlr help auxents
+  mlr help terminals
   mlr help mlrrc
   mlr help output-colorization
   mlr help type-arithmetic-info
+  mlr help type-arithmetic-info-extended
 Shorthands:
   mlr -g = mlr help flags
   mlr -l = mlr help list-verbs
@@ -141,6 +144,9 @@ gmt2localtime  (class=time #args=1,2) Convert from a GMT-time string to a local-
 Examples:
 gmt2localtime("1999-12-31T22:00:00Z") = "2000-01-01 00:00:00" with TZ="Asia/Istanbul"
 gmt2localtime("1999-12-31T22:00:00Z", "Asia/Istanbul") = "2000-01-01 00:00:00"
+gmt2nsec  (class=time #args=1) Parses GMT timestamp as integer nanoseconds since the epoch.
+Example:
+gmt2nsec("2001-02-03T04:05:06Z") = 981173106000000000
 gmt2sec  (class=time #args=1) Parses GMT timestamp as integer seconds since the epoch.
 Example:
 gmt2sec("2001-02-03T04:05:06Z") = 981173106
@@ -148,6 +154,14 @@ localtime2gmt  (class=time #args=1,2) Convert from a local-time string to a GMT-
 Examples:
 localtime2gmt("2000-01-01 00:00:00") = "1999-12-31T22:00:00Z" with TZ="Asia/Istanbul"
 localtime2gmt("2000-01-01 00:00:00", "Asia/Istanbul") = "1999-12-31T22:00:00Z"
+nsec2gmt  (class=time #args=1,2) Formats integer nanoseconds since epoch as GMT timestamp. Leaves non-numbers as-is. With second integer argument n, includes n decimal places for the seconds part.
+Examples:
+nsec2gmt(1234567890000000000)    = "2009-02-13T23:31:30Z"
+nsec2gmt(1234567890123456789)    = "2009-02-13T23:31:30Z"
+nsec2gmt(1234567890123456789, 6) = "2009-02-13T23:31:30.123456Z"
+nsec2gmtdate  (class=time #args=1) Formats integer nanoseconds since epoch as GMT timestamp with year-month-date. Leaves non-numbers as-is.
+Example:
+sec2gmtdate(1440768801700000000) = "2015-08-28".
 sec2gmt  (class=time #args=1,2) Formats seconds since epoch as GMT timestamp. Leaves non-numbers as-is. With second integer argument n, includes n decimal places for the seconds part.
 Examples:
 sec2gmt(1234567890)           = "2009-02-13T23:31:30Z"

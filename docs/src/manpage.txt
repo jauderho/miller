@@ -1,6 +1,4 @@
-MILLER(1)                                                            MILLER(1)
-
-
+4mMILLER24m(1)                                                            4mMILLER24m(1)
 
 1mNAME0m
        Miller -- like awk, sed, cut, join, and sort for name-indexed data such
@@ -29,7 +27,7 @@ MILLER(1)                                                            MILLER(1)
        insertion-ordered hash map.  This encompasses a variety of data
        formats, including but not limited to the familiar CSV, TSV, and JSON.
        (Miller can handle positionally-indexed data as a special case.) This
-       manpage documents mlr 6.7.0-dev.
+       manpage documents mlr 6.12.0-dev.
 
 1mEXAMPLES0m
        mlr --icsv --opprint cat example.csv
@@ -82,7 +80,7 @@ MILLER(1)                                                            MILLER(1)
        | 4     5   6         | Record 2: "apple":"4", "bat":"5", "cog":"6"
        +---------------------+
 
-       Markdown tabular (supported for output only):
+       Markdown tabular:
        +-----------------------+
        | | apple | bat | cog | |
        | | ---   | --- | --- | |
@@ -120,6 +118,7 @@ MILLER(1)                                                            MILLER(1)
          mlr help file-formats
        Flags:
          mlr help flags
+         mlr help flag
          mlr help list-separator-aliases
          mlr help list-separator-regex-aliases
          mlr help comments-in-data-flags
@@ -152,9 +151,11 @@ MILLER(1)                                                            MILLER(1)
          mlr help keyword
        Other:
          mlr help auxents
+         mlr help terminals
          mlr help mlrrc
          mlr help output-colorization
          mlr help type-arithmetic-info
+         mlr help type-arithmetic-info-extended
        Shorthands:
          mlr -g = mlr help flags
          mlr -l = mlr help list-verbs
@@ -169,41 +170,46 @@ MILLER(1)                                                            MILLER(1)
        for all things with "map" in their names.
 
 1mVERB LIST0m
-       altkv bar bootstrap cat check clean-whitespace count-distinct count
-       count-similar cut decimate downcase fill-down fill-empty filter flatten
-       format-values fraction gap grep group-by group-like having-fields head
-       histogram json-parse json-stringify join label latin1-to-utf8 least-frequent
+       altkv bar bootstrap case cat check clean-whitespace count-distinct count
+       count-similar cut decimate fill-down fill-empty filter flatten format-values
+       fraction gap grep group-by group-like gsub having-fields head histogram
+       json-parse json-stringify join label latin1-to-utf8 least-frequent
        merge-fields most-frequent nest nothing put regularize remove-empty-columns
        rename reorder repeat reshape sample sec2gmtdate sec2gmt seqgen shuffle
-       skip-trivial-records sort sort-within-records split stats1 stats2 step summary
-       tac tail tee template top utf8-to-latin1 unflatten uniq unspace unsparsify
-       upcase
+       skip-trivial-records sort sort-within-records sparsify split ssub stats1
+       stats2 step sub summary tac tail tee template top utf8-to-latin1 unflatten
+       uniq unspace unsparsify
 
 1mFUNCTION LIST0m
-       abs acos acosh any append apply arrayify asin asinh asserting_absent
+       abs acos acosh antimode any append apply arrayify asin asinh asserting_absent
        asserting_array asserting_bool asserting_boolean asserting_empty
        asserting_empty_map asserting_error asserting_float asserting_int
        asserting_map asserting_nonempty_map asserting_not_array asserting_not_empty
        asserting_not_map asserting_not_null asserting_null asserting_numeric
        asserting_present asserting_string atan atan2 atanh bitcount boolean
-       capitalize cbrt ceil clean_whitespace collapse_whitespace concat cos cosh
-       depth dhms2fsec dhms2sec erf erfc every exec exp expm1 flatten float floor
-       fmtifnum fmtnum fold format fsec2dhms fsec2hms get_keys get_values
-       gmt2localtime gmt2sec gssub gsub haskey hexfmt hms2fsec hms2sec hostname index
-       int invqnorm is_absent is_array is_bool is_boolean is_empty is_empty_map
-       is_error is_float is_int is_map is_nan is_nonempty_map is_not_array
-       is_not_empty is_not_map is_not_null is_null is_numeric is_present is_string
-       joink joinkv joinv json_parse json_stringify latin1_to_utf8 leafcount leftpad
-       length localtime2gmt localtime2sec log log10 log1p logifit lstrip madd mapdiff
-       mapexcept mapselect mapsum max md5 mexp min mmul msub os pow qnorm reduce
-       regextract regextract_or_else rightpad round roundm rstrip sec2dhms sec2gmt
-       sec2gmtdate sec2hms sec2localdate sec2localtime select sgn sha1 sha256 sha512
-       sin sinh sort splita splitax splitkv splitkvx splitnv splitnvx sqrt ssub
-       strftime strftime_local string strip strlen strptime strptime_local sub substr
-       substr0 substr1 system systime systimeint tan tanh tolower toupper truncate
-       typeof unflatten unformat unformatx uptime urand urand32 urandelement urandint
-       urandrange utf8_to_latin1 version ! != !=~ % & && * ** + - . .* .+ .- ./ / //
-       < << <= <=> == =~ > >= >> >>> ?: ?? ??? ^ ^^ | || ~
+       capitalize cbrt ceil clean_whitespace collapse_whitespace concat contains cos
+       cosh count depth dhms2fsec dhms2sec distinct_count erf erfc every exec exp
+       expm1 flatten float floor fmtifnum fmtnum fold format fsec2dhms fsec2hms
+       get_keys get_values gmt2localtime gmt2nsec gmt2sec gssub gsub haskey hexfmt
+       hms2fsec hms2sec hostname index int invqnorm is_absent is_array is_bool
+       is_boolean is_empty is_empty_map is_error is_float is_int is_map is_nan
+       is_nonempty_map is_not_array is_not_empty is_not_map is_not_null is_null
+       is_numeric is_present is_string joink joinkv joinv json_parse json_stringify
+       kurtosis latin1_to_utf8 leafcount leftpad length localtime2gmt localtime2nsec
+       localtime2sec log log10 log1p logifit lstrip madd mapdiff mapexcept mapselect
+       mapsum max maxlen md5 mean meaneb median mexp min minlen mmul mode msub
+       nsec2gmt nsec2gmtdate nsec2localdate nsec2localtime null_count os percentile
+       percentiles pow qnorm reduce regextract regextract_or_else rightpad round
+       roundm rstrip sec2dhms sec2gmt sec2gmtdate sec2hms sec2localdate sec2localtime
+       select sgn sha1 sha256 sha512 sin sinh skewness sort sort_collection splita
+       splitax splitkv splitkvx splitnv splitnvx sqrt ssub stat stddev strfntime
+       strfntime_local strftime strftime_local string strip strlen strmatch strmatchx
+       strpntime strpntime_local strptime strptime_local sub substr substr0 substr1
+       sum sum2 sum3 sum4 sysntime system systime systimeint tan tanh tolower toupper
+       truncate typeof unflatten unformat unformatx upntime uptime urand urand32
+       urandelement urandint urandrange utf8_to_latin1 variance version ! != !=~ % &
+       && * ** + - . .* .+ .- ./ / // < << <= <=> == =~ > >= >> >>> ?: ?? ??? ^ ^^ |
+       || ~
 
 1mCOMMENTS-IN-DATA FLAGS0m
        Miller lets you put comments in your data, such as
@@ -238,7 +244,7 @@ MILLER(1)                                                            MILLER(1)
        Miller offers a few different ways to handle reading data files
             which have been compressed.
 
-       * Decompression done within the Miller process itself: `--bz2in` `--gzin` `--zin`
+       * Decompression done within the Miller process itself: `--bz2in` `--gzin` `--zin``--zstdin`
        * Decompression done outside the Miller process: `--prepipe` `--prepipex`
 
        Using `--prepipe` and `--prepipex` you can specify an action to be
@@ -261,7 +267,7 @@ MILLER(1)                                                            MILLER(1)
 
        Lastly, note that if `--prepipe` or `--prepipex` is specified, it replaces any
        decisions that might have been made based on the file suffix. Likewise,
-       `--gzin`/`--bz2in`/`--zin` are ignored if `--prepipe` is also specified.
+       `--gzin`/`--bz2in`/`--zin``--zin` are ignored if `--prepipe` is also specified.
 
        --bz2in                  Uncompress bzip2 within the Miller process. Done by
                                 default if file ends in `.bz2`.
@@ -278,6 +284,8 @@ MILLER(1)                                                            MILLER(1)
                                 `.mlrrc`.
        --prepipe-zcat           Same as `--prepipe zcat`, except this is allowed in
                                 `.mlrrc`.
+       --prepipe-zstdcat        Same as `--prepipe zstdcat`, except this is allowed
+                                in `.mlrrc`.
        --prepipex {decompression command}
                                 Like `--prepipe` with one exception: doesn't insert
                                 `<` between command and filename at runtime. Useful
@@ -286,6 +294,8 @@ MILLER(1)                                                            MILLER(1)
                                 in `.mlrrc` to avoid unexpected code execution.
        --zin                    Uncompress zlib within the Miller process. Done by
                                 default if file ends in `.z`.
+       --zstdin                 Uncompress zstd within the Miller process. Done by
+                                default if file ends in `.zstd`.
 
 1mCSV/TSV-ONLY FLAGS0m
        These are flags which are applicable to CSV format.
@@ -307,6 +317,10 @@ MILLER(1)                                                            MILLER(1)
                                 recreate missing headers.
        --lazy-quotes            Accepts quotes appearing in unquoted fields, and
                                 non-doubled quotes appearing in quoted fields.
+       --no-auto-unsparsify     For CSV/TSV output: if the record keys change from
+                                one row to another, emit a blank line and a new
+                                header line. This is non-compliant with RFC 4180 but
+                                it helpful for heterogeneous data.
        --no-implicit-csv-header or --no-implicit-tsv-header
                                 Opposite of `--implicit-csv-header`. This is the
                                 default anyway -- the main use is for the flags to
@@ -350,6 +364,7 @@ MILLER(1)                                                            MILLER(1)
                                 seqgen verb, which is more useful/intuitive.
        --ijson                  Use JSON format for input data.
        --ijsonl                 Use JSON Lines format for input data.
+       --imd or --imarkdown     Use markdown-tabular format for input data.
        --inidx                  Use NIDX format for input data.
        --io {format name}       Use format name for input and output data. For
                                 example: `--io csv` is the same as `--csv`.
@@ -367,7 +382,7 @@ MILLER(1)                                                            MILLER(1)
        --odkvp                  Use DKVP format for output data.
        --ojson                  Use JSON format for output data.
        --ojsonl                 Use JSON Lines format for output data.
-       --omd                    Use markdown-tabular format for output data.
+       --omd or --omarkdown     Use markdown-tabular format for output data.
        --onidx                  Use NIDX format for output data.
        --opprint                Use PPRINT format for output data.
        --otsv                   Use TSV format for output data.
@@ -409,19 +424,19 @@ MILLER(1)                                                            MILLER(1)
 1mFORMAT-CONVERSION KEYSTROKE-SAVER FLAGS0m
        As keystroke-savers for format-conversion you may use the following.
        The letters c, t, j, l, d, n, x, p, and m refer to formats CSV, TSV, DKVP, NIDX,
-       JSON, JSON Lines, XTAB, PPRINT, and markdown, respectively. Note that markdown
-       format is available for output only.
+       JSON, JSON Lines, XTAB, PPRINT, and markdown, respectively.
 
-       | In\out | CSV   | TSV   | JSON   | JSONL  | DKVP   | NIDX   | XTAB   | PPRINT | Markdown |
-       +--------+-------+-------+--------+--------+--------+--------+--------+----------+
-       | CSV    |       | --c2t | --c2j  | --c2l  | --c2d  | --c2n  | --c2x  | --c2p  | --c2m    |
-       | TSV    | --t2c |       | --t2j  | --t2l  | --t2d  | --t2n  | --t2x  | --t2p  | --t2m    |
-       | JSON   | --j2c | --j2t |        | --j2l  | --j2d  | --j2n  | --j2x  | --j2p  | --j2m    |
-       | JSONL  | --l2c | --l2t |        |        | --l2d  | --l2n  | --l2x  | --l2p  | --l2m    |
-       | DKVP   | --d2c | --d2t | --d2j  | --d2l  |        | --d2n  | --d2x  | --d2p  | --d2m    |
-       | NIDX   | --n2c | --n2t | --n2j  | --n2l  | --n2d  |        | --n2x  | --n2p  | --n2m    |
-       | XTAB   | --x2c | --x2t | --x2j  | --x2l  | --x2d  | --x2n  |        | --x2p  | --x2m    |
-       | PPRINT | --p2c | --p2t | --p2j  | --p2l  | --p2d  | --p2n  | --p2x  |        | --p2m    |
+       | In\out   | CSV   | TSV   | JSON   | JSONL  | DKVP   | NIDX   | XTAB   | PPRINT | Markdown |
+       +----------+-------+-------+--------+--------+--------+--------+--------+--------+----------|
+       | CSV      |       | --c2t | --c2j  | --c2l  | --c2d  | --c2n  | --c2x  | --c2p  | --c2m    |
+       | TSV      | --t2c |       | --t2j  | --t2l  | --t2d  | --t2n  | --t2x  | --t2p  | --t2m    |
+       | JSON     | --j2c | --j2t |        | --j2l  | --j2d  | --j2n  | --j2x  | --j2p  | --j2m    |
+       | JSONL    | --l2c | --l2t |        |        | --l2d  | --l2n  | --l2x  | --l2p  | --l2m    |
+       | DKVP     | --d2c | --d2t | --d2j  | --d2l  |        | --d2n  | --d2x  | --d2p  | --d2m    |
+       | NIDX     | --n2c | --n2t | --n2j  | --n2l  | --n2d  |        | --n2x  | --n2p  | --n2m    |
+       | XTAB     | --x2c | --x2t | --x2j  | --x2l  | --x2d  | --x2n  |        | --x2p  | --x2m    |
+       | PPRINT   | --p2c | --p2t | --p2j  | --p2l  | --p2d  | --p2n  | --p2x  |        | --p2m    |
+       | Markdown | --m2c | --m2t | --m2j  | --m2l  | --m2d  | --m2n  | --m2x  | --m2p  |          |
 
        -p                       Keystroke-saver for `--nidx --fs space --repifs`.
        -T                       Keystroke-saver for `--nidx --fs tab`.
@@ -436,8 +451,8 @@ MILLER(1)                                                            MILLER(1)
        --jvstack                Put one key-value pair per line for JSON output
                                 (multi-line output). This is the default for JSON
                                 output format.
-       --no-jlistwrap           Wrap JSON output in outermost `[ ]`. This is the
-                                default for JSON Lines output format.
+       --no-jlistwrap           Do not wrap JSON output in outermost `[ ]`. This is
+                                the default for JSON Lines output format.
        --no-jvstack             Put objects/arrays all on one line for JSON output.
                                 This is the default for JSON Lines output format.
 
@@ -482,6 +497,9 @@ MILLER(1)                                                            MILLER(1)
                                 large files. Use this flag to force frequent updates
                                 even when output is to a pipe or file, at a
                                 performance cost.
+       --files {filename}       Use this to specify a file which itself contains, one
+                                per line, names of input files. May be used more than
+                                once.
        --from {filename}        Use this to specify an input file before the verb(s),
                                 rather than after. May be used more than once.
                                 Example: `mlr --from a.dat --from b.dat cat` is the
@@ -533,6 +551,7 @@ MILLER(1)                                                            MILLER(1)
                                 since direct-to-screen output for large files has its
                                 own overhead.
        --no-hash-records        See --hash-records.
+       --norc                   Do not load a .mlrrc file.
        --nr-progress-mod {m}    With m a positive integer: print filename and record
                                 count to os.Stderr every m input records.
        --ofmt {format}          E.g. `%.18f`, `%.0f`, `%9.6e`. Please use
@@ -548,6 +567,11 @@ MILLER(1)                                                            MILLER(1)
                                 to be modified, except when input is from `tail -f`.
                                 See also
                                 https://miller.readthedocs.io/en/latest/reference-main-flag-list/.
+       --s-no-comment-strip {file name}
+                                Take command-line flags from file name, like -s, but
+                                with no comment-stripping. For more information
+                                please see
+                                https://miller.readthedocs.io/en/latest/scripting/.
        --seed {n}               with `n` of the form `12345678` or `0xcafefeed`. For
                                 `put`/`filter` `urand`, `urandint`, and `urand32`.
        --tz {timezone}          Specify timezone, overriding `$TZ` environment
@@ -567,6 +591,9 @@ MILLER(1)                                                            MILLER(1)
        -s {file name}           Take command-line flags from file name. For more
                                 information please see
                                 https://miller.readthedocs.io/en/latest/scripting/.
+       -x                       If any record has an error value in it, report it and
+                                stop the process. The default is to print the field
+                                value as `(error)` and continue.
 
 1mOUTPUT-COLORIZATION FLAGS0m
        Miller uses colors to highlight outputs. You can specify color preferences.
@@ -652,8 +679,10 @@ MILLER(1)                                                            MILLER(1)
 1mPPRINT-ONLY FLAGS0m
        These are flags which are applicable to PPRINT format.
 
-       --barred                 Prints a border around PPRINT output (not available
-                                for input).
+       --barred or --barred-output
+                                Prints a border around PPRINT output.
+       --barred-input           When used in conjunction with --pprint, accepts
+                                barred input.
        --right                  Right-justifies all fields for PPRINT output.
 
 1mPROFILING FLAGS0m
@@ -758,11 +787,12 @@ MILLER(1)                                                            MILLER(1)
                csv      ","    N/A    "\n"
                csvlite  ","    N/A    "\n"
                dkvp     ","    "="    "\n"
+               gen      ","    N/A    "\n"
                json     N/A    N/A    N/A
                markdown " "    N/A    "\n"
                nidx     " "    N/A    "\n"
                pprint   " "    N/A    "\n"
-               tsv      "  "    N/A    "\n"
+               tsv      "     "    N/A    "\n"
                xtab     "\n"   " "    "\n\n"
 
        --fs {string}            Specify FS for input and output.
@@ -780,16 +810,12 @@ MILLER(1)                                                            MILLER(1)
        --rs {string}            Specify RS for input and output.
 
 1mAUXILIARY COMMANDS0m
-       Available subcommands:
-         aux-list
-         hex
-         lecat
-         termcvt
-         unhex
-         help
-         regtest
-         repl
-         version
+       Available entries:
+         mlr aux-list
+         mlr hex
+         mlr lecat
+         mlr termcvt
+         mlr unhex
        For more information, please invoke mlr {subcommand} --help.
 
 1mMLRRC0m
@@ -890,6 +916,19 @@ MILLER(1)                                                            MILLER(1)
            Must be non-negative.
        -h|--help Show this message.
 
+   1mcase0m
+       Usage: mlr case [options]
+       Uppercases strings in record keys and/or values.
+       Options:
+       -k  Case only keys, not keys and values.
+       -v  Case only values, not keys and values.
+       -f  {a,b,c} Specify which field names to case (default: all)
+       -u  Convert to uppercase
+       -l  Convert to lowercase
+       -s  Convert to sentence case (capitalize first letter)
+       -t  Convert to title case (capitalize words)
+       -h|--help Show this message.
+
    1mcat0m
        Usage: mlr cat [options]
        Passes input records directly to output. Most useful for format conversion.
@@ -903,8 +942,12 @@ MILLER(1)                                                            MILLER(1)
 
    1mcheck0m
        Usage: mlr check [options]
-       Consumes records without printing any output.
+       Consumes records without printing any output,
        Useful for doing a well-formatted check on input data.
+       with the exception that warnings are printed to stderr.
+       Current checks are:
+       * Data are parseable
+       * If any key is the empty string
        Options:
        -h|--help Show this message.
 
@@ -930,6 +973,7 @@ MILLER(1)                                                            MILLER(1)
 
        Options:
        -f {a,b,c}    Field names for distinct count.
+       -x {a,b,c}    Field names to exclude for distinct count: use each record's others instead.
        -n            Show only the number of distinct values. Not compatible with -u.
        -o {name}     Field name for output count. Default "count".
                      Ignored with -u.
@@ -987,14 +1031,6 @@ MILLER(1)                                                            MILLER(1)
         -n {n} Decimation factor (default 10).
        -h|--help Show this message.
 
-   1mdowncase0m
-       Usage: mlr downcase [options]
-       Lowercases strings in record keys and/or values.
-       Options:
-       -k        Downcase only keys, not keys and values.
-       -v        Downcase only values, not keys and values.
-       -h|--help Show this message.
-
    1mfill-down0m
        Usage: mlr fill-down [options]
        If a given record has a missing value for a given field, fill that from
@@ -1020,6 +1056,10 @@ MILLER(1)                                                            MILLER(1)
 
    1mfilter0m
        Usage: mlr filter [options] {DSL expression}
+       Lets you use a domain-specific language to progamatically filter which
+       stream records will be output.
+       See also: https://miller.readthedocs.io/en/latest/reference-verbs
+
        Options:
        -f {file name} File containing a DSL expression (see examples below). If the filename
           is a directory, all *.mlr files in that directory are loaded.
@@ -1182,14 +1222,15 @@ MILLER(1)                                                            MILLER(1)
        Options:
        -i  Use case-insensitive search.
        -v  Invert: pass through records which do not match the regex.
+       -a  Only grep for values, not keys and values.
        -h|--help Show this message.
        Note that "mlr filter" is more powerful, but requires you to know field names.
-       By contrast, "mlr grep" allows you to regex-match the entire record. It does
-       this by formatting each record in memory as DKVP, using command-line-specified
-       ORS/OFS/OPS, and matching the resulting line against the regex specified
-       here. In particular, the regex is not applied to the input stream: if you
-       have CSV with header line "x,y,z" and data line "1,2,3" then the regex will
-       be matched, not against either of these lines, but against the DKVP line
+       By contrast, "mlr grep" allows you to regex-match the entire record. It does this
+       by formatting each record in memory as DKVP (or NIDX, if -a is supplied), using
+       OFS "," and OPS "=", and matching the resulting line against the regex specified
+       here. In particular, the regex is not applied to the input stream: if you have
+       CSV with header line "x,y,z" and data line "1,2,3" then the regex will be
+       matched, not against either of these lines, but against the DKVP line
        "x=1,y=2,z=3".  Furthermore, not all the options to system grep are supported,
        and this command is intended to be merely a keystroke-saver. To get all the
        features of system grep, you can do
@@ -1205,6 +1246,15 @@ MILLER(1)                                                            MILLER(1)
        Outputs records in batches having identical field names.
        Options:
        -h|--help Show this message.
+
+   1mgsub0m
+       Usage: mlr gsub [options]
+       Replaces old string with new string in specified field(s), with regex support
+       for the old string and handling multiple matches, like the `gsub` DSL function.
+       See also the `sub` and `ssub` verbs.
+       Options:
+       -f {a,b,c}  Field names to convert.
+       -h|--help   Show this message.
 
    1mhaving-fields0m
        Usage: mlr having-fields [options]
@@ -1277,6 +1327,8 @@ MILLER(1)                                                            MILLER(1)
          --lk|--left-keep-field-names {a,b,c} If supplied, this means keep only the specified field
                       names from the left file. Automatically includes the join-field name(s). Helpful
                       for when you only want a limited subset of information from the left file.
+                      Tip: you can use --lk "": this means the left file becomes solely a row-selector
+                      for the input files.
          --lp {text}  Additional prefix for non-join output field names from
                       the left file
          --rp {text}  Additional prefix for non-join output field names from
@@ -1355,6 +1407,7 @@ MILLER(1)                                                            MILLER(1)
          antimode Find least-frequently-occurring values for fields; first-found wins tie
          sum      Compute sums of specified fields
          mean     Compute averages (sample means) of specified fields
+         mad      Compute mean absolute deviation
          var      Compute sample variance of specified fields
          stddev   Compute sample standard deviation of specified fields
          meaneb   Estimate error bars for averages (assuming no sample autocorrelation)
@@ -1412,8 +1465,8 @@ MILLER(1)                                                            MILLER(1)
          -f {field name}       Required.
          --nested-fs {string}  Defaults to ";". Field separator for nested values.
          --nested-ps {string}  Defaults to ":". Pair separator for nested key-value pairs.
-         --evar {string}       Shorthand for --explode --values ---across-records --nested-fs {string}
-         --ivar {string}       Shorthand for --implode --values ---across-records --nested-fs {string}
+         --evar {string}       Shorthand for --explode --values --across-records --nested-fs {string}
+         --ivar {string}       Shorthand for --implode --values --across-records --nested-fs {string}
        Please use "mlr --usage-separator-options" for information on specifying separators.
 
        Examples:
@@ -1461,6 +1514,9 @@ MILLER(1)                                                            MILLER(1)
 
    1mput0m
        Usage: mlr put [options] {DSL expression}
+       Lets you use a domain-specific language to progamatically alter stream records.
+       See also: https://miller.readthedocs.io/en/latest/reference-verbs
+
        Options:
        -f {file name} File containing a DSL expression (see examples below). If the filename
           is a directory, all *.mlr files in that directory are loaded.
@@ -1774,6 +1830,17 @@ MILLER(1)                                                            MILLER(1)
        -r        Recursively sort subobjects/submaps, e.g. for JSON input.
        -h|--help Show this message.
 
+   1msparsify0m
+       Usage: mlr sparsify [options]
+       Unsets fields for which the key is the empty string (or, optionally, another
+       specified value). Only makes sense with output format not being CSV or TSV.
+       Options:
+       -s {filler string} What values to remove. Defaults to the empty string.
+       -f {a,b,c} Specify field names to be operated on; any other fields won't be
+                  modified. The default is to modify all fields.
+       -h|--help  Show this message.
+       Example: if input is a=1,b=,c=3 then output is a=1,c=3.
+
    1msplit0m
        Usage: mlr split [options] {filename}
        Options:
@@ -1785,6 +1852,8 @@ MILLER(1)                                                            MILLER(1)
        --suffix {s} Specify filename suffix; default is from mlr output format, e.g. "csv".
        -a           Append to existing file(s), if any, rather than overwriting.
        -v           Send records along to downstream verbs as well as splitting to files.
+       -e           Do NOT URL-escape names of output files.
+       -j {J}       Use string J to join filename parts; default "_".
        -h|--help    Show this message.
        Any of the output-format command-line flags (see mlr -h). For example, using
          mlr --icsv --from myfile.csv split --ojson -n 1000
@@ -1814,6 +1883,14 @@ MILLER(1)                                                            MILLER(1)
 
        See also the "tee" DSL function which lets you do more ad-hoc customization.
 
+   1mssub0m
+       Usage: mlr ssub [options]
+       Replaces old string with new string in specified field(s), without regex support for
+       the old string, like the `ssub` DSL function. See also the `gsub` and `sub` verbs.
+       Options:
+       -f {a,b,c}  Field names to convert.
+       -h|--help   Show this message.
+
    1mstats10m
        Usage: mlr stats1 [options]
        Computes univariate statistics for one or more given fields, accumulated across
@@ -1829,6 +1906,7 @@ MILLER(1)                                                            MILLER(1)
          antimode Find least-frequently-occurring values for fields; first-found wins tie
          sum      Compute sums of specified fields
          mean     Compute averages (sample means) of specified fields
+         mad      Compute mean absolute deviation
          var      Compute sample variance of specified fields
          stddev   Compute sample standard deviation of specified fields
          meaneb   Estimate error bars for averages (assuming no sample autocorrelation)
@@ -1950,6 +2028,15 @@ MILLER(1)                                                            MILLER(1)
        Please see https://miller.readthedocs.io/en/latest/reference-verbs.html#filter or
        https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average
        for more information on EWMA.
+
+   1msub0m
+       Usage: mlr sub [options]
+       Replaces old string with new string in specified field(s), with regex support
+       for the old string and not handling multiple matches, like the `sub` DSL function.
+       See also the `gsub` and `ssub` verbs.
+       Options:
+       -f {a,b,c}  Field names to convert.
+       -h|--help   Show this message.
 
    1msummary0m
        Usage: mlr summary [options]
@@ -2075,6 +2162,7 @@ MILLER(1)                                                            MILLER(1)
 
        Options:
        -g {d,e,f}    Group-by-field names for uniq counts.
+       -x {a,b,c}    Field names to exclude for uniq: use each record's others instead.
        -c            Show repeat counts in addition to unique values.
        -n            Show only the number of distinct values.
        -o {name}     Field name for output count. Default "count".
@@ -2107,14 +2195,6 @@ MILLER(1)                                                            MILLER(1)
        being 'b=3,c=4', then the output is the two records 'a=1,b=2,c=' and
        'a=,b=3,c=4'.
 
-   1mupcase0m
-       Usage: mlr upcase [options]
-       Uppercases strings in record keys and/or values.
-       Options:
-       -k        Upcase only keys, not keys and values.
-       -v        Upcase only values, not keys and values.
-       -h|--help Show this message.
-
 1mFUNCTIONS FOR FILTER/PUT0m
    1mabs0m
         (class=math #args=1) Absolute value.
@@ -2124,6 +2204,12 @@ MILLER(1)                                                            MILLER(1)
 
    1macosh0m
         (class=math #args=1) Inverse hyperbolic cosine.
+
+   1mantimode0m
+        (class=stats #args=1) Returns the least frequently occurring value in an array or map. Returns error for non-array/non-map types. Values are stringified for comparison, so for example string "1" and integer 1 are not distinct. In cases of ties, first-found wins.
+       Examples:
+       antimode([3,3,4,4,4]) is 3
+       antimode([3,3,4,4]) is 3
 
    1many0m
         (class=higher-order-functions #args=2) Given a map or array as first argument and a function as second argument, yields a boolean true if the argument function returns true for any array/map element, false otherwise. For arrays, the function should take one argument, for array element; for maps, it should take two, for map-element key and value. In either case it should return a boolean.
@@ -2231,7 +2317,7 @@ MILLER(1)                                                            MILLER(1)
         (class=math #args=1) Ceiling: nearest integer at or above.
 
    1mclean_whitespace0m
-        (class=string #args=1) Same as collapse_whitespace and strip.
+        (class=string #args=1) Same as collapse_whitespace and strip, followed by type inference.
 
    1mcollapse_whitespace0m
         (class=string #args=1) Strip repeated whitespace from string.
@@ -2243,11 +2329,25 @@ MILLER(1)                                                            MILLER(1)
        concat([1,2],3) is [1,2,3]
        concat([1,2],[3]) is [1,2,3]
 
+   1mcontains0m
+        (class=string #args=2) Returns true if the first argument contains the second as a substring. This is like saying `index(arg1, arg2) >= 0`but with less keystroking.
+       Examples:
+       contains("abcde", "e") gives true
+       contains("abcde", "x") gives false
+       contains(12345, 34) gives true
+       contains("fort", "") gives true
+
    1mcos0m
         (class=math #args=1) Trigonometric cosine.
 
    1mcosh0m
         (class=math #args=1) Hyperbolic cosine.
+
+   1mcount0m
+        (class=stats #args=1) Returns the length of an array or map. Returns error for non-array/non-map types.
+       Examples:
+       count([7,8,9]) is 3
+       count({"a":7,"b":8,"c":9}) is 3
 
    1mdepth0m
         (class=collections #args=1) Prints maximum depth of map/array. Scalars have depth 0.
@@ -2257,6 +2357,13 @@ MILLER(1)                                                            MILLER(1)
 
    1mdhms2sec0m
         (class=time #args=1) Recovers integer seconds as in dhms2sec("5d18h53m20s") = 500000
+
+   1mdistinct_count0m
+        (class=stats #args=1) Returns the number of disinct values in an array or map. Returns error for non-array/non-map types. Values are stringified for comparison, so for example string "1" and integer 1 are not distinct.
+       Examples:
+       distinct_count([7,8,9,7])  is 3
+       distinct_count([1,"1"]) is 1
+       distinct_count([1,1.0]) is 2
 
    1merf0m
         (class=math #args=1) Error function.
@@ -2302,9 +2409,14 @@ MILLER(1)                                                            MILLER(1)
        $* = fmtifnum($*, "%.6f") formats numeric fields in the current record, leaving non-numeric ones alone
 
    1mfmtnum0m
-        (class=conversion #args=2) Convert int/float/bool to string using printf-style format string (https://pkg.go.dev/fmt), e.g. '$s = fmtnum($n, "%08d")' or '$t = fmtnum($n, "%.6e")'. This function recurses on array and map values.
-       Example:
-       $x = fmtnum($x, "%.6f")
+        (class=conversion #args=2) Convert int/float/bool to string using printf-style format string (https://pkg.go.dev/fmt), e.g. '$s = fmtnum($n, "%08d")' or '$t = fmtnum($n, "%.6e")'. Miller-specific extension: "%_d" and "%_f" for comma-separated thousands. This function recurses on array and map values.
+       Examples:
+       $y = fmtnum($x, "%.6f")
+       $o = fmtnum($n, "%d")
+       $o = fmtnum($n, "%12d")
+       $y = fmtnum($x, "%.6_f")
+       $o = fmtnum($n, "%_d")
+       $o = fmtnum($n, "%12_d")
 
    1mfold0m
         (class=higher-order-functions #args=3) Given a map or array as first argument and a function as second argument, accumulates entries into a final output -- for example, sum or product. For arrays, the function should take two arguments, for accumulated value and array element. For maps, it should take four arguments, for accumulated key and value, and map-element key and value; it should return the updated accumulator as a new key-value pair (i.e. a single-entry map). The start value for the accumulator is taken from the third argument.
@@ -2336,6 +2448,11 @@ MILLER(1)                                                            MILLER(1)
        Examples:
        gmt2localtime("1999-12-31T22:00:00Z") = "2000-01-01 00:00:00" with TZ="Asia/Istanbul"
        gmt2localtime("1999-12-31T22:00:00Z", "Asia/Istanbul") = "2000-01-01 00:00:00"
+
+   1mgmt2nsec0m
+        (class=time #args=1) Parses GMT timestamp as integer nanoseconds since the epoch.
+       Example:
+       gmt2nsec("2001-02-03T04:05:06Z") = 981173106000000000
 
    1mgmt2sec0m
         (class=time #args=1) Parses GMT timestamp as integer seconds since the epoch.
@@ -2375,7 +2492,7 @@ MILLER(1)                                                            MILLER(1)
         (class=string #args=2) Returns the index (1-based) of the second argument within the first. Returns -1 if the second argument isn't a substring of the first. Stringifies non-string inputs. Uses UTF-8 encoding to count characters, not bytes.
        Examples:
        index("abcde", "e") gives 5
-       index("abcde", "x") gives 01
+       index("abcde", "x") gives -1
        index(12345, 34) gives 3
        index("fort", "t") gives 5
 
@@ -2477,6 +2594,11 @@ MILLER(1)                                                            MILLER(1)
    1mjson_stringify0m
         (class=collections #args=1,2) Converts value to JSON-formatted string. Default output is single-line. With optional second boolean argument set to true, produces multiline output.
 
+   1mkurtosis0m
+        (class=stats #args=1) Returns the sample kurtosis of values in an array or map. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+       Example:
+       kurtosis([4,5,9,10,11]) is -1.6703688
+
    1mlatin1_to_utf80m
         (class=string #args=1) Tries to convert Latin-1-encoded string to UTF-8-encoded string. If argument is array or map, recurses into it.
        Examples:
@@ -2501,6 +2623,12 @@ MILLER(1)                                                            MILLER(1)
        Examples:
        localtime2gmt("2000-01-01 00:00:00") = "1999-12-31T22:00:00Z" with TZ="Asia/Istanbul"
        localtime2gmt("2000-01-01 00:00:00", "Asia/Istanbul") = "1999-12-31T22:00:00Z"
+
+   1mlocaltime2nsec0m
+        (class=time #args=1,2) Parses local timestamp as integer nanoseconds since the epoch. Consults $TZ environment variable, unless second argument is supplied.
+       Examples:
+       localtime2nsec("2001-02-03 04:05:06") = 981165906000000000 with TZ="Asia/Istanbul"
+       localtime2nsec("2001-02-03 04:05:06", "Asia/Istanbul") = 981165906000000000"
 
    1mlocaltime2sec0m
         (class=time #args=1,2) Parses local timestamp as integer seconds since the epoch. Consults $TZ environment variable, unless second argument is supplied.
@@ -2539,25 +2667,149 @@ MILLER(1)                                                            MILLER(1)
         (class=collections #args=variadic) With 0 args, returns empty map. With >= 1 arg, returns a map with key-value pairs from all arguments. Rightmost collisions win, e.g. 'mapsum({1:2,3:4},{1:5})' is '{1:5,3:4}'.
 
    1mmax0m
-        (class=math #args=variadic) Max of n numbers; null loses.
+        (class=math #args=variadic) Max of n numbers; null loses. The min and max functions also recurse into arrays and maps, so they can be used to get min/max stats on array/map values.
+
+   1mmaxlen0m
+        (class=stats #args=1) Returns the maximum string length of values in an array or map. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+       Example:
+       maxlen(["ao", "alto"]) is 4
 
    1mmd50m
         (class=hashing #args=1) MD5 hash.
+
+   1mmean0m
+        (class=stats #args=1) Returns the arithmetic mean of values in an array or map. Returns empty string AKA void for empty array/map; returns error for non-array/non-map types.
+       Example:
+       mean([4,5,7,10]) is 6.5
+
+   1mmeaneb0m
+        (class=stats #args=1) Returns the error bar for arithmetic mean of values in an array or map, assuming the values are independent and identically distributed. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+       Example:
+       meaneb([4,5,7,10]) is 1.3228756
+
+   1mmedian0m
+        (class=stats #args=1,2) Returns the median of values in an array or map. Returns empty string AKA void for empty array/map; returns error for non-array/non-map types. Please see the percentiles function for information on optional flags, and on performance for large inputs.
+       Examples:
+       median([3,4,5,6,9,10]) is 6
+       median([3,4,5,6,9,10],{"interpolate_linearly":true}) is 5.5
+       median(["abc", "def", "ghi", "ghi"]) is "ghi"
 
    1mmexp0m
         (class=arithmetic #args=3) a ** b mod m (integers)
 
    1mmin0m
-        (class=math #args=variadic) Min of n numbers; null loses.
+        (class=math #args=variadic) Min of n numbers; null loses. The min and max functions also recurse into arrays and maps, so they can be used to get min/max stats on array/map values.
+
+   1mminlen0m
+        (class=stats #args=1) Returns the minimum string length of values in an array or map. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+       Example:
+       minlen(["ao", "alto"]) is 3
 
    1mmmul0m
         (class=arithmetic #args=3) a * b mod m (integers)
 
+   1mmode0m
+        (class=stats #args=1) Returns the most frequently occurring value in an array or map. Returns error for non-array/non-map types. Values are stringified for comparison, so for example string "1" and integer 1 are not distinct. In cases of ties, first-found wins.
+       Examples:
+       mode([3,3,4,4,4]) is 4
+       mode([3,3,4,4]) is 3
+
    1mmsub0m
         (class=arithmetic #args=3) a - b mod m (integers)
 
+   1mnsec2gmt0m
+        (class=time #args=1,2) Formats integer nanoseconds since epoch as GMT timestamp. Leaves non-numbers as-is. With second integer argument n, includes n decimal places for the seconds part.
+       Examples:
+       nsec2gmt(1234567890000000000)    = "2009-02-13T23:31:30Z"
+       nsec2gmt(1234567890123456789)    = "2009-02-13T23:31:30Z"
+       nsec2gmt(1234567890123456789, 6) = "2009-02-13T23:31:30.123456Z"
+
+   1mnsec2gmtdate0m
+        (class=time #args=1) Formats integer nanoseconds since epoch as GMT timestamp with year-month-date. Leaves non-numbers as-is.
+       Example:
+       sec2gmtdate(1440768801700000000) = "2015-08-28".
+
+   1mnsec2localdate0m
+        (class=time #args=1,2) Formats integer nanoseconds since epoch as local timestamp with year-month-date. Leaves non-numbers as-is. Consults $TZ environment variable unless second argument is supplied.
+       Examples:
+       nsec2localdate(1440768801700000000) = "2015-08-28" with TZ="Asia/Istanbul"
+       nsec2localdate(1440768801700000000, "Asia/Istanbul") = "2015-08-28"
+
+   1mnsec2localtime0m
+        (class=time #args=1,2,3) Formats integer nanoseconds since epoch as local timestamp. Consults $TZ environment variable unless third argument is supplied. Leaves non-numbers as-is. With second integer argument n, includes n decimal places for the seconds part
+       Examples:
+       nsec2localtime(1234567890000000000)    = "2009-02-14 01:31:30"        with TZ="Asia/Istanbul"
+       nsec2localtime(1234567890123456789)    = "2009-02-14 01:31:30"        with TZ="Asia/Istanbul"
+       nsec2localtime(1234567890123456789, 6) = "2009-02-14 01:31:30.123456" with TZ="Asia/Istanbul"
+       nsec2localtime(1234567890123456789, 6, "Asia/Istanbul") = "2009-02-14 01:31:30.123456"
+
+   1mnull_count0m
+        (class=stats #args=1) Returns the number of values in an array or map which are empty-string (AKA void) or JSON null. Returns error for non-array/non-map types. Values are stringified for comparison, so for example string "1" and integer 1 are not distinct.
+       Example:
+       null_count(["a", "", "c"]) is 1
+
    1mos0m
         (class=system #args=0) Returns the operating-system name as a string.
+
+   1mpercentile0m
+        (class=stats #args=2,3) Returns the given percentile of values in an array or map. Returns empty string AKA void for empty array/map; returns error for non-array/non-map types. Please see the percentiles function for information on optional flags, and on performance for large inputs.
+       Examples:
+       percentile([3,4,5,6,9,10], 90) is 10
+       percentile([3,4,5,6,9,10], 90, {"interpolate_linearly":true}) is 9.5
+       percentile(["abc", "def", "ghi", "ghi"], 90) is "ghi"
+
+   1mpercentiles0m
+        (class=stats #args=2,3) Returns the given percentiles of values in an array or map. Returns empty string AKA void for empty array/map; returns error for non-array/non-map types. See examples for information on the three option flags.
+       Examples:
+
+       Defaults are to not interpolate linearly, to produce a map keyed by percentile name, and to sort the input before computing percentiles:
+
+         percentiles([3,4,5,6,9,10], [25,75]) is { "25": 4, "75": 9 }
+         percentiles(["abc", "def", "ghi", "ghi"], [25,75]) is { "25": "def", "75": "ghi" }
+
+       Use "output_array_not_map" (or shorthand "oa") to get the outputs as an array:
+
+         percentiles([3,4,5,6,9,10], [25,75], {"output_array_not_map":true}) is [4, 9]
+
+       Use "interpolate_linearly" (or shorthand "il") to do linear interpolation -- note this produces error values on string inputs:
+
+         percentiles([3,4,5,6,9,10], [25,75], {"interpolate_linearly":true}) is { "25": 4.25, "75": 8.25 }
+
+       The percentiles function always sorts its inputs before computing percentiles. If you know your input is already sorted -- see also the sort_collection function -- then computation will be faster on large input if you pass in "array_is_sorted" (shorthand: "ais"):
+
+         x = [6,5,9,10,4,3]
+         percentiles(x, [25,75], {"ais":true}) gives { "25": 5, "75": 4 } which is incorrect
+         x = sort_collection(x)
+         percentiles(x, [25,75], {"ais":true}) gives { "25": 4, "75": 9 } which is correct
+
+       You can also leverage this feature to compute percentiles on a sort of your choosing. For example:
+
+         Non-sorted input:
+
+           x = splitax("the quick brown fox jumped loquaciously over the lazy dogs", " ")
+           x is: ["the", "quick", "brown", "fox", "jumped", "loquaciously", "over", "the", "lazy", "dogs"]
+
+         Percentiles are taken over the original positions of the words in the array -- "dogs" is last and hence appears as p99:
+
+           percentiles(x, [50, 99], {"oa":true, "ais":true}) gives ["loquaciously", "dogs"]
+
+         With sorting done inside percentiles, "the" is alphabetically last and is therefore the p99:
+
+           percentiles(x, [50, 99], {"oa":true}) gives ["loquaciously", "the"]
+
+         With default sorting done outside percentiles, the same:
+
+           x = sort(x) # or x = sort_collection(x)
+           x is: ["brown", "dogs", "fox", "jumped", "lazy", "loquaciously", "over", "quick", "the", "the"]
+           percentiles(x, [50, 99], {"oa":true, "ais":true}) gives ["loquaciously", "the"]
+           percentiles(x, [50, 99], {"oa":true}) gives ["loquaciously", "the"]
+
+         Now sorting by word length, "loquaciously" is longest and hence is the p99:
+
+           x = sort(x, func(a,b) { return strlen(a) <=> strlen(b) } )
+           x is: ["fox", "the", "the", "dogs", "lazy", "over", "brown", "quick", "jumped", "loquaciously"]
+           percentiles(x, [50, 99], {"oa":true, "ais":true})
+           ["over", "loquaciously"]
 
    1mpow0m
         (class=arithmetic #args=2) Exponentiation. Same as **, but as a function.
@@ -2655,6 +2907,11 @@ MILLER(1)                                                            MILLER(1)
    1msinh0m
         (class=math #args=1) Hyperbolic sine.
 
+   1mskewness0m
+        (class=stats #args=1) Returns the sample skewness of values in an array or map. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+       Example:
+       skewness([4,5,9,10,11]) is -0.2097285
+
    1msort0m
         (class=higher-order-functions #args=1-2) Given a map or array as first argument and string flags or function as optional second argument, returns a sorted copy of the input. With one argument, sorts array elements with numbers first numerically and then strings lexically, and map elements likewise by map keys. If the second argument is a string, it can contain any of "f" for lexical ("n" is for the above default), "c" for case-folded lexical, or "t" for natural sort order. An additional "r" in that string is for reverse. An additional "v" in that string means sort maps by value, rather than by key. If the second argument is a function, then for arrays it should take two arguments a and b, returning < 0, 0, or > 0 as a < b, a == b, or a > b respectively; for maps the function should take four arguments ak, av, bk, and bv, again returning < 0, 0, or > 0, using a and b's keys and values.
        Examples:
@@ -2670,6 +2927,9 @@ MILLER(1)                                                            MILLER(1)
        Map without function: sort({"c":2,"a":3,"b":1}) returns {"a":3,"b":1,"c":2}.
        Map without function: sort({"c":2,"a":3,"b":1}, "v") returns {"b":1,"c":2,"a":3}.
        Map without function: sort({"c":2,"a":3,"b":1}, "vnr") returns {"a":3,"c":2,"b":1}.
+
+   1msort_collection0m
+        (class=stats #args=1) This is a helper function for the percentiles function; please see its online help for details.
 
    1msplita0m
         (class=conversion #args=2) Splits string into array with type inference. First argument is string to split; second is the separator to split on.
@@ -2709,6 +2969,38 @@ MILLER(1)                                                            MILLER(1)
        Example:
        ssub("abc.def", ".", "X") gives "abcXdef"
 
+   1mstat0m
+        (class=system #args=1) Returns a map containing information about the provided path: "name" with string value, "size" as decimal int value, "mode" as octal int value, "modtime" as int-valued epoch seconds, and "isdir" as boolean value.
+       Examples:
+       stat("./mlr") gives {
+         "name": "mlr",
+         "size": 38391584,
+         "mode": 0755,
+         "modtime": 1715207874,
+         "isdir": false
+       }
+       stat("./mlr")["size"] gives 38391584
+
+   1mstddev0m
+        (class=stats #args=1) Returns the sample standard deviation of values in an array or map. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+       Example:
+       stddev([4,5,9,10,11]) is 3.1144823
+
+   1mstrfntime0m
+        (class=time #args=2) Formats integer nanoseconds since the epoch as timestamp. Format strings are as at https://pkg.go.dev/github.com/lestrrat-go/strftime, with the Miller-specific addition of "%1S" through "%9S" which format the seconds with 1 through 9 decimal places, respectively. ("%S" uses no decimal places.) See also https://miller.readthedocs.io/en/latest/reference-dsl-time/ for more information on the differences from the C library ("man strftime" on your system). See also strftime_local.
+       Examples:
+       strfntime(1440768801123456789,"%Y-%m-%dT%H:%M:%SZ")  = "2015-08-28T13:33:21Z"
+       strfntime(1440768801123456789,"%Y-%m-%dT%H:%M:%3SZ") = "2015-08-28T13:33:21.123Z"
+       strfntime(1440768801123456789,"%Y-%m-%dT%H:%M:%6SZ") = "2015-08-28T13:33:21.123456Z"
+
+   1mstrfntime_local0m
+        (class=time #args=2,3) Like strfntime but consults the $TZ environment variable to get local time zone.
+       Examples:
+       strfntime_local(1440768801123456789, "%Y-%m-%d %H:%M:%S %z")  = "2015-08-28 16:33:21 +0300" with TZ="Asia/Istanbul"
+       strfntime_local(1440768801123456789, "%Y-%m-%d %H:%M:%3S %z") = "2015-08-28 16:33:21.123 +0300" with TZ="Asia/Istanbul"
+       strfntime_local(1440768801123456789, "%Y-%m-%d %H:%M:%3S %z", "Asia/Istanbul") = "2015-08-28 16:33:21.123 +0300"
+       strfntime_local(1440768801123456789, "%Y-%m-%d %H:%M:%9S %z", "Asia/Istanbul") = "2015-08-28 16:33:21.123456789 +0300"
+
    1mstrftime0m
         (class=time #args=2) Formats seconds since the epoch as timestamp. Format strings are as at https://pkg.go.dev/github.com/lestrrat-go/strftime, with the Miller-specific addition of "%1S" through "%9S" which format the seconds with 1 through 9 decimal places, respectively. ("%S" uses no decimal places.) See also https://miller.readthedocs.io/en/latest/reference-dsl-time/ for more information on the differences from the C library ("man strftime" on your system). See also strftime_local.
        Examples:
@@ -2731,16 +3023,66 @@ MILLER(1)                                                            MILLER(1)
    1mstrlen0m
         (class=string #args=1) String length.
 
+   1mstrmatch0m
+        (class=string #args=2) Boolean yes/no for whether the stringable first argument matches the regular-expression second argument. No regex captures are provided; please see `strmatch`.
+       Examples:
+       strmatch("a", "abc") is false
+       strmatch("abc", "a") is true
+       strmatch("abc", "a[a-z]c") is true
+       strmatch("abc", "(a).(c)") is true
+       strmatch(12345, "34") is true
+
+   1mstrmatchx0m
+        (class=string #args=2) Extended information for whether the stringable first argument matches the regular-expression second argument. Regex captures are provided in the return-value map; \1, \2, etc. are not set, in contrast to the `=~` operator. As well, while the `=~` operator limits matches to \1 through \9, an arbitrary number are supported here.
+       Examples:
+       strmatchx("a", "abc") returns:
+         {
+           "matched": false
+         }
+       strmatchx("abc", "a") returns:
+         {
+           "matched": true,
+           "full_capture": "a",
+           "full_start": 1,
+           "full_end": 1
+         }
+       strmatchx("[zy:3458]", "([a-z]+):([0-9]+)") returns:
+         {
+           "matched": true,
+           "full_capture": "zy:3458",
+           "full_start": 2,
+           "full_end": 8,
+           "captures": ["zy", "3458"],
+           "starts": [2, 5],
+           "ends": [3, 8]
+         }
+
+   1mstrpntime0m
+        (class=time #args=2) strpntime: Parses timestamp as integer nanoseconds since the epoch. See also strpntime_local.
+       Examples:
+       strpntime("2015-08-28T13:33:21Z",      "%Y-%m-%dT%H:%M:%SZ")   = 1440768801000000000
+       strpntime("2015-08-28T13:33:21.345Z",  "%Y-%m-%dT%H:%M:%SZ")   = 1440768801345000000
+       strpntime("1970-01-01 00:00:00 -0400", "%Y-%m-%d %H:%M:%S %z") = 14400000000000
+       strpntime("1970-01-01 00:00:00 +0200", "%Y-%m-%d %H:%M:%S %z") = -7200000000000
+
+   1mstrpntime_local0m
+        (class=time #args=2,3) Like strpntime but consults the $TZ environment variable to get local time zone.
+       Examples:
+       strpntime_local("2015-08-28T13:33:21Z",    "%Y-%m-%dT%H:%M:%SZ") = 1440758001000000000 with TZ="Asia/Istanbul"
+       strpntime_local("2015-08-28T13:33:21.345Z","%Y-%m-%dT%H:%M:%SZ") = 1440758001345000000 with TZ="Asia/Istanbul"
+       strpntime_local("2015-08-28 13:33:21",     "%Y-%m-%d %H:%M:%S")  = 1440758001000000000 with TZ="Asia/Istanbul"
+       strpntime_local("2015-08-28 13:33:21",     "%Y-%m-%d %H:%M:%S", "Asia/Istanbul") = 1440758001000000000
+
    1mstrptime0m
         (class=time #args=2) strptime: Parses timestamp as floating-point seconds since the epoch. See also strptime_local.
        Examples:
        strptime("2015-08-28T13:33:21Z",      "%Y-%m-%dT%H:%M:%SZ")   = 1440768801.000000
        strptime("2015-08-28T13:33:21.345Z",  "%Y-%m-%dT%H:%M:%SZ")   = 1440768801.345000
        strptime("1970-01-01 00:00:00 -0400", "%Y-%m-%d %H:%M:%S %z") = 14400
-       strptime("1970-01-01 00:00:00 EET",   "%Y-%m-%d %H:%M:%S %Z") = -7200
+       strptime("1970-01-01 00:00:00 +0200", "%Y-%m-%d %H:%M:%S %z") = -7200
 
    1mstrptime_local0m
-        (class=time #args=2,3) Like strftime but consults the $TZ environment variable to get local time zone.
+        (class=time #args=2,3) Like strptime but consults the $TZ environment variable to get local time zone.
        Examples:
        strptime_local("2015-08-28T13:33:21Z",    "%Y-%m-%dT%H:%M:%SZ") = 1440758001     with TZ="Asia/Istanbul"
        strptime_local("2015-08-28T13:33:21.345Z","%Y-%m-%dT%H:%M:%SZ") = 1440758001.345 with TZ="Asia/Istanbul"
@@ -2764,6 +3106,29 @@ MILLER(1)                                                            MILLER(1)
 
    1msubstr10m
         (class=string #args=3) substr1(s,m,n) gives substring of s from 1-up position m to n inclusive. Negative indices -len .. -1 alias to 1 .. len. See also substr and substr0.
+
+   1msum0m
+        (class=stats #args=1) Returns the sum of values in an array or map. Returns error for non-array/non-map types.
+       Example:
+       sum([1,2,3,4,5]) is 15
+
+   1msum20m
+        (class=stats #args=1) Returns the sum of squares of values in an array or map. Returns error for non-array/non-map types.
+       Example:
+       sum2([1,2,3,4,5]) is 55
+
+   1msum30m
+        (class=stats #args=1) Returns the sum of cubes of values in an array or map. Returns error for non-array/non-map types.
+       Example:
+       sum3([1,2,3,4,5]) is 225
+
+   1msum40m
+        (class=stats #args=1) Returns the sum of fourth powers of values in an array or map. Returns error for non-array/non-map types.
+       Example:
+       sum4([1,2,3,4,5]) is 979
+
+   1msysntime0m
+        (class=time #args=0) Returns the system time in 64-bit nanoseconds since the epoch.
 
    1msystem0m
         (class=system #args=1) Run command string, yielding its stdout minus final carriage return.
@@ -2811,6 +3176,9 @@ MILLER(1)                                                            MILLER(1)
        unformatx("{}h{}m{}s", "3h47m22s") gives ["3", "47", "22"].
        is_error(unformatx("{}h{}m{}s", "3:47:22")) gives true.
 
+   1mupntime0m
+        (class=time #args=0) Returns the time in 64-bit nanoseconds since the current Miller program was started.
+
    1muptime0m
         (class=time #args=0) Returns the time in floating-point seconds since the current Miller program was started.
 
@@ -2836,6 +3204,11 @@ MILLER(1)                                                            MILLER(1)
        Examples:
        $y = utf8_to_latin1($x)
        $* = utf8_to_latin1($*)
+
+   1mvariance0m
+        (class=stats #args=1) Returns the sample variance of values in an array or map. Returns empty string AKA void for array/map of length less than two; returns error for non-array/non-map types.
+       Example:
+       variance([4,5,9,10,11]) is 9.7
 
    1mversion0m
         (class=system #args=0) Returns the Miller version as a string.
@@ -3336,6 +3709,4 @@ MILLER(1)                                                            MILLER(1)
        MIME Type for Comma-Separated Values (CSV) Files, the Miller docsite
        https://miller.readthedocs.io
 
-
-
-                                  2023-05-13                         MILLER(1)
+                                  2024-05-11                         4mMILLER24m(1)

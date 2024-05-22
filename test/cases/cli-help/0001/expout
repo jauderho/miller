@@ -35,6 +35,20 @@ Options:
 -h|--help Show this message.
 
 ================================================================
+case
+Usage: mlr case [options]
+Uppercases strings in record keys and/or values.
+Options:
+-k  Case only keys, not keys and values.
+-v  Case only values, not keys and values.
+-f  {a,b,c} Specify which field names to case (default: all)
+-u  Convert to uppercase
+-l  Convert to lowercase
+-s  Convert to sentence case (capitalize first letter)
+-t  Convert to title case (capitalize words)
+-h|--help Show this message.
+
+================================================================
 cat
 Usage: mlr cat [options]
 Passes input records directly to output. Most useful for format conversion.
@@ -49,8 +63,12 @@ Options:
 ================================================================
 check
 Usage: mlr check [options]
-Consumes records without printing any output.
+Consumes records without printing any output,
 Useful for doing a well-formatted check on input data.
+with the exception that warnings are printed to stderr.
+Current checks are:
+* Data are parseable
+* If any key is the empty string
 Options:
 -h|--help Show this message.
 
@@ -78,6 +96,7 @@ Same as uniq -c.
 
 Options:
 -f {a,b,c}    Field names for distinct count.
+-x {a,b,c}    Field names to exclude for distinct count: use each record's others instead.
 -n            Show only the number of distinct values. Not compatible with -u.
 -o {name}     Field name for output count. Default "count".
               Ignored with -u.
@@ -140,15 +159,6 @@ Options:
 -h|--help Show this message.
 
 ================================================================
-downcase
-Usage: mlr downcase [options]
-Lowercases strings in record keys and/or values.
-Options:
--k        Downcase only keys, not keys and values.
--v        Downcase only values, not keys and values.
--h|--help Show this message.
-
-================================================================
 fill-down
 Usage: mlr fill-down [options]
 If a given record has a missing value for a given field, fill that from
@@ -176,6 +186,10 @@ Options:
 ================================================================
 filter
 Usage: mlr filter [options] {DSL expression}
+Lets you use a domain-specific language to progamatically filter which
+stream records will be output.
+See also: https://miller.readthedocs.io/en/latest/reference-verbs
+
 Options:
 -f {file name} File containing a DSL expression (see examples below). If the filename
    is a directory, all *.mlr files in that directory are loaded.
@@ -343,14 +357,15 @@ Passes through records which match the regular expression.
 Options:
 -i  Use case-insensitive search.
 -v  Invert: pass through records which do not match the regex.
+-a  Only grep for values, not keys and values.
 -h|--help Show this message.
 Note that "mlr filter" is more powerful, but requires you to know field names.
-By contrast, "mlr grep" allows you to regex-match the entire record. It does
-this by formatting each record in memory as DKVP, using command-line-specified
-ORS/OFS/OPS, and matching the resulting line against the regex specified
-here. In particular, the regex is not applied to the input stream: if you
-have CSV with header line "x,y,z" and data line "1,2,3" then the regex will
-be matched, not against either of these lines, but against the DKVP line
+By contrast, "mlr grep" allows you to regex-match the entire record. It does this
+by formatting each record in memory as DKVP (or NIDX, if -a is supplied), using
+OFS "," and OPS "=", and matching the resulting line against the regex specified
+here. In particular, the regex is not applied to the input stream: if you have
+CSV with header line "x,y,z" and data line "1,2,3" then the regex will be
+matched, not against either of these lines, but against the DKVP line
 "x=1,y=2,z=3".  Furthermore, not all the options to system grep are supported,
 and this command is intended to be merely a keystroke-saver. To get all the
 features of system grep, you can do
@@ -368,6 +383,16 @@ Usage: mlr group-like [options]
 Outputs records in batches having identical field names.
 Options:
 -h|--help Show this message.
+
+================================================================
+gsub
+Usage: mlr gsub [options]
+Replaces old string with new string in specified field(s), with regex support
+for the old string and handling multiple matches, like the `gsub` DSL function.
+See also the `sub` and `ssub` verbs.
+Options:
+-f {a,b,c}  Field names to convert.
+-h|--help   Show this message.
 
 ================================================================
 having-fields
@@ -446,6 +471,8 @@ Options:
   --lk|--left-keep-field-names {a,b,c} If supplied, this means keep only the specified field
                names from the left file. Automatically includes the join-field name(s). Helpful
                for when you only want a limited subset of information from the left file.
+               Tip: you can use --lk "": this means the left file becomes solely a row-selector
+               for the input files.
   --lp {text}  Additional prefix for non-join output field names from
                the left file
   --rp {text}  Additional prefix for non-join output field names from
@@ -528,6 +555,7 @@ Options:
   antimode Find least-frequently-occurring values for fields; first-found wins tie
   sum      Compute sums of specified fields
   mean     Compute averages (sample means) of specified fields
+  mad      Compute mean absolute deviation
   var      Compute sample variance of specified fields
   stddev   Compute sample standard deviation of specified fields
   meaneb   Estimate error bars for averages (assuming no sample autocorrelation)
@@ -587,8 +615,8 @@ Options:
   -f {field name}       Required.
   --nested-fs {string}  Defaults to ";". Field separator for nested values.
   --nested-ps {string}  Defaults to ":". Pair separator for nested key-value pairs.
-  --evar {string}       Shorthand for --explode --values ---across-records --nested-fs {string}
-  --ivar {string}       Shorthand for --implode --values ---across-records --nested-fs {string}
+  --evar {string}       Shorthand for --explode --values --across-records --nested-fs {string}
+  --ivar {string}       Shorthand for --implode --values --across-records --nested-fs {string}
 Please use "mlr --usage-separator-options" for information on specifying separators.
 
 Examples:
@@ -638,6 +666,9 @@ Options:
 ================================================================
 put
 Usage: mlr put [options] {DSL expression}
+Lets you use a domain-specific language to progamatically alter stream records.
+See also: https://miller.readthedocs.io/en/latest/reference-verbs
+
 Options:
 -f {file name} File containing a DSL expression (see examples below). If the filename
    is a directory, all *.mlr files in that directory are loaded.
@@ -966,6 +997,18 @@ Options:
 -h|--help Show this message.
 
 ================================================================
+sparsify
+Usage: mlr sparsify [options]
+Unsets fields for which the key is the empty string (or, optionally, another
+specified value). Only makes sense with output format not being CSV or TSV.
+Options:
+-s {filler string} What values to remove. Defaults to the empty string.
+-f {a,b,c} Specify field names to be operated on; any other fields won't be
+           modified. The default is to modify all fields.
+-h|--help  Show this message.
+Example: if input is a=1,b=,c=3 then output is a=1,c=3.
+
+================================================================
 split
 Usage: mlr split [options] {filename}
 Options:
@@ -977,6 +1020,8 @@ Exactly one  of -m, -n, or -g must be supplied.
 --suffix {s} Specify filename suffix; default is from mlr output format, e.g. "csv".
 -a           Append to existing file(s), if any, rather than overwriting.
 -v           Send records along to downstream verbs as well as splitting to files.
+-e           Do NOT URL-escape names of output files.
+-j {J}       Use string J to join filename parts; default "_".
 -h|--help    Show this message.
 Any of the output-format command-line flags (see mlr -h). For example, using
   mlr --icsv --from myfile.csv split --ojson -n 1000
@@ -1007,6 +1052,15 @@ then there will be split_yellow_triangle.csv, split_yellow_square.csv, etc.
 See also the "tee" DSL function which lets you do more ad-hoc customization.
 
 ================================================================
+ssub
+Usage: mlr ssub [options]
+Replaces old string with new string in specified field(s), without regex support for
+the old string, like the `ssub` DSL function. See also the `gsub` and `sub` verbs.
+Options:
+-f {a,b,c}  Field names to convert.
+-h|--help   Show this message.
+
+================================================================
 stats1
 Usage: mlr stats1 [options]
 Computes univariate statistics for one or more given fields, accumulated across
@@ -1022,6 +1076,7 @@ Options:
   antimode Find least-frequently-occurring values for fields; first-found wins tie
   sum      Compute sums of specified fields
   mean     Compute averages (sample means) of specified fields
+  mad      Compute mean absolute deviation
   var      Compute sample variance of specified fields
   stddev   Compute sample standard deviation of specified fields
   meaneb   Estimate error bars for averages (assuming no sample autocorrelation)
@@ -1145,6 +1200,16 @@ Examples:
 Please see https://miller.readthedocs.io/en/latest/reference-verbs.html#filter or
 https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average
 for more information on EWMA.
+
+================================================================
+sub
+Usage: mlr sub [options]
+Replaces old string with new string in specified field(s), with regex support
+for the old string and not handling multiple matches, like the `sub` DSL function.
+See also the `gsub` and `ssub` verbs.
+Options:
+-f {a,b,c}  Field names to convert.
+-h|--help   Show this message.
 
 ================================================================
 summary
@@ -1279,6 +1344,7 @@ count-distinct. For uniq, -f is a synonym for -g.
 
 Options:
 -g {d,e,f}    Group-by-field names for uniq counts.
+-x {a,b,c}    Field names to exclude for uniq: use each record's others instead.
 -c            Show repeat counts in addition to unique values.
 -n            Show only the number of distinct values.
 -o {name}     Field name for output count. Default "count".
@@ -1312,13 +1378,4 @@ Options:
 Example: if the input is two records, one being 'a=1,b=2' and the other
 being 'b=3,c=4', then the output is the two records 'a=1,b=2,c=' and
 'a=,b=3,c=4'.
-
-================================================================
-upcase
-Usage: mlr upcase [options]
-Uppercases strings in record keys and/or values.
-Options:
--k        Upcase only keys, not keys and values.
--v        Upcase only values, not keys and values.
--h|--help Show this message.
 ================================================================

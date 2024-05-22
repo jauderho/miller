@@ -69,7 +69,7 @@ PPRINT: pretty-printed tabular
 | 4     5   6         | Record 2: "apple":"4", "bat":"5", "cog":"6"
 +---------------------+
 
-Markdown tabular (supported for output only):
+Markdown tabular:
 +-----------------------+
 | | apple | bat | cog | |
 | | ---   | --- | --- | |
@@ -129,6 +129,74 @@ Here are the differences between CSV and CSV-lite:
 In particular, no encode/decode of  `\r`, `\n`, `\t`, or `\\` is done.
 
 * CSV-lite allows changing FS and/or RS to any values, perhaps multi-character.
+
+* CSV-lite and TSV-lite handle schema changes ("schema" meaning "ordered list of field names in a given record") by adding a newline and re-emitting the header. CSV and TSV, by contrast, do the following:
+  * If there are too few keys, but these match the header, empty fields are emitted.
+  * If there are too many keys, but these match the header up to the number of header fields, the extra fields are emitted.
+  * If keys don't match the header, this is an error.
+
+<pre class="pre-highlight-in-pair">
+<b>cat data/under-over.json</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+[
+  { "a": 1, "b": 2, "c": 3 },
+  { "a": 4, "b": 5, "c": 6, "d": 7 },
+  { "a": 7, "b": 8 },
+  { "a": 9, "b": 10, "c": 11 }
+]
+</pre>
+
+<pre class="pre-highlight-in-pair">
+<b>mlr --ijson --ocsvlite cat data/under-over.json</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+a,b,c
+1,2,3
+
+a,b,c,d
+4,5,6,7
+
+a,b
+7,8
+
+a,b,c
+9,10,11
+</pre>
+
+<pre class="pre-highlight-in-pair">
+<b>mlr --ijson --ocsvlite cat data/key-change.json</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+a,b,c
+1,2,3
+4,5,6
+
+a,X,c
+7,8,9
+</pre>
+
+<pre class="pre-highlight-in-pair">
+<b>mlr --ijson --ocsv cat data/under-over.json</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+a,b,c
+1,2,3
+4,5,6,7
+7,8,
+9,10,11
+</pre>
+
+<pre class="pre-highlight-in-pair">
+<b>mlr --ijson --ocsv cat data/key-change.json</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+a,b,c
+1,2,3
+4,5,6
+mlr: CSV schema change: first keys "a,b,c"; current keys "a,X,c"
+mlr: exiting due to data error.
+</pre>
 
 * In short, use-cases for CSV-lite and TSV-lite are often found when dealing with CSV/TSV files which are formatted in some non-standard way -- you have a little more flexibility available to you. (As an example of this flexibility: ASV and USV are nothing more than CSV-lite with different values for FS and RS.)
 
@@ -366,7 +434,7 @@ Note that while Miller is a line-at-a-time processor and retains input lines in 
 
 See [Record Heterogeneity](record-heterogeneity.md) for how Miller handles changes of field names within a single data stream.
 
-For output only (this isn't supported in the input-scanner as of 5.0.0) you can use `--barred` with pprint output format:
+Since Miller 5.0.0, you can use `--barred` or `--barred-output` with pprint output format:
 
 <pre class="pre-highlight-in-pair">
 <b>mlr --opprint --barred cat data/small</b>
@@ -381,6 +449,37 @@ For output only (this isn't supported in the input-scanner as of 5.0.0) you can 
 | eks | wye | 4 | 0.381399 | 0.134188 |
 | wye | pan | 5 | 0.573288 | 0.863624 |
 +-----+-----+---+----------+----------+
+</pre>
+
+Since Miller 6.11.0, you can use `--barred-input` with pprint input format:
+
+<pre class="pre-highlight-in-pair">
+<b>mlr -o pprint --barred cat data/small | mlr -i pprint --barred-input -o json filter '$b == "pan"'</b>
+</pre>
+<pre class="pre-non-highlight-in-pair">
+[
+{
+  "a": "pan",
+  "b": "pan",
+  "i": 1,
+  "x": 0.346791,
+  "y": 0.726802
+},
+{
+  "a": "eks",
+  "b": "pan",
+  "i": 2,
+  "x": 0.758679,
+  "y": 0.522151
+},
+{
+  "a": "wye",
+  "b": "pan",
+  "i": 5,
+  "x": 0.573288,
+  "y": 0.863624
+}
+]
 </pre>
 
 ## Markdown tabular
@@ -404,7 +503,8 @@ which renders like this when dropped into various web tools (e.g. github comment
 
 ![pix/omd.png](pix/omd.png)
 
-As of Miller 4.3.0, markdown format is supported only for output, not input.
+As of Miller 4.3.0, markdown format is supported only for output, not input; as of Miller 6.11.0, markdown format
+is supported for input as well.
 
 ## XTAB: Vertical tabular
 
@@ -604,19 +704,19 @@ While you can do format conversion using `mlr --icsv --ojson cat myfile.csv`, th
 FORMAT-CONVERSION KEYSTROKE-SAVER FLAGS
 As keystroke-savers for format-conversion you may use the following.
 The letters c, t, j, l, d, n, x, p, and m refer to formats CSV, TSV, DKVP, NIDX,
-JSON, JSON Lines, XTAB, PPRINT, and markdown, respectively. Note that markdown
-format is available for output only.
+JSON, JSON Lines, XTAB, PPRINT, and markdown, respectively.
 
-| In\out | CSV   | TSV   | JSON   | JSONL  | DKVP   | NIDX   | XTAB   | PPRINT | Markdown |
-+--------+-------+-------+--------+--------+--------+--------+--------+----------+
-| CSV    |       | --c2t | --c2j  | --c2l  | --c2d  | --c2n  | --c2x  | --c2p  | --c2m    |
-| TSV    | --t2c |       | --t2j  | --t2l  | --t2d  | --t2n  | --t2x  | --t2p  | --t2m    |
-| JSON   | --j2c | --j2t |        | --j2l  | --j2d  | --j2n  | --j2x  | --j2p  | --j2m    |
-| JSONL  | --l2c | --l2t |        |        | --l2d  | --l2n  | --l2x  | --l2p  | --l2m    |
-| DKVP   | --d2c | --d2t | --d2j  | --d2l  |        | --d2n  | --d2x  | --d2p  | --d2m    |
-| NIDX   | --n2c | --n2t | --n2j  | --n2l  | --n2d  |        | --n2x  | --n2p  | --n2m    |
-| XTAB   | --x2c | --x2t | --x2j  | --x2l  | --x2d  | --x2n  |        | --x2p  | --x2m    |
-| PPRINT | --p2c | --p2t | --p2j  | --p2l  | --p2d  | --p2n  | --p2x  |        | --p2m    |
+| In\out   | CSV   | TSV   | JSON   | JSONL  | DKVP   | NIDX   | XTAB   | PPRINT | Markdown |
++----------+-------+-------+--------+--------+--------+--------+--------+--------+----------|
+| CSV      |       | --c2t | --c2j  | --c2l  | --c2d  | --c2n  | --c2x  | --c2p  | --c2m    |
+| TSV      | --t2c |       | --t2j  | --t2l  | --t2d  | --t2n  | --t2x  | --t2p  | --t2m    |
+| JSON     | --j2c | --j2t |        | --j2l  | --j2d  | --j2n  | --j2x  | --j2p  | --j2m    |
+| JSONL    | --l2c | --l2t |        |        | --l2d  | --l2n  | --l2x  | --l2p  | --l2m    |
+| DKVP     | --d2c | --d2t | --d2j  | --d2l  |        | --d2n  | --d2x  | --d2p  | --d2m    |
+| NIDX     | --n2c | --n2t | --n2j  | --n2l  | --n2d  |        | --n2x  | --n2p  | --n2m    |
+| XTAB     | --x2c | --x2t | --x2j  | --x2l  | --x2d  | --x2n  |        | --x2p  | --x2m    |
+| PPRINT   | --p2c | --p2t | --p2j  | --p2l  | --p2d  | --p2n  | --p2x  |        | --p2m    |
+| Markdown | --m2c | --m2t | --m2j  | --m2l  | --m2d  | --m2n  | --m2x  | --m2p  |          |
 
 -p                       Keystroke-saver for `--nidx --fs space --repifs`.
 -T                       Keystroke-saver for `--nidx --fs tab`.

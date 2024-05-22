@@ -127,6 +127,32 @@ orange 0.4802164827586204  290
 green  0.5129018241860459  1075
 GENMD-EOF
 
+## case
+
+GENMD-RUN-COMMAND
+mlr case --help
+GENMD-EOF
+
+GENMD-CARDIFY-HIGHLIGHT-ONE
+mlr --from test/input/cases.csv --icsv --ojson case -u
+GENMD-EOF
+
+GENMD-CARDIFY-HIGHLIGHT-ONE
+mlr --from test/input/cases.csv --icsv --ojson case -u -k
+GENMD-EOF
+
+GENMD-CARDIFY-HIGHLIGHT-ONE
+mlr --from test/input/cases.csv --icsv --ojson case -u -v
+GENMD-EOF
+
+GENMD-CARDIFY-HIGHLIGHT-ONE
+mlr --from test/input/cases.csv --icsv --ojson case -k -t then case -v -s
+GENMD-EOF
+
+GENMD-CARDIFY-HIGHLIGHT-ONE
+mlr --from test/input/cases.csv --icsv --ojson case -u -f apple,ball then case -l -f cat,dog
+GENMD-EOF
+
 ## cat
 
 Most useful for format conversions (see [File Formats](file-formats.md)) and concatenating multiple same-schema CSV files to have the same header:
@@ -297,12 +323,6 @@ GENMD-RUN-COMMAND
 mlr decimate --help
 GENMD-EOF
 
-## downcase
-
-GENMD-RUN-COMMAND
-mlr downcase --help
-GENMD-EOF
-
 ## fill-down
 
 GENMD-RUN-COMMAND
@@ -465,6 +485,20 @@ GENMD-EOF
 
 GENMD-RUN-COMMAND
 mlr --opprint group-like data/het.dkvp
+GENMD-EOF
+
+## gsub
+
+GENMD-RUN-COMMAND
+mlr gsub -h
+GENMD-EOF
+
+GENMD-RUN-COMMAND
+mlr --icsv --opprint --from example.csv cat --filename then sub -f color,shape l X
+GENMD-EOF
+
+GENMD-RUN-COMMAND
+mlr --icsv --opprint --from example.csv cat --filename then gsub -f color,shape l X
 GENMD-EOF
 
 ## having-fields
@@ -961,10 +995,30 @@ GENMD-RUN-COMMAND
 mlr --ijson --opprint sort-within-records data/sort-within-records.json
 GENMD-EOF
 
+## sparsify
+
+GENMD-RUN-COMMAND
+mlr sparsify --help
+GENMD-EOF
+
 ## split
 
 GENMD-RUN-COMMAND
 mlr split --help
+GENMD-EOF
+
+## ssub
+
+GENMD-RUN-COMMAND
+mlr ssub -h
+GENMD-EOF
+
+GENMD-RUN-COMMAND
+mlr --icsv --opprint --from example.csv cat --filename then sub -f filename . o
+GENMD-EOF
+
+GENMD-RUN-COMMAND
+mlr --icsv --opprint --from example.csv cat --filename then ssub -f filename . o
 GENMD-EOF
 
 ## stats1
@@ -1074,6 +1128,20 @@ GENMD-EOF
 Example deriving uptime-delta from system uptime:
 
 GENMD-INCLUDE-ESCAPED(data/ping-delta-example.txt)
+
+## sub
+
+GENMD-RUN-COMMAND
+mlr sub -h
+GENMD-EOF
+
+GENMD-RUN-COMMAND
+mlr --icsv --opprint --from example.csv cat --filename then sub -f color,shape l X
+GENMD-EOF
+
+GENMD-RUN-COMMAND
+mlr --icsv --opprint --from example.csv cat --filename then gsub -f color,shape l X
+GENMD-EOF
 
 ## summary
 
@@ -1293,10 +1361,4 @@ GENMD-EOF
 
 GENMD-RUN-COMMAND
 mlr --ijson --opprint unsparsify -f a,b,u,v,w,x then regularize data/sparse.json
-GENMD-EOF
-
-## upcase
-
-GENMD-RUN-COMMAND
-mlr upcase --help
 GENMD-EOF

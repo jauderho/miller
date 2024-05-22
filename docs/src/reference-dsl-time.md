@@ -89,7 +89,7 @@ the [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format.  This was the
 first (and initially only) human-readable date/time format supported by Miller
 going all the way back to Miller 1.0.0.
 
-You can get these from epoch-seconds using the 
+You can get these from epoch-seconds using the
 [sec2gmt](reference-dsl-builtin-functions.md#sec2gmt) DSL function.
 (Note that the terms _UTC_ and _GMT_ are used interchangeably in Miller.)
 We also have [sec2gmtdate](reference-dsl-builtin-functions.md#sec2gmtdate) DSL function.
@@ -200,7 +200,7 @@ mlr: TZ environment variable appears malformed: "This/Is/A/Typo"
 
 Note that for local times, Miller omits the `T` and the `Z` you see in GMT times.
 
-We also have the 
+We also have the
 [gmt2localtime](reference-dsl-builtin-functions.md#gmt2localtime) and
 [localtime2gmt](reference-dsl-builtin-functions.md#localtime2gmt) convenience functions:
 
@@ -246,7 +246,7 @@ Notes:
   * For `strftime`, this is thanks to [https://github.com/lestrrat-go/strftime](https://github.com/lestrrat-go/strftime), with a Miller-specific modification for fractional seconds.
   * For `strftime`, this is thanks to [https://github.com/pbnjay/strptime](https://github.com/pbnjay/strptime), with Miller-specific modifications.
 
-Available format strings for `strftime`, taken directly from [https://github.com/lestrrat-go/strftime](https://github.com/lestrrat-go/strftime):
+Available format strings for `strftime`, taken directly from [https://github.com/lestrrat-go/strftime](https://github.com/lestrrat-go/strftime) except for `%1..%9`, `%s`, `%N`, and `%O` which are Miller-specific additions:
 
 | Pattern | Description |
 |---------|-------------|
@@ -269,9 +269,12 @@ Available format strings for `strftime`, taken directly from [https://github.com
 | `%M` | the minute as a decimal number (00-59) |
 | `%m` | the month as a decimal number (01-12) |
 | `%n` | a newline |
+| `%N` | zero-padded nanoseconds |
+| `%O` | non-zero-padded nanoseconds |
 | `%p` | national representation of either "ante meridiem" (a.m.) or "post meridiem" (p.m.) as appropriate. |
 | `%R` | equivalent to `%H:%M` |
 | `%r` | equivalent to `%I:%M:%S %p` |
+| `%s` | integer seconds since the epoch |
 | `%S` | the second as a decimal number (00-60) |
 | `%1S`, ..., `%9S` | the second as a decimal number (00-60) with 1..9 decimal places, respectively |
 | `%T` | equivalent to `%H:%M:%S` |
@@ -317,11 +320,15 @@ Examples:
 <b>mlr -n put 'end {</b>
 <b>  print strftime(0, "%Y-%m-%dT%H:%M:%SZ");</b>
 <b>  print strftime(0, "%FT%TZ");</b>
+<b>  print strfntime(123, "%N");</b>
+<b>  print strfntime(123, "%O");</b>
 <b>}'</b>
 </pre>
 <pre class="pre-non-highlight-in-pair">
 1970-01-01T00:00:00Z
 1970-01-01T00:00:00Z
+000000123
+123
 </pre>
 
 <pre class="pre-highlight-in-pair">

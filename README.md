@@ -50,7 +50,7 @@ There's a good chance you can get Miller pre-built for your system:
 
 [![Ubuntu](https://img.shields.io/badge/distros-ubuntu-db4923.svg)](https://launchpad.net/ubuntu/+source/miller)
 [![Ubuntu 16.04 LTS](https://img.shields.io/badge/distros-ubuntu1604lts-db4923.svg)](https://launchpad.net/ubuntu/xenial/+package/miller)
-[![Fedora](https://img.shields.io/badge/distros-fedora-173b70.svg)](https://apps.fedoraproject.org/packages/miller)
+[![Fedora](https://img.shields.io/badge/distros-fedora-173b70.svg)](https://packages.fedoraproject.org/pkgs/miller/miller/)
 [![Debian](https://img.shields.io/badge/distros-debian-c70036.svg)](https://packages.debian.org/stable/miller)
 [![Gentoo](https://img.shields.io/badge/distros-gentoo-4e4371.svg)](https://packages.gentoo.org/packages/sys-apps/miller)
 
@@ -64,12 +64,13 @@ There's a good chance you can get Miller pre-built for your system:
 [![Homebrew/MacOSX](https://img.shields.io/badge/distros-homebrew-ba832b.svg)](https://formulae.brew.sh/formula/miller)
 [![MacPorts/MacOSX](https://img.shields.io/badge/distros-macports-1376ec.svg)](https://www.macports.org/ports.php?by=name&substr=miller)
 [![Chocolatey](https://img.shields.io/badge/distros-chocolatey-red.svg)](https://chocolatey.org/packages/miller)
+[![WinGet](https://img.shields.io/badge/distros-winget-392f55.svg)](https://github.com/microsoft/winget-pkgs/tree/master/manifests/m/Miller/Miller)
 
 |OS|Installation command|
 |---|---|
 |Linux|`yum install miller`<br/> `apt-get install miller`|
 |Mac|`brew install miller`<br/>`port install miller`|
-|Windows|`choco install miller`|
+|Windows|`choco install miller`<br/>`winget install Miller.Miller`|
 
 See also [README-versions.md](./README-versions.md) for a full list of package versions. Note that long-term-support (LtS) releases will likely be on older versions.
 
@@ -110,7 +111,7 @@ See also [building from source](https://miller.readthedocs.io/en/latest/build.ht
   * You can do `./configure --prefix=/some/install/path` before `make install` if you want to install somewhere other than `/usr/local`.
 * Without `make`:
   * To build: `go build github.com/johnkerl/miller/cmd/mlr`.
-  * To run tests: `go test github.com/johnkerl/miller/internal/pkg/...` and `mlr regtest`.
+  * To run tests: `go test github.com/johnkerl/miller/pkg/...` and `mlr regtest`.
   * To install: `go install github.com/johnkerl/miller/cmd/mlr` will install to _GOPATH_`/bin/mlr`.
 * See also the doc page on [building from source](https://miller.readthedocs.io/en/latest/build).
 * For more developer information please see [README-dev.md](./README-dev.md).
